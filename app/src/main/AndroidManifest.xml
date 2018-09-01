@@ -19,7 +19,8 @@
         <activity
             android:name=".Activity.Home_activity"
             android:label="@string/title_activity_home_activity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activity.SettingActivity"></activity>
     </application>
 
 </manifest>
