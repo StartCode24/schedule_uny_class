@@ -56,7 +56,6 @@
                 android:paddingTop="10dp"
                 android:paddingRight="10dp"
                 android:paddingLeft="10dp"
-
                 android:inputType="textPassword"
                 />
 
@@ -70,6 +69,7 @@
             android:text="Sign In"
             android:textColor="@android:color/white"
             android:textAllCaps="false"
+            android:id="@+id/btnLogin"
 
             />
     </LinearLayout>

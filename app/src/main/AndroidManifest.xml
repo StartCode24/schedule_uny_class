@@ -20,7 +20,10 @@
             android:name=".Activity.Home_activity"
             android:label="@string/title_activity_home_activity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.SettingActivity"></activity>
+        <activity
+            android:name=".Activity.Setting_Activity"
+            android:label="@string/title_activity_setting_"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
