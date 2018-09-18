@@ -19,7 +19,7 @@ public class DataToken {
     @Override
     public String toString() {
         return "DataToken{" +
-                "token='" + token + '\'' +
+                "auth_token='" + token + '\'' +
                 '}';
     }
 }

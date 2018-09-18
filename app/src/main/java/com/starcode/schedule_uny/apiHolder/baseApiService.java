@@ -11,10 +11,10 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface baseApiService {
-    @POST("Users/login_post")
+    @POST("Users/LoginPost")
     Call<FeedLogin> loginRequest(@Body LoginUser login);
 
-    @GET("Users/profile")
+    @GET("Users/GetProfile")
     Call<FeedUser> getAllProfile(@Header("Content-Type") String contentType,
                                  @Header("Accept") String Accept,
                                  @Header("Authorization") String authToken);
