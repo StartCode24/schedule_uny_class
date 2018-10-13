@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -14,8 +13,7 @@ import android.widget.Toast;
 import com.starcode.schedule_uny.R;
 import com.starcode.schedule_uny.apiHolder.baseApiService;
 import com.starcode.schedule_uny.apiHolder.utilsApi;
-import com.starcode.schedule_uny.model.FeedLogin;
-import com.starcode.schedule_uny.model.LoginUser;
+import com.starcode.schedule_uny.model.LoginUserResponse;
 import com.starcode.schedule_uny.session.SessionManager;
 
 import butterknife.BindView;
@@ -52,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private SessionManager sessionManager;
 
     private static String auth_token;
-    private static String ContentType=" multipart/form-data";
-    private static String Accept="application/json";
+    private static String status;
+    private static String ContentType="application/json";
     private static final String TAG="MainActivity";
 
 
@@ -63,8 +61,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         baseApiService= utilsApi.getApiServices();
-        sessionManager =new SessionManager(this);
-
+        sessionManager =new SessionManager(MainActivity.this);
+        if (sessionManager.getSpSesionlogin()) {
+            startActivity(new Intent(MainActivity.this, Home_activity.class).
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+            finish();
+        }
 
 
         handler.postDelayed(runnable, 2000); //2000 is the timeout for the splash
@@ -72,53 +74,61 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_login)
     void btnLogin(){
-        Toast.makeText(MainActivity.this,"Login",Toast.LENGTH_SHORT).show();;
+        loginRequest();
     }
 
     @OnClick(R.id.btn_fgtpassword)
     void btnFgtpassword(){
-        Toast.makeText(MainActivity.this,"Forget Password",Toast.LENGTH_SHORT).show();;
+        Toast.makeText(MainActivity.this,"Lupa Password",Toast.LENGTH_SHORT).show();;
     }
 
     public void loginRequest(){
         String nik=edNik.getText().toString();
         String password=edPassword.getText().toString();
 
+        if(nik.isEmpty()||password.isEmpty()){
+            Toast.makeText(MainActivity.this,"Nik atau password tidak boleh kosong",Toast.LENGTH_SHORT).show();;
+        }else {
 
-        LoginUser loginUser=new LoginUser(nik,password);
-        Call<FeedLogin> call= baseApiService.loginRequest(loginUser);
+        Call<LoginUserResponse> call= baseApiService.loginRequest(nik,password);
 
-        call.enqueue(new Callback<FeedLogin>() {
+        call.enqueue(new Callback<LoginUserResponse>() {
             @Override
-            public void onResponse(Call<FeedLogin> call, Response<FeedLogin> response) {
+            public void onResponse(Call<LoginUserResponse> call, Response<LoginUserResponse> response) {
                 if (response.isSuccessful()){
-                    auth_token=response.body().getData().getToken();
+                   status=response.body().getAuth_login().getStatus();
+
                     try
                     {
-                        sessionManager.saveSPString(sessionManager.SP_CONTENTTYPE,ContentType);
-                        sessionManager.saveSPString(sessionManager.SP_ACCEPT,Accept);
-                        sessionManager.saveSPString(sessionManager.SP_AUTHORIZATION,auth_token);
-                        sessionManager.saveSPBoolean(sessionManager.SP_SESIONLOGIN,true);
-                        Toast.makeText(MainActivity.this,"Login Success",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(MainActivity.this,Home_activity.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK));
-                        finish();
+                        if (status.equals("200")) {
+                            auth_token=response.body().getAuth_login().getData().getAuth_token();
+                            sessionManager.saveSPString(sessionManager.SP_CONTENTTYPE, ContentType);
+                            sessionManager.saveSPString(sessionManager.SP_AUTHORIZATION, auth_token);
+                            sessionManager.saveSPBoolean(sessionManager.SP_SESIONLOGIN, true);
+                            Toast.makeText(MainActivity.this, "Login Berhasil " , Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(MainActivity.this,Home_activity.class)
+                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK));
+                            finish();
+                        }else {
+                            Toast.makeText(MainActivity.this, "Nik atau password tidak terdaftar " , Toast.LENGTH_SHORT).show();
+                        }
 
                     }catch (Exception e){
                         Log.d(TAG,"error : "+e);
 
                     }
                 }else {
-                    Toast.makeText(MainActivity.this, "Login not correct it", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Nik atau password tidak terdaftar", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<FeedLogin> call, Throwable t) {
+            public void onFailure(Call<LoginUserResponse> call, Throwable t) {
                 Log.w("error : ",t);
-                Toast.makeText(MainActivity.this,"Cek Connection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"Cek Koneksi", Toast.LENGTH_SHORT).show();
             }
         });
+    }
     }
 
 

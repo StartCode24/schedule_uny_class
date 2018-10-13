@@ -1,9 +1,9 @@
-package com.starcode.schedule_uny.model;
+package com.starcode.schedule_uny.model.FeedDataProfil;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DataProfil {
+public class DataProfilResponse {
     @SerializedName("NIK")
     @Expose
     private String NIK;
@@ -15,6 +15,14 @@ public class DataProfil {
     @SerializedName("kelas")
     @Expose
     private String kelas;
+
+    @SerializedName("jurusan")
+    @Expose
+    private String jurusan;
+
+    @SerializedName("alamat")
+    @Expose
+    private String alamat;
 
     public String getNIK() {
         return NIK;
@@ -40,12 +48,30 @@ public class DataProfil {
         this.kelas = kelas;
     }
 
+    public String getJurusan() {
+        return jurusan;
+    }
+
+    public void setJurusan(String jurusan) {
+        this.jurusan = jurusan;
+    }
+
+    public String getAlamat() {
+        return alamat;
+    }
+
+    public void setAlamat(String alamat) {
+        this.alamat = alamat;
+    }
+
     @Override
     public String toString() {
-        return "DataProfil{" +
+        return "DataProfilResponse{" +
                 "NIK='" + NIK + '\'' +
                 ", nama='" + nama + '\'' +
                 ", kelas='" + kelas + '\'' +
+                ", jurusan='" + jurusan + '\'' +
+                ", alamat='" + alamat + '\'' +
                 '}';
     }
 }

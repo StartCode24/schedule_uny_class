@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 public class SessionManager {
     public static final String SP_CONTENTTYPE="spContentType";
-    public static final String SP_ACCEPT="spAccept";
+//    public static final String SP_ACCEPT="spAccept";
     public static final String SP_AUTHORIZATION="spAuthorization";
     public static final String SP_SESIONLOGIN="spTrue";
 
@@ -36,9 +36,9 @@ public class SessionManager {
          return sp.getString(SP_CONTENTTYPE, "");
     }
 
-    public  String getSpAccept() {
-        return sp.getString(SP_ACCEPT, "");
-    }
+//    public  String getSpAccept() {
+//        return sp.getString(SP_ACCEPT, "");
+//    }
 
     public  String getSpAuthorization() {
         return sp.getString(SP_AUTHORIZATION, "");
