@@ -7,11 +7,15 @@
         <item
             android:id="@+id/nav_schedule"
             android:icon="@drawable/ic_date_range_black_24dp"
-            android:title="View Schedule" />
+            android:title="Lihat Jadwal" />
+        <item
+            android:id="@+id/nav_homework"
+            android:icon="@drawable/ic_date_range_black_24dp"
+            android:title="Lihat PR" />
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="Setting" />
+            android:title="Pengaturan" />
 
     </group>
 
@@ -21,7 +25,7 @@
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Log Out" />
+                android:title="Keluar" />
         </menu>
     </item>
 

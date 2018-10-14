@@ -43,6 +43,6 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     implementation 'com.squareup.okhttp3:okhttp:3.4.1'
 
-//    google calender
-    implementation 'com.github.tibolte:agendacalendarview:1.0.4'
+//    week calender
+    implementation 'com.github.alamkanak:android-week-view:1.2.6'
 }

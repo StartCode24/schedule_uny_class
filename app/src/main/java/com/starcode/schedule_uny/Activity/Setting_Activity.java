@@ -58,7 +58,7 @@ public class Setting_Activity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home_activity, menu);
+        //getMenuInflater().inflate(R.menu.home_activity, menu);
         return true;
     }
 
@@ -70,9 +70,9 @@ public class Setting_Activity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_today) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
