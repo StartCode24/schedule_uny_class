@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.TypedValue;
-import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -140,14 +139,14 @@ public class Home_activity extends AppCompatActivity
                 if (response.isSuccessful()){
                     status=response.body().getAuth_user().getStatus();
                     if (status.equals("200")){
-                        name=response.body().getAuth_user().getData().getNama();
-                        jurusan=response.body().getAuth_user().getData().getJurusan();
+                        name=response.body().getAuth_user().getData().getSiswa_name();
+                        jurusan=response.body().getAuth_user().getData().getSiswa_jurusan();
                         Toast.makeText(Home_activity.this,"name :"+name+
                                 "\njurusan :"+jurusan,Toast.LENGTH_SHORT).show();
                         initComponentNavHeader();
                     }else{
                         sessionManager.saveSPBoolean(sessionManager.SP_SESIONLOGIN, false);
-                        startActivity(new Intent(Home_activity.this, MainActivity.class).
+                        startActivity(new Intent(Home_activity.this, Main_Activity.class).
                                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                         finish();
                     }
@@ -245,7 +244,7 @@ public class Home_activity extends AppCompatActivity
             Toast.makeText(Home_activity.this,"Lihat PR",Toast.LENGTH_SHORT).show();
         }else if(id==R.id.nav_logout){
             sessionManager.saveSPBoolean(sessionManager.SP_SESIONLOGIN, false);
-            startActivity(new Intent(Home_activity.this, MainActivity.class).
+            startActivity(new Intent(Home_activity.this, Main_Activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             finish();
         }

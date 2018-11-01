@@ -11,13 +11,13 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug{
-            buildConfigField "String", "SERVER_URL", '"http://192.168.100.15/kerja/freelancer/asli/homework-admin/Api/"'
+        debug {
+            buildConfigField "String", "SERVER_URL", '"http://192.168.100.9/kerja/freelancer/asli/homework-admin/Api/"'
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "SERVER_URL", '"http://192.168.100.15/kerja/freelancer/asli/homework-admin/Api/"'
+            buildConfigField "String", "SERVER_URL", '"http://192.168.100.9/kerja/freelancer/asli/homework-admin/Api/"'
         }
     }
 }
@@ -36,6 +36,9 @@ dependencies {
     //    gradle buter knife
     implementation 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
 
     //     gradel retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.0.2'

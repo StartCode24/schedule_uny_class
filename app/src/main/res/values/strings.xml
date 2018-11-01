@@ -17,4 +17,5 @@
     <string name="action_three_day_view">Tampilan 3 Hari</string>
     <string name="action_week_view">Tampilan Perminggu</string>
     <string name="action_today">Hari Ini</string>
+    <string name="title_activity_reminders_">Reminders_Activity</string>
 </resources>

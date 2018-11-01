@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.starcode.schedule_uny">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme2">
-        <activity android:name=".Activity.MainActivity"
+        <activity
+            android:name=".Activity.Main_Activity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,9 +27,13 @@
         <activity
             android:name=".Activity.Setting_Activity"
             android:label="@string/title_activity_setting_"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.Reminders_Activity"
+            android:label="@string/title_activity_reminders_"
+            android:theme="@style/AppTheme2" />
+        <activity android:name=".Activity.SettingProfile_Activity" />
+        <activity android:name=".Activity.DetailSchedule_Activity"></activity>
     </application>
 
 </manifest>

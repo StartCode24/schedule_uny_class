@@ -4,74 +4,74 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class DataProfilResponse {
-    @SerializedName("NIK")
+    @SerializedName("siswa_nik")
     @Expose
-    private String NIK;
+    private String siswa_nik;
 
-    @SerializedName("nama")
+    @SerializedName("siswa_name")
     @Expose
-    private String nama;
+    private String siswa_name;
 
-    @SerializedName("kelas")
+    @SerializedName("siswa_kelas")
     @Expose
-    private String kelas;
+    private String siswa_kelas;
 
-    @SerializedName("jurusan")
+    @SerializedName("siswa_jurusan")
     @Expose
-    private String jurusan;
+    private String siswa_jurusan;
 
-    @SerializedName("alamat")
+    @SerializedName("siswa_alamat")
     @Expose
-    private String alamat;
+    private String siswa_alamat;
 
-    public String getNIK() {
-        return NIK;
+    public String getSiswa_nik() {
+        return siswa_nik;
     }
 
-    public void setNIK(String NIK) {
-        this.NIK = NIK;
+    public void setSiswa_nik(String siswa_nik) {
+        this.siswa_nik = siswa_nik;
     }
 
-    public String getNama() {
-        return nama;
+    public String getSiswa_name() {
+        return siswa_name;
     }
 
-    public void setNama(String nama) {
-        this.nama = nama;
+    public void setSiswa_name(String siswa_name) {
+        this.siswa_name = siswa_name;
     }
 
-    public String getKelas() {
-        return kelas;
+    public String getSiswa_kelas() {
+        return siswa_kelas;
     }
 
-    public void setKelas(String kelas) {
-        this.kelas = kelas;
+    public void setSiswa_kelas(String siswa_kelas) {
+        this.siswa_kelas = siswa_kelas;
     }
 
-    public String getJurusan() {
-        return jurusan;
+    public String getSiswa_jurusan() {
+        return siswa_jurusan;
     }
 
-    public void setJurusan(String jurusan) {
-        this.jurusan = jurusan;
+    public void setSiswa_jurusan(String siswa_jurusan) {
+        this.siswa_jurusan = siswa_jurusan;
     }
 
-    public String getAlamat() {
-        return alamat;
+    public String getSiswa_alamat() {
+        return siswa_alamat;
     }
 
-    public void setAlamat(String alamat) {
-        this.alamat = alamat;
+    public void setSiswa_alamat(String siswa_alamat) {
+        this.siswa_alamat = siswa_alamat;
     }
 
     @Override
     public String toString() {
         return "DataProfilResponse{" +
-                "NIK='" + NIK + '\'' +
-                ", nama='" + nama + '\'' +
-                ", kelas='" + kelas + '\'' +
-                ", jurusan='" + jurusan + '\'' +
-                ", alamat='" + alamat + '\'' +
+                "siswa_nik='" + siswa_nik + '\'' +
+                ", siswa_name='" + siswa_name + '\'' +
+                ", siswa_kelas='" + siswa_kelas + '\'' +
+                ", siswa_jurusan='" + siswa_jurusan + '\'' +
+                ", siswa_alamat='" + siswa_alamat + '\'' +
                 '}';
     }
 }

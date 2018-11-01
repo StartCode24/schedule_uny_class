@@ -13,16 +13,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 
 import com.starcode.schedule_uny.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class Setting_Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    @BindView(R.id.Ln_reminders)
+    LinearLayout Ln_reminders;
+    @BindView(R.id.Ln_SettingProfile)
+            LinearLayout Ln_SettingProfile;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_);
+        ButterKnife.bind(this);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -43,6 +58,20 @@ public class Setting_Activity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+    }
+
+    @OnClick(R.id.Ln_reminders)
+    void btn_reminders(){
+        startActivity(new Intent(Setting_Activity.this,Reminders_Activity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK));
+        finish();
+    }
+    @OnClick(R.id.Ln_SettingProfile)
+    void btn_SettingProfile(){
+        startActivity(new Intent(Setting_Activity.this,SettingProfile_Activity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK));
+        finish();
     }
 
     @Override

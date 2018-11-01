@@ -24,7 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends AppCompatActivity {
+public class Main_Activity extends AppCompatActivity {
 
 
     @BindView(R.id.rellay1)
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private static String auth_token;
     private static String status;
     private static String ContentType="application/json";
-    private static final String TAG="MainActivity";
+    private static final String TAG="Main_Activity";
 
 
     @Override
@@ -61,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         baseApiService= utilsApi.getApiServices();
-        sessionManager =new SessionManager(MainActivity.this);
+        sessionManager =new SessionManager(Main_Activity.this);
         if (sessionManager.getSpSesionlogin()) {
-            startActivity(new Intent(MainActivity.this, Home_activity.class).
+            startActivity(new Intent(Main_Activity.this, Home_activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             finish();
         }
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_fgtpassword)
     void btnFgtpassword(){
-        Toast.makeText(MainActivity.this,"Lupa Password",Toast.LENGTH_SHORT).show();;
+        Toast.makeText(Main_Activity.this,"Lupa Password",Toast.LENGTH_SHORT).show();;
     }
 
     public void loginRequest(){
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         String password=edPassword.getText().toString();
 
         if(nik.isEmpty()||password.isEmpty()){
-            Toast.makeText(MainActivity.this,"Nik atau password tidak boleh kosong",Toast.LENGTH_SHORT).show();;
+            Toast.makeText(Main_Activity.this,"Nik atau password tidak boleh kosong",Toast.LENGTH_SHORT).show();;
         }else {
 
         Call<LoginUserResponse> call= baseApiService.loginRequest(nik,password);
@@ -105,12 +105,12 @@ public class MainActivity extends AppCompatActivity {
                             sessionManager.saveSPString(sessionManager.SP_CONTENTTYPE, ContentType);
                             sessionManager.saveSPString(sessionManager.SP_AUTHORIZATION, auth_token);
                             sessionManager.saveSPBoolean(sessionManager.SP_SESIONLOGIN, true);
-                            Toast.makeText(MainActivity.this, "Login Berhasil " , Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(MainActivity.this,Home_activity.class)
+                            Toast.makeText(Main_Activity.this, "Login Berhasil " , Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(Main_Activity.this,Home_activity.class)
                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK));
                             finish();
                         }else {
-                            Toast.makeText(MainActivity.this, "Nik atau password tidak terdaftar " , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Main_Activity.this, "Nik atau password tidak terdaftar " , Toast.LENGTH_SHORT).show();
                         }
 
                     }catch (Exception e){
@@ -118,14 +118,14 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 }else {
-                    Toast.makeText(MainActivity.this, "Nik atau password tidak terdaftar", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Main_Activity.this, "Nik atau password tidak terdaftar", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<LoginUserResponse> call, Throwable t) {
                 Log.w("error : ",t);
-                Toast.makeText(MainActivity.this,"Cek Koneksi", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main_Activity.this,"Cek Koneksi", Toast.LENGTH_SHORT).show();
             }
         });
     }
