@@ -7,7 +7,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_setting_">Setting_Activity</string>
+    <string name="title_activity_setting_">Setting Activity</string>
     <string name="nik">Nik</string>
     <string name="password">Password</string>
     <string name="login">Masuk </string>
@@ -17,5 +17,7 @@
     <string name="action_three_day_view">Tampilan 3 Hari</string>
     <string name="action_week_view">Tampilan Perminggu</string>
     <string name="action_today">Hari Ini</string>
-    <string name="title_activity_reminders_">Reminders_Activity</string>
+    <string name="title_activity_reminders_">Setting Reminders</string>
+    <string name="title_activity_profile_">Setting Profile</string>
+    <string name="title_activity_home_work_">HomeWork_Activity</string>
 </resources>
