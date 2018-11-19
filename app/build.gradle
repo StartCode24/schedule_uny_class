@@ -12,12 +12,12 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "SERVER_URL", '"http://192.168.100.9/kerja/freelancer/asli/homework-admin/Api/"'
+            buildConfigField "String", "SERVER_URL", '"http://192.168.100.12/kerja/freelancer/asli/homework-admin/Api/"'
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "SERVER_URL", '"http://192.168.100.9/kerja/freelancer/asli/homework-admin/Api/"'
+            buildConfigField "String", "SERVER_URL", '"http://192.168.100.12/kerja/freelancer/asli/homework-admin/Api/"'
         }
     }
 }
@@ -36,6 +36,9 @@ dependencies {
     //    gradle buter knife
     implementation 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+//    imageCircle
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:3.7.0'
