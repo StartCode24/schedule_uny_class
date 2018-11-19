@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="350dp"
-    android:layout_height="475dp"
+    android:layout_height="wrap_content"
     android:background="@color/colorPrimaryDark"
     android:padding="5dp"
     android:layout_gravity="center">
-
     <TextView
         android:id="@+id/txtclose"
         android:layout_width="30dp"
@@ -20,38 +19,50 @@
         android:background="@drawable/cerclebackground"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Alamat Siswa"
+            android:text="Nama Siswa"
             android:textColor="@color/white"
             android:textStyle="bold|italic"
             android:textSize="17sp"
             />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Alamat"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
-
-        <EditText
-            android:id="@+id/edAlamat"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/TI_Nama"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:ems="10"
-            android:background="@color/white"
-            android:gravity="left|top"
-            android:inputType="textMultiLine" />
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:textColorHint="#fff"
+            android:textColor="@android:color/white"
+            app:passwordToggleTint="@color/colorAccent"
+            app:passwordToggleEnabled="true"
+
+            app:passwordToggleContentDescription="coba"
+            >
+            <EditText
+                android:id="@+id/EdNama"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:ems="10"
+                android:hint="Nama"
+                android:textColor="#fff"
+                app:backgroundTint="@android:color/white"
+                android:drawablePadding="12dp"
+
+                android:layout_marginTop="10dp"
+                android:shadowColor="@color/colorPrimary"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
     </LinearLayout>
     <Button
-        android:id="@+id/btnEditAlamat"
+        android:id="@+id/btnEditName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Simpan"

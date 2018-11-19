@@ -1,5 +1,6 @@
 package com.starcode.schedule_uny.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,16 +13,55 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.starcode.schedule_uny.R;
+import com.starcode.schedule_uny.apiHolder.baseApiService;
+import com.starcode.schedule_uny.apiHolder.utilsApi;
+import com.starcode.schedule_uny.model.DataProfilResponse;
+import com.starcode.schedule_uny.session.SessionManager;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeWork_Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    @BindView(R.id.Ln_reminders)
+    LinearLayout Ln_reminders;
+    @BindView(R.id.Ln_SettingProfile)
+    LinearLayout Ln_SettingProfile;
+
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+
+    private SessionManager sessionManager;
+    private com.starcode.schedule_uny.apiHolder.baseApiService baseApiService;
+    private static String status;
+    private static String name;
+    private static String jurusan;
+
+    private ImageView imageViewProfil;
+    private TextView tvName;
+    private TextView tvJurusan;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_work_);
+        ButterKnife.bind(HomeWork_Activity.this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        baseApiService= utilsApi.getApiServices();
+        sessionManager = new SessionManager(HomeWork_Activity.this);
+
+       // getProfil();
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +82,38 @@ public class HomeWork_Activity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+
+    //    get Profil
+    private void getProfil(){
+        Call<DataProfilResponse> call= baseApiService.getAllProfile(sessionManager.getSpContenttype(),
+                sessionManager.getSpAuthorization());
+        call.enqueue(new Callback<DataProfilResponse>() {
+            @Override
+            public void onResponse(Call<DataProfilResponse> call, Response<DataProfilResponse> response) {
+                if (response.isSuccessful()){
+                    status=response.body().getAuth_user().getStatus();
+                    if (status.equals("200")){
+                        name=response.body().getAuth_user().getData().getSiswa_name();
+                        jurusan=response.body().getAuth_user().getData().getSiswa_jurusan();
+//                        Toast.makeText(HomeWork_Activity.this,"name :"+name+
+//                                "\njurusan :"+jurusan,Toast.LENGTH_SHORT).show();
+                        initComponentNavHeader();
+                    }else{
+                        sessionManager.saveSPBoolean(sessionManager.SP_SESIONLOGIN, false);
+                        startActivity(new Intent(HomeWork_Activity.this, Main_Activity.class).
+                                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                        finish();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DataProfilResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -55,7 +127,7 @@ public class HomeWork_Activity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home_work_, menu);
+//        getMenuInflater().inflate(R.menu.home_work_, menu);
         return true;
     }
 
@@ -66,10 +138,6 @@ public class HomeWork_Activity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -80,22 +148,43 @@ public class HomeWork_Activity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_schedule) {
+            startActivity(new Intent(HomeWork_Activity.this, Home_activity.class).
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+        } else if (id == R.id.nav_setting) {
+            startActivity(new Intent(HomeWork_Activity.this, Setting_Activity.class).
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+        }else if (id == R.id.nav_homework) {
+            Toast.makeText(HomeWork_Activity.this,"Lihat PR",Toast.LENGTH_SHORT).show();
+        }else if(id==R.id.nav_logout){
+            sessionManager.saveSPBoolean(sessionManager.SP_SESIONLOGIN, false);
+            startActivity(new Intent(HomeWork_Activity.this, Main_Activity.class).
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void initComponentNavHeader(){
+        navigationView.setNavigationItemSelectedListener(this);
+        View headerView=navigationView.getHeaderView(0);
+
+        imageViewProfil=headerView.findViewById(R.id.imageViewProfile);
+        tvName=headerView.findViewById(R.id.tvName);
+        tvJurusan=headerView.findViewById(R.id.tvJurusan);
+
+        tvName.setText(name);
+        tvJurusan.setText(jurusan);
+
+        imageViewProfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),"Foto Profile",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

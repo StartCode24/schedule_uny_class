@@ -4,6 +4,10 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class DataProfilResponse {
+    @SerializedName("siswa_id")
+    @Expose
+    private String siswa_id;
+
     @SerializedName("siswa_nik")
     @Expose
     private String siswa_nik;
@@ -20,9 +24,41 @@ public class DataProfilResponse {
     @Expose
     private String siswa_jurusan;
 
+    @SerializedName("siswa_password")
+    @Expose
+    private String siswa_password;
+
     @SerializedName("siswa_alamat")
     @Expose
     private String siswa_alamat;
+
+    @SerializedName("siswa_note")
+    @Expose
+    private String siswa_note;
+
+    @SerializedName("kelas_id")
+    @Expose
+    private String kelas_id;
+
+    @SerializedName("jurusan_id")
+    @Expose
+    private String jurusan_id;
+
+    public String getSiswa_id() {
+        return siswa_id;
+    }
+
+    public void setSiswa_id(String siswa_id) {
+        this.siswa_id = siswa_id;
+    }
+
+    public String getSiswa_note() {
+        return siswa_note;
+    }
+
+    public void setSiswa_note(String siswa_note) {
+        this.siswa_note = siswa_note;
+    }
 
     public String getSiswa_nik() {
         return siswa_nik;
@@ -34,6 +70,14 @@ public class DataProfilResponse {
 
     public String getSiswa_name() {
         return siswa_name;
+    }
+
+    public String getSiswa_password() {
+        return siswa_password;
+    }
+
+    public void setSiswa_password(String siswa_password) {
+        this.siswa_password = siswa_password;
     }
 
     public void setSiswa_name(String siswa_name) {
@@ -64,14 +108,36 @@ public class DataProfilResponse {
         this.siswa_alamat = siswa_alamat;
     }
 
+    public String getKelas_id() {
+        return kelas_id;
+    }
+
+    public void setKelas_id(String kelas_id) {
+        this.kelas_id = kelas_id;
+    }
+
+
+    public String getJurusan_id() {
+        return jurusan_id;
+    }
+
+    public void setJurusan_id(String jurusan_id) {
+        this.jurusan_id = jurusan_id;
+    }
+
     @Override
     public String toString() {
         return "DataProfilResponse{" +
-                "siswa_nik='" + siswa_nik + '\'' +
+                "siswa_id='" + siswa_id + '\'' +
+                ", siswa_nik='" + siswa_nik + '\'' +
                 ", siswa_name='" + siswa_name + '\'' +
                 ", siswa_kelas='" + siswa_kelas + '\'' +
                 ", siswa_jurusan='" + siswa_jurusan + '\'' +
+                ", siswa_password='" + siswa_password + '\'' +
                 ", siswa_alamat='" + siswa_alamat + '\'' +
+                ", siswa_note='" + siswa_note + '\'' +
+                ", kelas_id='" + kelas_id + '\'' +
+                ", jurusan_id='" + jurusan_id + '\'' +
                 '}';
     }
 }
