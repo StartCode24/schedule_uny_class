@@ -26,23 +26,22 @@ import com.starcode.schedule_uny.session.SessionManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Setting_Activity extends AppCompatActivity
+public class HomeWork_Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.Ln_reminders)
     LinearLayout Ln_reminders;
     @BindView(R.id.Ln_SettingProfile)
-            LinearLayout Ln_SettingProfile;
-    private SessionManager sessionManager;
+    LinearLayout Ln_SettingProfile;
 
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
+    private SessionManager sessionManager;
     private com.starcode.schedule_uny.apiHolder.baseApiService baseApiService;
     private static String status;
     private static String name;
@@ -51,19 +50,18 @@ public class Setting_Activity extends AppCompatActivity
     private ImageView imageViewProfil;
     private TextView tvName;
     private TextView tvJurusan;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting_);
-        ButterKnife.bind(this);
-        baseApiService= utilsApi.getApiServices();
-        sessionManager = new SessionManager(Setting_Activity.this);
-        getProfil();
-
+        setContentView(R.layout.activity_home_work_);
+        ButterKnife.bind(HomeWork_Activity.this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        baseApiService= utilsApi.getApiServices();
+        sessionManager = new SessionManager(HomeWork_Activity.this);
+
+       // getProfil();
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -82,8 +80,9 @@ public class Setting_Activity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
     }
+
+
     //    get Profil
     private void getProfil(){
         Call<DataProfilResponse> call= baseApiService.getAllProfile(sessionManager.getSpContenttype(),
@@ -96,12 +95,12 @@ public class Setting_Activity extends AppCompatActivity
                     if (status.equals("200")){
                         name=response.body().getAuth_user().getData().getSiswa_name();
                         jurusan=response.body().getAuth_user().getData().getSiswa_jurusan();
-//                        Toast.makeText(Setting_Activity.this,"name :"+name+
+//                        Toast.makeText(HomeWork_Activity.this,"name :"+name+
 //                                "\njurusan :"+jurusan,Toast.LENGTH_SHORT).show();
                         initComponentNavHeader();
                     }else{
                         sessionManager.saveSPBoolean(sessionManager.SP_SESIONLOGIN, false);
-                        startActivity(new Intent(Setting_Activity.this, Main_Activity.class).
+                        startActivity(new Intent(HomeWork_Activity.this, Main_Activity.class).
                                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                         finish();
                     }
@@ -113,19 +112,6 @@ public class Setting_Activity extends AppCompatActivity
 
             }
         });
-    }
-
-    @OnClick(R.id.Ln_reminders)
-    void btn_reminders(){
-        startActivity(new Intent(Setting_Activity.this,Reminders_Activity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK));
-        finish();
-    }
-    @OnClick(R.id.Ln_SettingProfile)
-    void btn_SettingProfile(){
-        startActivity(new Intent(Setting_Activity.this,SettingProfile_Activity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK));
-        finish();
     }
 
     @Override
@@ -141,7 +127,7 @@ public class Setting_Activity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.home_activity, menu);
+//        getMenuInflater().inflate(R.menu.home_work_, menu);
         return true;
     }
 
@@ -152,10 +138,6 @@ public class Setting_Activity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_today) {
-//            return true;
-//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -167,17 +149,16 @@ public class Setting_Activity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_schedule) {
-            startActivity(new Intent(Setting_Activity.this, Home_activity.class).
+            startActivity(new Intent(HomeWork_Activity.this, Home_activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_setting) {
-            Toast.makeText(Setting_Activity.this,"Setting",Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(HomeWork_Activity.this, Setting_Activity.class).
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         }else if (id == R.id.nav_homework) {
-//            startActivity(new Intent(Setting_Activity.this, HomeWork_Activity.class).
-//                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
-            Toast.makeText(Setting_Activity.this,"PR",Toast.LENGTH_SHORT).show();
+            Toast.makeText(HomeWork_Activity.this,"Lihat PR",Toast.LENGTH_SHORT).show();
         }else if(id==R.id.nav_logout){
             sessionManager.saveSPBoolean(sessionManager.SP_SESIONLOGIN, false);
-            startActivity(new Intent(Setting_Activity.this, Main_Activity.class).
+            startActivity(new Intent(HomeWork_Activity.this, Main_Activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             finish();
         }
@@ -186,6 +167,7 @@ public class Setting_Activity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     public void initComponentNavHeader(){
         navigationView.setNavigationItemSelectedListener(this);
         View headerView=navigationView.getHeaderView(0);

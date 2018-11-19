@@ -7,6 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activity.Home_activity"
+    android:background="@color/abu"
     tools:showIn="@layout/app_bar_home_activity">
     <com.alamkanak.weekview.WeekView
         android:id="@+id/weekView"
@@ -16,14 +17,14 @@
         app:textSize="12sp"
         app:hourHeight="60dp"
         app:headerColumnPadding="8dp"
-        app:headerColumnTextColor="@color/toolbar_text"
+        app:headerColumnTextColor="@color/cardview_dark_background"
         app:headerRowPadding="12dp"
         app:columnGap="8dp"
         app:noOfVisibleDays="3"
         app:headerRowBackgroundColor="@color/toolbar"
-        app:dayBackgroundColor="@color/colorPrimary"
-        app:todayBackgroundColor="@color/colorPrimary"
+        app:dayBackgroundColor="@color/white"
+        app:todayBackgroundColor="@color/white"
         app:headerColumnBackground="#ffffffff"
-        app:todayHeaderTextColor="@color/accent" />
+        app:todayHeaderTextColor="@color/colorPrimary" />
 
 </RelativeLayout>

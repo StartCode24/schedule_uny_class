@@ -1,6 +1,7 @@
 package com.starcode.schedule_uny.apiHolder;
 
 import com.starcode.schedule_uny.model.DataProfilResponse;
+import com.starcode.schedule_uny.model.EditUserProfile;
 import com.starcode.schedule_uny.model.LoginUserResponse;
 
 import okhttp3.ResponseBody;
@@ -20,4 +21,16 @@ public interface baseApiService {
     @GET("Users/GetProfile")
     Call<DataProfilResponse> getAllProfile(@Header("Content-Type") String contentType,
                                            @Header("Authorization") String authToken);
+
+    @FormUrlEncoded
+    @POST("Users/EditProfile")
+    Call<EditUserProfile> editUserProfile(@Field("siswa_id") String siswa_id,
+                                          @Field("siswa_nik") String siswa_nik,
+                                          @Field("siswa_name") String siswa_name,
+                                          @Field("siswa_alamat") String siswa_alamat,
+                                          @Field("kelas_id") String kelas_id,
+                                          @Field("jurusan_id") String jurusan_id,
+                                          @Field("siswa_password") String siswa_password,
+                                          @Field("siswa_note") String siswa_note
+                                          );
 }

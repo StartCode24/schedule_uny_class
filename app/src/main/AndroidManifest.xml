@@ -27,13 +27,23 @@
         <activity
             android:name=".Activity.Setting_Activity"
             android:label="@string/title_activity_setting_"
+            android:parentActivityName=".Activity.Home_activity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.Reminders_Activity"
             android:label="@string/title_activity_reminders_"
+            android:parentActivityName=".Activity.Setting_Activity"
             android:theme="@style/AppTheme2" />
-        <activity android:name=".Activity.SettingProfile_Activity" />
-        <activity android:name=".Activity.DetailSchedule_Activity"></activity>
+        <activity
+            android:name=".Activity.SettingProfile_Activity"
+            android:label="@string/title_activity_profile_"
+            android:parentActivityName=".Activity.Setting_Activity"
+            android:theme="@style/AppTheme2" />
+        <activity android:name=".Activity.DetailSchedule_Activity" />
+        <activity
+            android:name=".Activity.HomeWork_Activity"
+            android:label="@string/title_activity_home_work_"
+            android:theme="@style/AppTheme2"></activity>
     </application>
 
 </manifest>
