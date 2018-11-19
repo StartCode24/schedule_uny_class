@@ -141,8 +141,8 @@ public class Home_activity extends AppCompatActivity
                     if (status.equals("200")){
                         name=response.body().getAuth_user().getData().getSiswa_name();
                         jurusan=response.body().getAuth_user().getData().getSiswa_jurusan();
-                        Toast.makeText(Home_activity.this,"name :"+name+
-                                "\njurusan :"+jurusan,Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(Home_activity.this,"name :"+name+
+//                                "\njurusan :"+jurusan,Toast.LENGTH_SHORT).show();
                         initComponentNavHeader();
                     }else{
                         sessionManager.saveSPBoolean(sessionManager.SP_SESIONLOGIN, false);
@@ -236,12 +236,14 @@ public class Home_activity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_schedule) {
-            // Handle the camera action
+            Toast.makeText(Home_activity.this,"Lihat Jadwal",Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_setting) {
             startActivity(new Intent(Home_activity.this, Setting_Activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         }else if (id == R.id.nav_homework) {
-            Toast.makeText(Home_activity.this,"Lihat PR",Toast.LENGTH_SHORT).show();
+//            startActivity(new Intent(Home_activity.this, HomeWork_Activity.class).
+//                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+            Toast.makeText(Home_activity.this,"PR",Toast.LENGTH_SHORT).show();
         }else if(id==R.id.nav_logout){
             sessionManager.saveSPBoolean(sessionManager.SP_SESIONLOGIN, false);
             startActivity(new Intent(Home_activity.this, Main_Activity.class).
