@@ -12,12 +12,12 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "SERVER_URL", '"http://192.168.100.12/kerja/freelancer/asli/homework-admin/Api/"'
+            buildConfigField "String", "SERVER_URL", '"http://192.168.100.5/kerja/freelancer/asli/homework-admin/Api/"'
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "SERVER_URL", '"http://192.168.100.12/kerja/freelancer/asli/homework-admin/Api/"'
+            buildConfigField "String", "SERVER_URL", '"http://192.168.100.5/kerja/freelancer/asli/homework-admin/Api/"'
         }
     }
 }
@@ -46,6 +46,8 @@ dependencies {
     //     gradel retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.0.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.0.2'
+    implementation 'com.squareup.retrofit:retrofit:1.9.0'
+
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     implementation 'com.squareup.okhttp3:okhttp:3.4.1'
 

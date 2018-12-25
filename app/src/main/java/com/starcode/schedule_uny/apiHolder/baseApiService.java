@@ -3,6 +3,7 @@ package com.starcode.schedule_uny.apiHolder;
 import com.starcode.schedule_uny.model.DataProfilResponse;
 import com.starcode.schedule_uny.model.EditUserProfile;
 import com.starcode.schedule_uny.model.LoginUserResponse;
+import com.starcode.schedule_uny.model.ScheduleResponse;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -33,4 +34,9 @@ public interface baseApiService {
                                           @Field("siswa_password") String siswa_password,
                                           @Field("siswa_note") String siswa_note
                                           );
+
+    @FormUrlEncoded
+    @POST("Content/GetSchedule")
+    Call<ScheduleResponse> Schedule(@Field("kelas_id") String kelas_id,
+                                    @Field("jurusan_id") String jurusan_id);
 }

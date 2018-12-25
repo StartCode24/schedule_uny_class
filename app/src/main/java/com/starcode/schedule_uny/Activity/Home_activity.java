@@ -241,9 +241,9 @@ public class Home_activity extends AppCompatActivity
             startActivity(new Intent(Home_activity.this, Setting_Activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         }else if (id == R.id.nav_homework) {
-//            startActivity(new Intent(Home_activity.this, HomeWork_Activity.class).
-//                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
-            Toast.makeText(Home_activity.this,"PR",Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(Home_activity.this, HomeWork_Activity.class).
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+    //        Toast.makeText(Home_activity.this,"PR",Toast.LENGTH_SHORT).show();
         }else if(id==R.id.nav_logout){
             sessionManager.saveSPBoolean(sessionManager.SP_SESIONLOGIN, false);
             startActivity(new Intent(Home_activity.this, Main_Activity.class).
@@ -276,11 +276,7 @@ public class Home_activity extends AppCompatActivity
     }
 
 
-    /**
-     * Set up a date time interpreter which will show short date values when in week view and long
-     * date values otherwise.
-     * @param shortDate True if the date values should be short.
-     */
+
     private void setupDateTimeInterpreter(final boolean shortDate) {
         mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
             @Override
@@ -427,46 +423,7 @@ public class Home_activity extends AppCompatActivity
         event.setColor(getResources().getColor(R.color.event_color_02));
         events.add(event);
 
-        //AllDay event
-//        startTime = Calendar.getInstance();
-//        startTime.set(Calendar.HOUR_OF_DAY, 0);
-//        startTime.set(Calendar.MINUTE, 0);
-//        startTime.set(Calendar.MONTH, newMonth-1);
-//        startTime.set(Calendar.YEAR, newYear);
-//        endTime = (Calendar) startTime.clone();
-//        endTime.add(Calendar.HOUR_OF_DAY, 23);
-//        event = new WeekViewEvent(7, getEventTitle(startTime),null, startTime, endTime);
-//        event.setColor(getResources().getColor(R.color.event_color_04));
-//        events.add(event);
-//        events.add(event);
 
-//        startTime = Calendar.getInstance();
-//        startTime.set(Calendar.DAY_OF_MONTH, 8);
-//        startTime.set(Calendar.HOUR_OF_DAY, 2);
-//        startTime.set(Calendar.MINUTE, 0);
-//        startTime.set(Calendar.MONTH, newMonth-1);
-//        startTime.set(Calendar.YEAR, newYear);
-//        endTime = (Calendar) startTime.clone();
-//        endTime.set(Calendar.DAY_OF_MONTH, 10);
-//        endTime.set(Calendar.HOUR_OF_DAY, 23);
-//        event = new WeekViewEvent(8, getEventTitle(startTime),null, startTime, endTime, true);
-//        event.setColor(getResources().getColor(R.color.event_color_03));
-//        events.add(event);
-//
-//        // All day event until 00:00 next day
-//        startTime = Calendar.getInstance();
-//        startTime.set(Calendar.DAY_OF_MONTH, 10);
-//        startTime.set(Calendar.HOUR_OF_DAY, 0);
-//        startTime.set(Calendar.MINUTE, 0);
-//        startTime.set(Calendar.SECOND, 0);
-//        startTime.set(Calendar.MILLISECOND, 0);
-//        startTime.set(Calendar.MONTH, newMonth-1);
-//        startTime.set(Calendar.YEAR, newYear);
-//        endTime = (Calendar) startTime.clone();
-//        endTime.set(Calendar.DAY_OF_MONTH, 11);
-//        event = new WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime, true);
-//        event.setColor(getResources().getColor(R.color.event_color_01));
-//        events.add(event);
 
         return events;
     }
