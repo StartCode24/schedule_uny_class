@@ -20,4 +20,5 @@
     <string name="title_activity_reminders_">Setting Reminders</string>
     <string name="title_activity_profile_">Setting Profile</string>
     <string name="title_activity_home_work_">HomeWork_Activity</string>
+    <string name="async_error">Could not download events from the internet</string>
 </resources>

@@ -30,7 +30,7 @@
             android:parentActivityName=".Activity.Home_activity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activity.Reminders_Activity"
+            android:name=".Activity.ActivityTimePicker.Reminders_Activity"
             android:label="@string/title_activity_reminders_"
             android:parentActivityName=".Activity.Setting_Activity"
             android:theme="@style/AppTheme2" />
