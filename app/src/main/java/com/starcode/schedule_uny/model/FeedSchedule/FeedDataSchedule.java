@@ -3,16 +3,22 @@ package com.starcode.schedule_uny.model.FeedSchedule;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class FeedDataSchedule {
     @SerializedName("schedule")
     @Expose
-    private FeedSchedule schedule;
+    private List<FeedSchedule> schedule;
 
-    public FeedSchedule getSchedule() {
+    public FeedDataSchedule(List<FeedSchedule> schedule) {
+        this.schedule = schedule;
+    }
+
+    public List<FeedSchedule> getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(FeedSchedule schedule) {
+    public void setSchedule(List<FeedSchedule> schedule) {
         this.schedule = schedule;
     }
 

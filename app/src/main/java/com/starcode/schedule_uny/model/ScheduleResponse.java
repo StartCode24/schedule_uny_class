@@ -9,6 +9,10 @@ public class ScheduleResponse {
     @Expose
     private FeedAuthSchedule auth_Schedule;
 
+    public ScheduleResponse(FeedAuthSchedule auth_Schedule) {
+        this.auth_Schedule = auth_Schedule;
+    }
+
     public FeedAuthSchedule getAuth_Schedule() {
         return auth_Schedule;
     }

@@ -16,7 +16,7 @@ public class FeedSchedule {
 
     @SerializedName("schedule_id")
     @Expose
-    private String schedule_id;
+    private int schedule_id;
     @SerializedName("schedule_date")
     @Expose
     private  String schedule_date;
@@ -34,40 +34,40 @@ public class FeedSchedule {
     private String note;
     @SerializedName("guru_id")
     @Expose
-    private String guru_id;
+    private int guru_id;
     @SerializedName("guru_name")
     @Expose
     private String guru_name;
     @SerializedName("mapel_id")
     @Expose
-    private String mapel_id;
+    private int mapel_id;
     @SerializedName("mapel_name")
     @Expose
     private String mapel_name;
     @SerializedName("kelas_id")
     @Expose
-    private String kelas_id;
+    private int kelas_id;
     @SerializedName("kelas_name")
     @Expose
     private String kelas_name;
     @SerializedName("jurusan_id")
     @Expose
-    private String jurusan_id;
+    private int jurusan_id;
     @SerializedName("jurusan_name")
     @Expose
     private String jurusan_name;
     @SerializedName("room_id")
     @Expose
-    private String room_id;
+    private int room_id;
     @SerializedName("room_name")
     @Expose
     private String room_name;
 
-    public String getSchedule_id() {
+    public int getSchedule_id() {
         return schedule_id;
     }
 
-    public void setSchedule_id(String schedule_id) {
+    public void setSchedule_id(int schedule_id) {
         this.schedule_id = schedule_id;
     }
 
@@ -111,11 +111,11 @@ public class FeedSchedule {
         this.note = note;
     }
 
-    public String getGuru_id() {
+    public int getGuru_id() {
         return guru_id;
     }
 
-    public void setGuru_id(String guru_id) {
+    public void setGuru_id(int guru_id) {
         this.guru_id = guru_id;
     }
 
@@ -127,11 +127,11 @@ public class FeedSchedule {
         this.guru_name = guru_name;
     }
 
-    public String getMapel_id() {
+    public int getMapel_id() {
         return mapel_id;
     }
 
-    public void setMapel_id(String mapel_id) {
+    public void setMapel_id(int mapel_id) {
         this.mapel_id = mapel_id;
     }
 
@@ -143,11 +143,11 @@ public class FeedSchedule {
         this.mapel_name = mapel_name;
     }
 
-    public String getKelas_id() {
+    public int getKelas_id() {
         return kelas_id;
     }
 
-    public void setKelas_id(String kelas_id) {
+    public void setKelas_id(int kelas_id) {
         this.kelas_id = kelas_id;
     }
 
@@ -159,11 +159,11 @@ public class FeedSchedule {
         this.kelas_name = kelas_name;
     }
 
-    public String getJurusan_id() {
+    public int getJurusan_id() {
         return jurusan_id;
     }
 
-    public void setJurusan_id(String jurusan_id) {
+    public void setJurusan_id(int jurusan_id) {
         this.jurusan_id = jurusan_id;
     }
 
@@ -175,11 +175,11 @@ public class FeedSchedule {
         this.jurusan_name = jurusan_name;
     }
 
-    public String getRoom_id() {
+    public int getRoom_id() {
         return room_id;
     }
 
-    public void setRoom_id(String room_id) {
+    public void setRoom_id(int room_id) {
         this.room_id = room_id;
     }
 
@@ -194,63 +194,63 @@ public class FeedSchedule {
     @Override
     public String toString() {
         return "FeedSchedule{" +
-                "schedule_id='" + schedule_id + '\'' +
+                "schedule_id=" + schedule_id +
                 ", schedule_date='" + schedule_date + '\'' +
                 ", start_time='" + start_time + '\'' +
                 ", finish_time='" + finish_time + '\'' +
                 ", day=" + day +
                 ", note='" + note + '\'' +
-                ", guru_id='" + guru_id + '\'' +
+                ", guru_id=" + guru_id +
                 ", guru_name='" + guru_name + '\'' +
-                ", mapel_id='" + mapel_id + '\'' +
+                ", mapel_id=" + mapel_id +
                 ", mapel_name='" + mapel_name + '\'' +
-                ", kelas_id='" + kelas_id + '\'' +
+                ", kelas_id=" + kelas_id +
                 ", kelas_name='" + kelas_name + '\'' +
-                ", jurusan_id='" + jurusan_id + '\'' +
+                ", jurusan_id=" + jurusan_id +
                 ", jurusan_name='" + jurusan_name + '\'' +
-                ", room_id='" + room_id + '\'' +
+                ", room_id=" + room_id +
                 ", room_name='" + room_name + '\'' +
                 '}';
     }
 
-    @SuppressLint("SimpleDateFormat")
-    public WeekViewEvent toWeekViewEvent(){
-
-        // Parse time.
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        Date start = new Date();
-        Date end = new Date();
-        try {
-            start = sdf.parse(getStart_time());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        try {
-            end = sdf.parse(getFinish_time());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        // Initialize start and end time.
-        Calendar now = Calendar.getInstance();
-        Calendar startTime = (Calendar) now.clone();
-        startTime.setTimeInMillis(start.getTime());
-        startTime.set(Calendar.YEAR, now.get(Calendar.YEAR));
-        startTime.set(Calendar.MONTH, now.get(Calendar.MONTH));
-        startTime.set(Calendar.DAY_OF_MONTH, getDay());
-        Calendar endTime = (Calendar) startTime.clone();
-        endTime.setTimeInMillis(end.getTime());
-        endTime.set(Calendar.YEAR, startTime.get(Calendar.YEAR));
-        endTime.set(Calendar.MONTH, startTime.get(Calendar.MONTH));
-        endTime.set(Calendar.DAY_OF_MONTH, startTime.get(Calendar.DAY_OF_MONTH));
-
-        // Create an week view event.
-        WeekViewEvent weekViewEvent = new WeekViewEvent();
-        weekViewEvent.setName(getMapel_name());
-        weekViewEvent.setStartTime(startTime);
-        weekViewEvent.setEndTime(endTime);
-        //weekViewEvent.setColor(Color.parseColor(getColor()));
-
-        return weekViewEvent;
-    }
+//        @SuppressLint("SimpleDateFormat")
+//         public WeekViewEvent toWeekViewEvent(){
+//
+//        // Parse time.
+//        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+//        Date start = new Date();
+//        Date end = new Date();
+//        try {
+//            start = sdf.parse(getStart_time());
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            end = sdf.parse(getFinish_time());
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        // Initialize start and end time.
+//        Calendar now = Calendar.getInstance();
+//        Calendar startTime = (Calendar) now.clone();
+//        startTime.setTimeInMillis(start.getTime());
+//        startTime.set(Calendar.YEAR, now.get(Calendar.YEAR));
+//        startTime.set(Calendar.MONTH, now.get(Calendar.MONTH));
+//        startTime.set(Calendar.DAY_OF_MONTH, getDay());
+//        Calendar endTime = (Calendar) startTime.clone();
+//        endTime.setTimeInMillis(end.getTime());
+//        endTime.set(Calendar.YEAR, startTime.get(Calendar.YEAR));
+//        endTime.set(Calendar.MONTH, startTime.get(Calendar.MONTH));
+//        endTime.set(Calendar.DAY_OF_MONTH, startTime.get(Calendar.DAY_OF_MONTH));
+//
+//        // Create an week view event.
+//        WeekViewEvent weekViewEvent = new WeekViewEvent();
+//        weekViewEvent.setName(getMapel_name());
+//        weekViewEvent.setStartTime(startTime);
+//        weekViewEvent.setEndTime(endTime);
+//        //weekViewEvent.setColor(Color.parseColor(getColor()));
+//
+//        return weekViewEvent;
+//    }
 }

@@ -14,6 +14,12 @@ public class FeedAuthSchedule {
     @Expose
     private String message;
 
+    public FeedAuthSchedule(String status, FeedDataSchedule data, String message) {
+        this.status = status;
+        this.data = data;
+        this.message = message;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -42,7 +48,6 @@ public class FeedAuthSchedule {
     public String toString() {
         return "FeedAuthSchedule{" +
                 "status='" + status + '\'' +
-                ", data=" + data +
                 ", message='" + message + '\'' +
                 '}';
     }

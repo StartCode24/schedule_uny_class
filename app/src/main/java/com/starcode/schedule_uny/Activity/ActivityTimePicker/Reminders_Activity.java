@@ -1,4 +1,4 @@
-package com.starcode.schedule_uny.Activity;
+package com.starcode.schedule_uny.Activity.ActivityTimePicker;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.starcode.schedule_uny.Activity.Setting_Activity;
 import com.starcode.schedule_uny.R;
 
 public class Reminders_Activity extends AppCompatActivity {
