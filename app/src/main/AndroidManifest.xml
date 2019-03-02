@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.starcode.schedule_uny">
+    package="com.starcode.skedi">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
     <application
         android:allowBackup="true"
@@ -23,27 +26,42 @@
         <activity
             android:name=".Activity.Home_activity"
             android:label="@string/title_activity_home_activity"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.Setting_Activity"
             android:label="@string/title_activity_setting_"
             android:parentActivityName=".Activity.Home_activity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Activity.ActivityTimePicker.Reminders_Activity"
-            android:label="@string/title_activity_reminders_"
-            android:parentActivityName=".Activity.Setting_Activity"
-            android:theme="@style/AppTheme2" />
-        <activity
-            android:name=".Activity.SettingProfile_Activity"
-            android:label="@string/title_activity_profile_"
-            android:parentActivityName=".Activity.Setting_Activity"
-            android:theme="@style/AppTheme2" />
         <activity android:name=".Activity.DetailSchedule_Activity" />
         <activity
             android:name=".Activity.HomeWork_Activity"
             android:label="@string/title_activity_home_work_"
-            android:theme="@style/AppTheme2"></activity>
+            android:noHistory="true"
+            android:theme="@style/AppTheme2" />
+        <activity android:name=".Activity.ActivityTimePicker.NotifHomeWork_Activity" />
+        <activity android:name=".Activity.SignUpUser_Activity" />
+        <activity
+            android:name=".Activity.About_Activity"
+            android:label="@string/title_activity_about_"
+            android:noHistory="true"
+            android:theme="@style/AppTheme2" />
+        <activity
+            android:name=".Activity.Profile_activity"
+            android:label="@string/title_activity_profile_activity"
+            android:noHistory="true"
+            android:theme="@style/AppTheme2" />
+        <activity android:name=".Activity.AddHomeWork_Activity" />
+        <activity
+            android:name=".Activity.DetailHomeWork_activity"
+            android:theme="@style/AppTheme2" />
+        <activity android:name=".Activity.EditHomework_Activity" />
+
+        <receiver android:name=".Receiver.AlertReceiver" />
+        <receiver android:name=".Receiver.AlertReceiverDayBefore" />
+        <receiver android:name=".Receiver.AlertReceiverMinuteBefore" />
+
+        <activity android:name=".Activity.DayBefore_Activity" />
     </application>
 
 </manifest>

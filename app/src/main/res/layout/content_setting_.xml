@@ -29,12 +29,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_marginLeft="5dp"
-                    android:paddingBottom="3dp"
+                    android:paddingBottom="7dp"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:text="Reminders"
+                    android:text="Reminders Jadwal"
                     android:textColor="#bbb"
-                    android:textSize="15dp"
+                    android:textSize="19dp"
                     />
 
                 <View
@@ -44,7 +44,7 @@
                     android:background="#bbb" />
 
                 <LinearLayout
-                    android:id="@+id/Ln_reminders"
+                    android:id="@+id/Ln_DayBefore"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -59,9 +59,8 @@
                         android:layout_weight="1"
                         android:fontFamily="sans-serif"
                         android:padding="5dp"
-
-                        android:text="Reminders"
-                        android:textColor="@color/toolbar_text"
+                        android:text="Day Before"
+                        android:textColor="@color/bluelight"
                         android:textSize="15dp"
                          />
 
@@ -81,7 +80,7 @@
                     android:background="#bbb" />
 
                 <LinearLayout
-                    android:id="@+id/Ln_SettingProfile"
+                    android:id="@+id/Ln_MinuteBferoe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -96,10 +95,20 @@
                         android:layout_weight="1"
                         android:fontFamily="sans-serif"
                         android:padding="5dp"
-                        android:text="Setting Profile"
-                        android:textColor="@color/toolbar_text"
-                        android:textSize="15dp"
-                        />
+                        android:text="Minute Before"
+                        android:textColor="@color/bluelight"
+                        android:textSize="15dp"/>
+                    <TextView
+                        android:id="@+id/TvMinuteBefore"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif"
+                        android:padding="5dp"
+                        android:gravity="end"
+                        android:textSize="15dp" />
+
 
                     <ImageView
                         android:layout_width="wrap_content"

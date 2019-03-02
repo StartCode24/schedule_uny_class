@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -12,13 +13,20 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "SERVER_URL", '"http://192.168.100.5/kerja/freelancer/asli/homework-admin/Api/"'
+//            dev
+            buildConfigField "String", "SERVER_URL", '"http://192.168.100.8/kerja/freelancer/asli/homework-admin/Api/"'
+//            prod
+//            buildConfigField "String", "SERVER_URL", '"http://skedi.site/homework-admin/Api/"'
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "SERVER_URL", '"http://192.168.100.5/kerja/freelancer/asli/homework-admin/Api/"'
+//            dev
+            buildConfigField "String", "SERVER_URL", '"http://192.168.100.8/kerja/freelancer/asli/homework-admin/Api/"'
+//            prod
+//            buildConfigField "String", "SERVER_URL", '"http://skedi.site/homework-admin/Api/"'
         }
+
     }
 }
 
@@ -53,4 +61,12 @@ dependencies {
     implementation 'com.github.alamkanak:android-week-view:1.2.6'
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
+//    spiner
+    implementation 'com.reginald:editspinner:1.0.0'
+//    togle switch
+    implementation 'us.belka:androidtoggleswitch:1.2.2'
+    implementation 'com.llollox:androidtoggleswitch:2.0.1'
+
+//    number picker
+//    implementation 'com.shawnlin:number-picker:2.4.8'
 }

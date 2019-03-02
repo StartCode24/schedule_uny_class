@@ -33,4 +33,22 @@
     <style name="AppTheme2.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme2.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="CustomPopupAnimation" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/custom_anim_from_top</item>
+        <item name="android:windowExitAnimation">@anim/custom_anim_to_top</item>
+    </style>
+    <style name="Widget.Design.TextInputLayout" parent="AppTheme">
+        <item name="colorPrimary">@color/bluelight</item>
+        <item name="colorPrimaryDark">@color/bluelight</item>
+        <item name="colorAccent">@color/bluelight</item>
+    </style>
+    <style name="AppTheme.ActionBar" >
+        <item name="android:homeAsUpIndicator">@drawable/ic_keyboard_backspace_white_24dp</item>
+        <item name="actionMenuTextColor">@color/bluelight</item>
+        ...
+    </style>
+    <style name="Dialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="colorAccent">@color/accent</item>
+    </style>
 </resources>
