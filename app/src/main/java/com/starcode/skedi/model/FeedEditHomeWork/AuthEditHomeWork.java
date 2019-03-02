@@ -1,4 +1,4 @@
-package com.starcode.skedi.model.EditHomeWork;
+package com.starcode.skedi.model.FeedEditHomeWork;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

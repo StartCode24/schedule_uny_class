@@ -1,8 +1,8 @@
-package com.starcode.schedule_uny.model;
+package com.starcode.skedi.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.starcode.schedule_uny.model.FeedDataProfil.FeedAuthUser;
+import com.starcode.skedi.model.FeedDataProfil.FeedAuthUser;
 
 
 public class DataProfilResponse {

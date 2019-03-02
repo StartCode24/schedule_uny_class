@@ -1,4 +1,4 @@
-package com.starcode.schedule_uny.model.FeedAllKelas;
+package com.starcode.skedi.model.FeedAllKelas;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

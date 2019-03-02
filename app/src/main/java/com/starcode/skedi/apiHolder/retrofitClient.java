@@ -1,4 +1,4 @@
-package com.starcode.schedule_uny.apiHolder;
+package com.starcode.skedi.apiHolder;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

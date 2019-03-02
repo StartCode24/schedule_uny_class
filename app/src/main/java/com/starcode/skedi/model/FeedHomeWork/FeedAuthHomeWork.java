@@ -1,8 +1,8 @@
-package com.starcode.schedule_uny.model.FeedHomeWork;
+package com.starcode.skedi.model.FeedHomeWork;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.starcode.schedule_uny.model.FeedSchedule.FeedDataSchedule;
+import com.starcode.skedi.model.FeedSchedule.FeedDataSchedule;
 
 public class FeedAuthHomeWork {
     @SerializedName("status")

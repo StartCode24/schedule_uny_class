@@ -1,4 +1,4 @@
-package com.starcode.schedule_uny.model.FeedDataProfil;
+package com.starcode.skedi.model.FeedDataProfil;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

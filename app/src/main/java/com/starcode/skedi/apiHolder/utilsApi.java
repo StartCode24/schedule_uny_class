@@ -1,6 +1,6 @@
-package com.starcode.schedule_uny.apiHolder;
+package com.starcode.skedi.apiHolder;
 
-import com.starcode.schedule_uny.BuildConfig;
+import com.starcode.skedi.BuildConfig;
 
 public class utilsApi {
 

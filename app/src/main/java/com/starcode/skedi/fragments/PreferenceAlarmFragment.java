@@ -1,4 +1,4 @@
-package com.starcode.schedule_uny.fragments;
+package com.starcode.skedi.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 
-import com.starcode.schedule_uny.R;
+import com.starcode.skedi.R;
 
 public class PreferenceAlarmFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 

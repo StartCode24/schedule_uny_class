@@ -1,13 +1,22 @@
-package com.starcode.schedule_uny.apiHolder;
+package com.starcode.skedi.apiHolder;
 
-import com.starcode.schedule_uny.model.AllJurusanResponse;
-import com.starcode.schedule_uny.model.AllKelasResponse;
-import com.starcode.schedule_uny.model.DataProfilResponse;
-import com.starcode.schedule_uny.model.EditUserProfile;
-import com.starcode.schedule_uny.model.HomeWorkResponse;
-import com.starcode.schedule_uny.model.LoginUserResponse;
-import com.starcode.schedule_uny.model.ScheduleResponse;
-import com.starcode.schedule_uny.model.SignUpUserResponse;
+import com.starcode.skedi.model.AddHomeWorkResponse;
+import com.starcode.skedi.model.AllJurusanResponse;
+import com.starcode.skedi.model.AllKelasResponse;
+import com.starcode.skedi.model.AllMapelResponse;
+import com.starcode.skedi.model.DataProfilResponse;
+import com.starcode.skedi.model.DeleteHomeWorkResponse;
+import com.starcode.skedi.model.EditHomeWorkResponse;
+import com.starcode.skedi.model.EditUserProfile;
+import com.starcode.skedi.model.HomeWorkResponse;
+import com.starcode.skedi.model.IDHomeWorkResponse;
+import com.starcode.skedi.model.LoginUserResponse;
+import com.starcode.skedi.model.ScheduleResponse;
+import com.starcode.skedi.model.SearchHomeWorkResponse;
+import com.starcode.skedi.model.SearchSchedForDayResponse;
+import com.starcode.skedi.model.SearchSchedResponse;
+import com.starcode.skedi.model.SearchScheduleAllResponse;
+import com.starcode.skedi.model.SignUpUserResponse;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -23,7 +32,7 @@ public interface baseApiService {
     Call<LoginUserResponse> loginRequest(@Field("NIK") String nik,
                                          @Field("Password") String password);
 
-    @GET("Users/GetProfile")
+    @POST("Users/GetProfile")
     Call<DataProfilResponse> getAllProfile(@Header("Content-Type") String contentType,
                                            @Header("Authorization") String authToken);
 
@@ -49,6 +58,45 @@ public interface baseApiService {
                                         @Field("password_1") String siswa_password_1,
                                         @Field("password_2") String siswa_password_2
     );
+    @FormUrlEncoded
+    @POST("Content/AddHomeWork")
+    Call<AddHomeWorkResponse> AddHomeWork(@Field("id_homework") String id_homework,
+                                          @Field("mapel_name") String mapel_name,
+                                          @Field("note") String note,
+                                          @Field("homework_date") String homework_date,
+                                          @Field("start_time") String start_time,
+                                          @Field("finish_time") String finish_time,
+                                          @Field("alarm_time") String alarm_time,
+                                          @Field("kelas_id") String kelas_id,
+                                          @Field("jurusan_id") String jurusan_id,
+                                          @Field("siswa_nik") String siswa_nik
+    );
+
+    @FormUrlEncoded
+    @POST("Content/UpdateHomeWork")
+    Call<EditHomeWorkResponse> UpdateHomeWork(@Field("homework_id") int homework_id,
+                                              @Field("mapel_name") String mapel_name,
+                                              @Field("note") String note,
+                                              @Field("homework_date") String homework_date,
+                                              @Field("start_time") String start_time,
+                                              @Field("finish_time") String finish_time,
+                                              @Field("alarm_time") String alarm_time,
+                                              @Field("kelas_id") String kelas_id,
+                                              @Field("jurusan_id") String jurusan_id,
+                                              @Field("siswa_nik") String siswa_nik
+    );
+
+    @FormUrlEncoded
+    @POST("Content/SearchSched")
+    Call<SearchSchedResponse> SearchSched(@Field("schedule_id") int schedule_id);
+
+    @FormUrlEncoded
+    @POST("Content/SearchHomeWork")
+    Call<SearchHomeWorkResponse> SearchHomeWork(@Field("homework_id") int homework_id);
+
+    @FormUrlEncoded
+    @POST("Content/DeleteHomeWork")
+    Call<DeleteHomeWorkResponse> DeleteHomeWork(@Field("homework_id") int homework_id);
 
     @FormUrlEncoded
     @POST("Content/GetSchedule")
@@ -56,15 +104,32 @@ public interface baseApiService {
                                     @Field("jurusan_id") String jurusan_id);
 
     @FormUrlEncoded
+    @POST("Content/SearchScheduleAll")
+    Call<SearchScheduleAllResponse> SearchScheduleAll(@Field("kelas_id") String kelas_id,
+                                                      @Field("jurusan_id") String jurusan_id);
+
+    @FormUrlEncoded
+    @POST("Content/SearchSchedForDay")
+    Call<SearchSchedForDayResponse> SearchSchedForDay(@Field("kelas_id") String kelas_id,
+                                                      @Field("jurusan_id") String jurusan_id,
+                                                      @Field("day_name") String day_name);
+
+    @FormUrlEncoded
     @POST("Content/GetHomeWork")
     Call<HomeWorkResponse> HomeWork(@Field("kelas_id") String kelas_id,
-                                    @Field("jurusan_id") String jurusan_id);
+                                    @Field("jurusan_id") String jurusan_id,
+                                    @Field("siswa_nik") String siswa_nik);
 
 
-    @GET("Content/GetJurusan")
+    @POST("Content/GetJurusan")
     Call<AllJurusanResponse> getAllJurusan();
 
+    @POST("Content/GetMapel")
+    Call<AllMapelResponse> getAllMapel();
 
-    @GET("Content/GetKelas")
+    @POST("Content/GetIdHomework")
+    Call<IDHomeWorkResponse> getIdHomeWork();
+
+    @POST("Content/GetKelas")
     Call<AllKelasResponse> getAllKelas();
 }

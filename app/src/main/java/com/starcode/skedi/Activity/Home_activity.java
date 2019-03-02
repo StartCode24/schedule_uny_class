@@ -1,5 +1,6 @@
-package com.starcode.schedule_uny.Activity;
+package com.starcode.skedi.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.RectF;
@@ -26,19 +27,23 @@ import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.starcode.schedule_uny.Adapter.List.HomeWorkList;
-import com.starcode.schedule_uny.Adapter.List.ScheduleList;
-import com.starcode.schedule_uny.R;
-import com.starcode.schedule_uny.apiHolder.baseApiService;
-import com.starcode.schedule_uny.model.DataProfilResponse;
-import com.starcode.schedule_uny.model.FeedSchedule.FeedSchedule;
-import com.starcode.schedule_uny.model.ScheduleResponse;
-import com.starcode.schedule_uny.session.SessionManager;
-import com.starcode.schedule_uny.apiHolder.utilsApi;
+import com.starcode.skedi.Adapter.List.HomeWorkList;
+import com.starcode.skedi.Adapter.List.ScheduleList;
+import com.starcode.skedi.R;
+import com.starcode.skedi.apiHolder.baseApiService;
+import com.starcode.skedi.model.DataProfilResponse;
+import com.starcode.skedi.model.FeedSchedule.FeedSchedule;
+import com.starcode.skedi.model.ScheduleResponse;
+import com.starcode.skedi.session.SessionDetailSchedule;
+import com.starcode.skedi.session.SessionManager;
+import com.starcode.skedi.apiHolder.utilsApi;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.MonthDay;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -77,16 +82,20 @@ public class Home_activity extends AppCompatActivity
     NavigationView navigationView;
 
     private SessionManager sessionManager;
+    private SessionDetailSchedule sessionDetailSchedule;
     private baseApiService baseApiService;
-    private static String status,status2;
+    private static String status, status2;
     private static String name;
     private static String jurusan;
+    private static String kelas_id="";
+    private static String jurusan_id="";
 
     private ImageView imageViewProfil;
     private TextView tvName;
     private TextView tvJurusan;
     private int setRefresh;
     ArrayList<ScheduleList> mScheduleList;
+    Context mcContext;
 
 
     @Override
@@ -95,8 +104,10 @@ public class Home_activity extends AppCompatActivity
         setContentView(R.layout.activity_home_activity);
         ButterKnife.bind(Home_activity.this);
         sessionManager = new SessionManager(Home_activity.this);
-        baseApiService= utilsApi.getApiServices();
+        sessionDetailSchedule = new SessionDetailSchedule(Home_activity.this);
+        baseApiService = utilsApi.getApiServices();
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mcContext = this;
         loadData();
         getProfil();
         setSupportActionBar(toolbar);
@@ -141,22 +152,23 @@ public class Home_activity extends AppCompatActivity
         setupDateTimeInterpreter(false);
     }
 
-//    get Profil
-    private void getProfil(){
-        Call<DataProfilResponse> call= baseApiService.getAllProfile(sessionManager.getSpContenttype(),
+    //    get Profil
+    private void getProfil() {
+        Call<DataProfilResponse> call = baseApiService.getAllProfile(sessionManager.getSpContenttype(),
                 sessionManager.getSpAuthorization());
         call.enqueue(new Callback<DataProfilResponse>() {
             @Override
             public void onResponse(Call<DataProfilResponse> call, Response<DataProfilResponse> response) {
-                if (response.isSuccessful()){
-                    status=response.body().getAuth_user().getStatus();
-                    if (status.equals("200")){
-                        name=response.body().getAuth_user().getData().getSiswa_name();
-                        jurusan=response.body().getAuth_user().getData().getSiswa_jurusan();
-//                        Toast.makeText(Home_activity.this,"name :"+name+
-//                                "\njurusan :"+jurusan,Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful()) {
+                    status = response.body().getAuth_user().getStatus();
+                    if (status.equals("200")) {
+                        name = response.body().getAuth_user().getData().getSiswa_name();
+                        jurusan = response.body().getAuth_user().getData().getSiswa_jurusan();
+                        kelas_id = response.body().getAuth_user().getData().getKelas_id();
+                        jurusan_id = response.body().getAuth_user().getData().getJurusan_id();
+
                         initComponentNavHeader();
-                    }else{
+                    } else {
                         sessionManager.saveSPBoolean(sessionManager.SP_SESIONLOGIN, false);
                         startActivity(new Intent(Home_activity.this, Main_Activity.class).
                                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -174,12 +186,11 @@ public class Home_activity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        clearDataSession();
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+        finish();
     }
 
     @Override
@@ -196,7 +207,7 @@ public class Home_activity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         setupDateTimeInterpreter(id == R.id.action_week_view);
-        switch (id){
+        switch (id) {
             case R.id.action_today:
                 mWeekView.goToToday();
                 return true;
@@ -248,30 +259,30 @@ public class Home_activity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_schedule) {
-            Toast.makeText(Home_activity.this,"Lihat Jadwal",Toast.LENGTH_SHORT).show();
+            Toast.makeText(Home_activity.this, "Lihat Jadwal", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_setting) {
             clearDataSession();
             startActivity(new Intent(Home_activity.this, Setting_Activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
-        }else if (id == R.id.nav_homework) {
+        } else if (id == R.id.nav_homework) {
             clearDataSession();
             startActivity(new Intent(Home_activity.this, HomeWork_Activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
-    //        Toast.makeText(Home_activity.this,"PR",Toast.LENGTH_SHORT).show();
-        }else if(id==R.id.nav_logout){
+            //        Toast.makeText(Home_activity.this,"PR",Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_logout) {
             clearDataSession();
             sessionManager.saveSPBoolean(sessionManager.SP_SESIONLOGIN, false);
             startActivity(new Intent(Home_activity.this, Main_Activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             finish();
-        }else if(id==R.id.nav_about){
+        } else if (id == R.id.nav_about) {
             clearDataSession();
             startActivity(new Intent(Home_activity.this, About_Activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
-        }else if(id==R.id.nav_Profile){
+        } else if (id == R.id.nav_Profile) {
             clearDataSession();
-            startActivity(new Intent(Home_activity.this,Profile_activity.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK));
+            startActivity(new Intent(Home_activity.this, Profile_activity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         }
 
 
@@ -280,13 +291,13 @@ public class Home_activity extends AppCompatActivity
         return true;
     }
 
-    public void initComponentNavHeader(){
+    public void initComponentNavHeader() {
         navigationView.setNavigationItemSelectedListener(this);
-        View headerView=navigationView.getHeaderView(0);
+        View headerView = navigationView.getHeaderView(0);
 
 //        imageViewProfil=headerView.findViewById(R.id.imageViewProfile);
-        tvName=headerView.findViewById(R.id.tvName);
-        tvJurusan=headerView.findViewById(R.id.tvJurusan);
+        tvName = headerView.findViewById(R.id.tvName);
+        tvJurusan = headerView.findViewById(R.id.tvJurusan);
 
         tvName.setText(name);
         tvJurusan.setText(jurusan);
@@ -298,6 +309,7 @@ public class Home_activity extends AppCompatActivity
 //            }
 //        });
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -311,7 +323,7 @@ public class Home_activity extends AppCompatActivity
             public String interpretDate(Calendar date) {
                 SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEE", Locale.getDefault());
                 String weekday = weekdayNameFormat.format(date.getTime());
-                SimpleDateFormat format = new SimpleDateFormat(" d", Locale.getDefault());
+                SimpleDateFormat format = new SimpleDateFormat("d", Locale.getDefault());
 
                 // All android api level do not have a standard way of getting the first letter of
                 // the week day name. Hence we get the first char programmatically.
@@ -327,8 +339,9 @@ public class Home_activity extends AppCompatActivity
             }
         });
     }
+
     protected String getEventTitle(Calendar time) {
-        return String.format("Pelajaran Fisika of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
+        return String.format("Pelajaran Fisika of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH) + 1, time.get(Calendar.DAY_OF_MONTH));
     }
 
     @Override
@@ -338,15 +351,17 @@ public class Home_activity extends AppCompatActivity
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
+        sessionDetailSchedule.saveSPLong(SessionDetailSchedule.SP_IDSCHEDULE, event.getId());
         Toast.makeText(this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(Home_activity.this, DetailSchedule_Activity.class).
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+        Intent intent=new Intent(Home_activity.this,DetailSchedule_Activity.class);
+        startActivity(intent);
     }
 
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
         Toast.makeText(this, "Long pressed event: " + event.getId(), Toast.LENGTH_SHORT).show();
     }
+
     public WeekView getWeekView() {
         return mWeekView;
     }
@@ -357,49 +372,50 @@ public class Home_activity extends AppCompatActivity
         List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        if (mScheduleList.size()>0) {
+        if (mScheduleList.size() > 0) {
             for (int i = 0; i < mScheduleList.size(); i++) {
                 Calendar endTime;
                 WeekViewEvent event;
                 Calendar startTime;
-                String TimeStr=mScheduleList.get(i).getStart_time();
-                String TimeFns=mScheduleList.get(i).getFinish_time();
-                String startHours=TimeStr.substring(0,2);
-                String startMinute=TimeStr.substring(3,5);
-                String FinisHours=TimeFns.substring(0,2);
-                String FinisMinute=TimeFns.substring(3,5);
+                String TimeStr = mScheduleList.get(i).getStart_time();
+                String TimeFns = mScheduleList.get(i).getFinish_time();
+                String startHours = TimeStr.substring(0, 2);
+                String startMinute = TimeStr.substring(3, 5);
+                String FinisHours = TimeFns.substring(0, 2);
+                String FinisMinute = TimeFns.substring(3, 5);
 
-
-//                Toast.makeText(HomeWork_Activity.this," "+newMonth,Toast.LENGTH_LONG).show();
                 startTime = Calendar.getInstance();
-                startTime.set(Calendar.HOUR_OF_DAY,Integer.parseInt(startHours) );
+                startTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(startHours));
                 startTime.set(Calendar.MINUTE, Integer.parseInt(startMinute));
-                startTime.set(Calendar.MONTH, newMonth-1);
+                startTime.set(Calendar.MONTH, newMonth - 1);
                 startTime.set(Calendar.YEAR, newYear);
-                startTime.set(Calendar.DATE, mScheduleList.get(i).getDay());
+                startTime.set(Calendar.DATE, mScheduleList.get(i).getDay_date());
+//                startTime.set(Calendar.DAY_OF_WEEK_IN_MONTH,0);
                 endTime = (Calendar) startTime.clone();
                 endTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(FinisHours));
                 startTime.set(Calendar.MINUTE, Integer.parseInt(FinisMinute));
                 endTime.set(Calendar.MONTH, newMonth - 1);
-                endTime.set(Calendar.DATE, mScheduleList.get(i).getDay());
+                endTime.set(Calendar.DATE, mScheduleList.get(i).getDay_date());
+
                 event = new WeekViewEvent(mScheduleList.get(i).getSchedule_id(), getEventTitle(startTime), startTime, endTime);
                 event.setColor(getResources().getColor(R.color.event_color_03));
-                event.setName(mScheduleList.get(i).getMapel_name()+"\n"+
+                event.setName(mScheduleList.get(i).getMapel_name() + "\n" +
                         mScheduleList.get(i).getRoom_name());
-
                 events.add(event);
             }
+
+
         }
 
-        return events ;
+        return events;
     }
 
-    private void clearDataSession(){
+    private void clearDataSession() {
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         sharedPreferences.edit().clear().commit();
     }
 
-    private  void saveData(){
+    private void saveData() {
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -412,7 +428,8 @@ public class Home_activity extends AppCompatActivity
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("schedule", null);
-        Type type = new TypeToken<ArrayList<ScheduleList>>() {}.getType();
+        Type type = new TypeToken<ArrayList<ScheduleList>>() {
+        }.getType();
         mScheduleList = gson.fromJson(json, type);
 
         if (mScheduleList == null) {
@@ -421,46 +438,54 @@ public class Home_activity extends AppCompatActivity
     }
 
 
-    private void schedulee(){
+    private void schedulee() {
         //baseApiService.Schedule(kelas_id,jurusan_id);
-        Call<ScheduleResponse> call=baseApiService.Schedule("31","9");
+        Call<ScheduleResponse> call = baseApiService.Schedule(kelas_id, jurusan_id);
         call.enqueue(new Callback<ScheduleResponse>() {
             @Override
             public void onResponse(Call<ScheduleResponse> call, Response<ScheduleResponse> response) {
-                if (response.isSuccessful()){
-                    status2=response.body().getAuth_Schedule().getStatus();
-                    if (status2.equals("200")){
-                        if(mScheduleList.size()==0) {
+                if (response.isSuccessful()) {
+                    status2 = response.body().getAuth_Schedule().getStatus();
+                    if (status2.equals("200")) {
+                        if (mScheduleList.size() == 0) {
                             List<FeedSchedule> schedule = response.body().getAuth_Schedule().getData().getSchedule();
                             for (int i = 0; i < schedule.size(); i++) {
-                                mScheduleList.add(new ScheduleList(schedule.get(i).getSchedule_id(),schedule.get(i).getSchedule_date(),
-                                        schedule.get(i).getStart_time(),schedule.get(i).getFinish_time(),schedule.get(i).getDay(),
-                                        schedule.get(i).getNote(),schedule.get(i).getGuru_id(),schedule.get(i).getGuru_name(),
-                                        schedule.get(i).getMapel_id(),schedule.get(i).getMapel_name(),schedule.get(i).getKelas_id(),
-                                        schedule.get(i).getKelas_name(),schedule.get(i).getJurusan_id(),schedule.get(i).getJurusan_name(),
-                                        schedule.get(i).getRoom_id(),schedule.get(i).getRoom_name()));
+                                mScheduleList.add(new ScheduleList(schedule.get(i).getSchedule_id(),
+                                        schedule.get(i).getStart_time(), schedule.get(i).getFinish_time(), schedule.get(i).getDay_name(), schedule.get(i).getDay_date(),
+                                        schedule.get(i).getNote(), schedule.get(i).getGuru_id(), schedule.get(i).getGuru_name(),
+                                        schedule.get(i).getMapel_id(), schedule.get(i).getMapel_name(), schedule.get(i).getKelas_id(),
+                                        schedule.get(i).getKelas_name(), schedule.get(i).getJurusan_id(), schedule.get(i).getJurusan_name(),
+                                        schedule.get(i).getRoom_id(), schedule.get(i).getRoom_name()));
                             }
                             saveData();
-                            setRefresh=1;
-                            if(setRefresh==1) {
+                            setRefresh = 1;
+                            if (setRefresh == 1) {
                                 Intent intent = new Intent(Home_activity.this, Home_activity.class);
                                 startActivity(intent);
-                                setRefresh=0;
+                                setRefresh = 0;
                             }
-                        }else {
+                        } else {
 
                         }
                     }
-                }else {
-                    Toast.makeText(Home_activity.this,"Data Tidak ditemukan",
+                } else {
+                    Toast.makeText(Home_activity.this, "Data Tidak ditemukan",
                             Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ScheduleResponse> call, Throwable t) {
-                Toast.makeText(Home_activity.this,"Cek Koneksi",
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(Home_activity.this, "Cek Koneksi",
+//                        Toast.LENGTH_SHORT).show();
+                if (t instanceof IOException) {
+                    Toast.makeText(Home_activity.this, "Cek Koneksi", Toast.LENGTH_SHORT).show();
+                    // logging probably not necessary
+                }
+                else {
+                    Toast.makeText(Home_activity.this, "Cek Koneksi sangat bermasalah:(", Toast.LENGTH_SHORT).show();
+                    // todo log to some central bug tracking service
+                }
 
             }
         });

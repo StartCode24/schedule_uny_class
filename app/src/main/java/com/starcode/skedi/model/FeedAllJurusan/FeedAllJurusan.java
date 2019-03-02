@@ -1,4 +1,4 @@
-package com.starcode.schedule_uny.model.FeedAllJurusan;
+package com.starcode.skedi.model.FeedAllJurusan;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

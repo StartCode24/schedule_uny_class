@@ -1,4 +1,4 @@
-package com.starcode.schedule_uny.model.FeedHomeWork;
+package com.starcode.skedi.model.FeedHomeWork;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -37,6 +37,9 @@ public class FeedHomeWork {
     @SerializedName("kelas_id")
     @Expose
     private int kelas_id;
+    @SerializedName("month")
+    @Expose
+    private int month;
     @SerializedName("kelas_name")
     @Expose
     private String kelas_name;
@@ -52,8 +55,14 @@ public class FeedHomeWork {
     @SerializedName("room_name")
     @Expose
     private String room_name;
+    @SerializedName("siswa_nik")
+    @Expose
+    private String siswa_nik;
+    @SerializedName("alarm_time")
+    @Expose
+    private String alarm_time;
 
-    public FeedHomeWork(int homework_id, String homework_date, String start_time, String finish_time, int day, String note, int guru_id, String guru_name, int mapel_id, String mapel_name, int kelas_id, String kelas_name, int jurusan_id, String jurusan_name, int room_id, String room_name) {
+    public FeedHomeWork(int homework_id, String homework_date, String start_time, String finish_time, int day, String note, int guru_id, String guru_name, int mapel_id, String mapel_name, int kelas_id, int month, String kelas_name, int jurusan_id, String jurusan_name, int room_id, String room_name, String siswa_nik, String alarm_time) {
         this.homework_id = homework_id;
         this.homework_date = homework_date;
         this.start_time = start_time;
@@ -65,11 +74,14 @@ public class FeedHomeWork {
         this.mapel_id = mapel_id;
         this.mapel_name = mapel_name;
         this.kelas_id = kelas_id;
+        this.month = month;
         this.kelas_name = kelas_name;
         this.jurusan_id = jurusan_id;
         this.jurusan_name = jurusan_name;
         this.room_id = room_id;
         this.room_name = room_name;
+        this.siswa_nik = siswa_nik;
+        this.alarm_time = alarm_time;
     }
 
     public int getHomework_id() {
@@ -160,6 +172,14 @@ public class FeedHomeWork {
         this.kelas_id = kelas_id;
     }
 
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
     public String getKelas_name() {
         return kelas_name;
     }
@@ -200,6 +220,22 @@ public class FeedHomeWork {
         this.room_name = room_name;
     }
 
+    public String getSiswa_nik() {
+        return siswa_nik;
+    }
+
+    public void setSiswa_nik(String siswa_nik) {
+        this.siswa_nik = siswa_nik;
+    }
+
+    public String getAlarm_time() {
+        return alarm_time;
+    }
+
+    public void setAlarm_time(String alarm_time) {
+        this.alarm_time = alarm_time;
+    }
+
     @Override
     public String toString() {
         return "FeedHomeWork{" +
@@ -214,11 +250,14 @@ public class FeedHomeWork {
                 ", mapel_id=" + mapel_id +
                 ", mapel_name='" + mapel_name + '\'' +
                 ", kelas_id=" + kelas_id +
+                ", month=" + month +
                 ", kelas_name='" + kelas_name + '\'' +
                 ", jurusan_id=" + jurusan_id +
                 ", jurusan_name='" + jurusan_name + '\'' +
                 ", room_id=" + room_id +
                 ", room_name='" + room_name + '\'' +
+                ", siswa_nik='" + siswa_nik + '\'' +
+                ", alarm_time='" + alarm_time + '\'' +
                 '}';
     }
 }

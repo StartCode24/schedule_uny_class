@@ -1,8 +1,7 @@
-package com.starcode.skedi.model.EditDataProfil;
+package com.starcode.skedi.model.FeedEditDataProfil;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.starcode.skedi.model.FeedLogin.DataToken;
 
 public class FeedEditDataProfile {
     @SerializedName("status")
