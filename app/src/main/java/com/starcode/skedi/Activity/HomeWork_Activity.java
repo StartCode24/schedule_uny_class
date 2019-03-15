@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -56,6 +57,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,6 +74,8 @@ public class HomeWork_Activity extends AppCompatActivity
 
     @BindView(R.id.fab)
     FloatingActionButton fab;
+    @BindView(R.id.fabRefresh)
+    FloatingActionButton fabRefresh;
 
     @BindView(R.id.nav_view)
     NavigationView navigationView;
@@ -81,6 +85,7 @@ public class HomeWork_Activity extends AppCompatActivity
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
 
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
@@ -130,6 +135,13 @@ public class HomeWork_Activity extends AppCompatActivity
                         addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
+        fabRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeWork_Activity.this, HomeWork_Activity.class);
+                startActivity(intent);
+            }
+        });
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -142,6 +154,8 @@ public class HomeWork_Activity extends AppCompatActivity
         mWeekView.setOnEventClickListener(this);
         mWeekView.setEventLongPressListener(this);
         mWeekView.setMonthChangeListener(this);
+        mWeekView.goToHour(7);
+        mWeekView.setNumberOfVisibleDays(7);
         mWeekView.setEmptyViewLongPressListener(this);
         setupDateTimeInterpreter(false);
 
@@ -163,7 +177,7 @@ public class HomeWork_Activity extends AppCompatActivity
                         jurusan = response.body().getAuth_user().getData().getSiswa_jurusan();
                         kelas_id = response.body().getAuth_user().getData().getKelas_id();
                         jurusan_id = response.body().getAuth_user().getData().getJurusan_id();
-                        siswa_nis=response.body().getAuth_user().getData().getSiswa_nik();
+                        siswa_nis=response.body().getAuth_user().getData().getSiswa_nis();
 
                         initComponentNavHeader();
                     } else {
@@ -194,7 +208,7 @@ public class HomeWork_Activity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home_activity, menu);
+//        getMenuInflater().inflate(R.menu.home_activity, menu);
         return true;
     }
 
@@ -319,9 +333,12 @@ public class HomeWork_Activity extends AppCompatActivity
         mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
             @Override
             public String interpretDate(Calendar date) {
-                SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEE", Locale.getDefault());
+                TimeZone tz = TimeZone.getTimeZone("Asia/Jakarta");
+                SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("E", Locale.getDefault());
+                weekdayNameFormat.setTimeZone(tz);
                 String weekday = weekdayNameFormat.format(date.getTime());
                 SimpleDateFormat format = new SimpleDateFormat(" M/d", Locale.getDefault());
+                format.setTimeZone(tz);
 
                 if (shortDate)
                     weekday = String.valueOf(weekday.charAt(0));
@@ -410,29 +427,7 @@ public class HomeWork_Activity extends AppCompatActivity
     }
 
 
-    private void updateTimeText(Calendar c) {
-        String timeText = "Alarm set for: ";
-        timeText += java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(c.getTime());
 
-        Toast.makeText(HomeWork_Activity.this,"update Alarrm",Toast.LENGTH_LONG).show();
-    }
-    private void startAlarm(Calendar c,int i) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i, intent, 0);
-
-//        if (c.before(Calendar.getInstance())) {
-//            c.add(Calendar.DATE, 1);
-//        }
-        Toast.makeText(HomeWork_Activity.this,"tambah alarm Alarrm",Toast.LENGTH_LONG).show();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
-        } else {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
-        }
-    }
 
     private void cancelAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -489,19 +484,12 @@ public class HomeWork_Activity extends AppCompatActivity
                                         HomeWork.get(i).getNote(), HomeWork.get(i).getGuru_id(), HomeWork.get(i).getGuru_name(),
                                         HomeWork.get(i).getMapel_id(), HomeWork.get(i).getMapel_name(), HomeWork.get(i).getKelas_id(),
                                         HomeWork.get(i).getKelas_name(), HomeWork.get(i).getJurusan_id(), HomeWork.get(i).getJurusan_name(),
-                                        HomeWork.get(i).getRoom_id(),HomeWork.get(i).getMonth(), HomeWork.get(i).getRoom_name()));
+                                        HomeWork.get(i).getRoom_id(),HomeWork.get(i).getMonth(), HomeWork.get(i).getRoom_name(),HomeWork.get(i).getHomework_detail(),
+                                        HomeWork.get(i).getMinut_before()));
                             }
                             saveData();
-                            setRefresh = 1;
-                            if (setRefresh == 1) {
-                                Intent intent = new Intent(HomeWork_Activity.this, HomeWork_Activity.class);
-                                startActivity(intent);
-                                setRefresh = 0;
-                            }
 
 
-                        } else {
-                            setRefresh = 1;
                         }
                     }
                 } else {

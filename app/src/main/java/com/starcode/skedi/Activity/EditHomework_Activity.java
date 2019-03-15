@@ -2,11 +2,14 @@ package com.starcode.skedi.Activity;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -17,9 +20,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListAdapter;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -54,7 +60,9 @@ public class EditHomework_Activity extends AppCompatActivity {
     @BindView(R.id.toolbar)Toolbar toolbar;
     @BindView(R.id.TvTanggal)TextView TvTanggal;
     @BindView(R.id.EdNote)EditText EdNote;
+    @BindView(R.id.TvPeringatan)TextView TvPeringatan;
     @BindView(R.id.EdsMapel)EditSpinner EdsMapel;
+    @BindView(R.id.ChkTugas)CheckBox ChekTugas;
 
 
     private String waktuMulai="";
@@ -74,6 +82,10 @@ public class EditHomework_Activity extends AppCompatActivity {
     private int hours=0;
     private int minute=0;
     private int idNotif=0;
+    private int beforeMinut=0;
+    private int minutSave,hoursSave;
+    private int homework_detail=0;
+    Dialog mDialog;
 
     private com.starcode.skedi.apiHolder.baseApiService baseApiService;
     private Calendar calendar;
@@ -92,8 +104,9 @@ public class EditHomework_Activity extends AppCompatActivity {
         idHomeWork=(int) sessionDetailHomeWork.getSpIdHomeWork();
         idNotif=idHomeWork;
         mContext = this;
+        mDialog = new Dialog(this);
         getProfil();
-        getMapel();
+
         DetailHomeWork();
         timePickerAlrm.setIs24HourView(true);
         toolbar.setTitle("");
@@ -114,8 +127,10 @@ public class EditHomework_Activity extends AppCompatActivity {
             @Override
             public void onTimeChanged(TimePicker timePicker, int hour, int minut) {
                 alarm=hour + ":" + minut;
-                hours=hour;
-                minute=minut;
+                sessionManager.saveSPInt(SessionManager.SP_HOURS,hour);
+                sessionManager.saveSPInt(SessionManager.SP_MINUTE,minut);
+                hours=sessionManager.getSpHours();
+                minute=sessionManager.getMinute();
                 waktuMulai=alarm;
                 waktuAkhir=(hour+1) + ":" + minut;
 
@@ -126,7 +141,7 @@ public class EditHomework_Activity extends AppCompatActivity {
 
     @OnClick(R.id.LnBTanggal)
     public void TvBtnTanggal(View view){
-        DatePickerDialog DatePicker = new DatePickerDialog(EditHomework_Activity.this, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog DatePicker = new DatePickerDialog(EditHomework_Activity.this, R.style.DialogTheme,new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(android.widget.DatePicker DatePicker, int year, int month, int dayOfMonth) {
                 calendar.set(Calendar.YEAR, year);
@@ -141,11 +156,51 @@ public class EditHomework_Activity extends AppCompatActivity {
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         DatePicker.show();
     }
+    @OnClick(R.id.LnBTPeringatan)
+    public void LnBtPeringatan(View view){
+        mDialog.setContentView(R.layout.popup_minut);
+        final RadioGroup radioMinutGroup = (RadioGroup)mDialog.findViewById(R.id.radioMinut);
+        TextView minutSimpan=(TextView)mDialog.findViewById(R.id.tvBtnSimpan);
+        minutSimpan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int selectedId = radioMinutGroup.getCheckedRadioButtonId();
+
+                // find the radiobutton by returned id
+                RadioButton radioMinutButton = (RadioButton)mDialog.findViewById(selectedId);
+                switch (selectedId){
+                    case R.id.radio0Minut:
+                        beforeMinut=0;
+                        break;
+                    case R.id.radio5Minut:
+                        beforeMinut=5;
+                        break;
+                    case R.id.radio10Minut:
+                        beforeMinut=10;
+                        break;
+                    case R.id.radio15Minut:
+                        beforeMinut=15;
+                        break;
+                    case R.id.radio30Minut:
+                        beforeMinut=30;
+                        break;
+                    case R.id.radio60Minut:
+                        beforeMinut=60;
+                        break;
+
+                }
+                TvPeringatan.setText(radioMinutButton.getText().toString());
+                mDialog.dismiss();
+            }
+        });
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mDialog.show();
+    }
 
 
 
     private void getMapel(){
-        retrofit2.Call<AllMapelResponse> call=baseApiService.getAllMapel();
+        retrofit2.Call<AllMapelResponse> call=baseApiService.getAllMapel(kelasId,jurusanId);
         call.enqueue(new Callback<AllMapelResponse>() {
             @Override
             public void onResponse(retrofit2.Call<AllMapelResponse> call, Response<AllMapelResponse> response) {
@@ -180,7 +235,8 @@ public class EditHomework_Activity extends AppCompatActivity {
                     if (status.equals("200")) {
                         kelasId = response.body().getAuth_user().getData().getKelas_id();
                         jurusanId = response.body().getAuth_user().getData().getJurusan_id();
-                        siswaNis=response.body().getAuth_user().getData().getSiswa_nik();
+                        siswaNis=response.body().getAuth_user().getData().getSiswa_nis();
+                        getMapel();
                     } else {
                         sessionManager.saveSPBoolean(sessionManager.SP_SESIONLOGIN, false);
                         startActivity(new Intent(EditHomework_Activity.this, Main_Activity.class).
@@ -219,6 +275,8 @@ public class EditHomework_Activity extends AppCompatActivity {
     public void validateInputUpdate(){
         note=EdNote.getText().toString();
         mapelName=EdsMapel.getText().toString();
+        if(ChekTugas.isChecked())homework_detail=1;
+        else homework_detail=0;
         if(tanggalHomework.equals("")){
             Toast.makeText(EditHomework_Activity.this,"Cek Kembali Tanggal Pengingat",Toast.LENGTH_SHORT).show();
         }else if(waktuMulai.equals("")){
@@ -232,6 +290,26 @@ public class EditHomework_Activity extends AppCompatActivity {
         }else if(mapelName.equals("")){
             Toast.makeText(EditHomework_Activity.this,"Cek Kembali Mata Pelajaran Pengingat",Toast.LENGTH_SHORT).show();
         }else {
+            hours=sessionManager.getSpHours();
+            minute=sessionManager.getMinute();
+            if(beforeMinut<60){
+//            if(minute<=5){
+                minute=minute-beforeMinut;
+                minutSave=Math.abs(minute);
+
+                if(minute<0){
+                    minutSave=60-minutSave;
+                    hoursSave=hours-1;
+                    minute=minutSave;
+                    hours=hoursSave;
+                }
+                minute=minutSave;
+//            }
+                alarm=hours + ":" + minutSave;
+            }else {
+                hours=(hours-1);
+                alarm=hours + ":" + minute;
+            }
             updateHomework();
             saveNotification();
             clearDataSession();
@@ -259,6 +337,10 @@ public class EditHomework_Activity extends AppCompatActivity {
                         mounth=response.body().getAuth_SearchHomeWork().getData().getMonth();
                         hours=response.body().getAuth_SearchHomeWork().getData().getHours();
                         minute=response.body().getAuth_SearchHomeWork().getData().getMinute();
+                        sessionManager.saveSPInt(SessionManager.SP_HOURS,hours);
+                        sessionManager.saveSPInt(SessionManager.SP_MINUTE,minute);
+                        if(response.body().getAuth_SearchHomeWork().getData().getHomework_detail()==1) ChekTugas.isChecked();
+
                     }
                 }
             }
@@ -277,7 +359,7 @@ public class EditHomework_Activity extends AppCompatActivity {
 //                waktuMulai+waktuAkhir+alarm+kelasId+jurusanId+siswaNis,Toast.LENGTH_SHORT).show();
 
         Call<EditHomeWorkResponse> call=baseApiService.UpdateHomeWork(idHomeWork,mapelName,note,tanggalHomework,
-                waktuMulai,waktuAkhir,alarm,kelasId,jurusanId,siswaNis);
+                waktuMulai,waktuAkhir,alarm,kelasId,jurusanId,siswaNis,homework_detail,beforeMinut);
         call.enqueue(new Callback<EditHomeWorkResponse>() {
             @Override
             public void onResponse(Call<EditHomeWorkResponse> call, Response<EditHomeWorkResponse> response) {

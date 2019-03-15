@@ -45,10 +45,14 @@
     </style>
     <style name="AppTheme.ActionBar" >
         <item name="android:homeAsUpIndicator">@drawable/ic_keyboard_backspace_white_24dp</item>
-        <item name="actionMenuTextColor">@color/bluelight</item>
+        <item name="actionMenuTextColor">@color/white</item>
         ...
     </style>
     <style name="Dialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/accent</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
 </resources>

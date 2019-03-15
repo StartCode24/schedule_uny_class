@@ -32,11 +32,11 @@ public class AlertReceiverDayBefore extends BroadcastReceiver {
 //        mapel=intent.getStringExtra("NOTIF_MAPEL");
         Bundle bundle = intent.getExtras();
         ArrayList<String> MapelName = (ArrayList<String>) bundle.getStringArrayList("MapelName");
-//        for (int i=0;i<MapelName.size();i++){
-//            note ="\n"+MapelName.get(i);
-//            mapel +=note;
-//        }
-        mapel=""+MapelName.size();
+        for (int i=0;i<MapelName.size();i++){
+            note ="\n"+MapelName.get(i);
+            mapel +=note;
+        }
+//        mapel=""+MapelName.size();
 
         currentNotificationID=Integer.parseInt(intent.getStringExtra("NOTIFID"));
 

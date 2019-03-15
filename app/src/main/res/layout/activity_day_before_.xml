@@ -43,7 +43,7 @@
                     android:paddingBottom="7dp"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:text="Day Before"
+                    android:text="Alarm Sehari sebelumnya"
                     android:textColor="#bbb"
                     android:textSize="19dp" />
 

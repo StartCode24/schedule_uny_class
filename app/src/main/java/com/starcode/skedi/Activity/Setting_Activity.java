@@ -133,12 +133,16 @@ public class Setting_Activity extends AppCompatActivity
     @OnClick(R.id.Ln_MinuteBferoe)
     void btn_MinuteBferoe(){
         mDialog.setContentView(R.layout.pop_up_minute_before);
-        NumberPicker hoursPicker=(NumberPicker)mDialog.findViewById(R.id.numberHours);
-        NumberPicker minutePicker=(NumberPicker)mDialog.findViewById(R.id.numberMinute);
+        final NumberPicker hoursPicker=(NumberPicker)mDialog.findViewById(R.id.numberHours);
+        final NumberPicker minutePicker=(NumberPicker)mDialog.findViewById(R.id.numberMinute);
         hoursPicker.setMinValue(0);
         hoursPicker.setMaxValue(23);
         minutePicker.setMinValue(0);
         minutePicker.setMaxValue(59);
+        if(ActivePosition==0){
+            hoursPicker.setEnabled(false);
+            minutePicker.setEnabled(false);
+        }
 
         hoursPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
@@ -147,15 +151,12 @@ public class Setting_Activity extends AppCompatActivity
 
             }
         });
-
-
         minutePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int minut) {
                 minute=minut;
             }
         });
-
 
         Button saveBtn=(Button)mDialog.findViewById(R.id.btn_save);
         Button noBtn=(Button)mDialog.findViewById(R.id.btn_no);
@@ -167,12 +168,19 @@ public class Setting_Activity extends AppCompatActivity
 
 //        senin=sessionDayBefore.getSpIdSenin();
         toggleSwitch.setCheckedTogglePosition(sessionMinuteBefore.getSpAlarmActive());
-
+        scheduleData();
         toggleSwitch.setOnToggleSwitchChangeListener(new BaseToggleSwitch.OnToggleSwitchChangeListener() {
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
                 ActivePosition=position;
-                scheduleData();
+                if(ActivePosition==0){
+                    hoursPicker.setEnabled(false);
+                    minutePicker.setEnabled(false);
+                }
+                else{
+                    hoursPicker.setEnabled(true);
+                    minutePicker.setEnabled(true);
+                }
 
             }
         });
@@ -258,12 +266,11 @@ public class Setting_Activity extends AppCompatActivity
     }
     public void saveNotification(int week,int hour,int minut,int idNotif,int idSched){
         Calendar calSet = Calendar.getInstance();
-        calSet.setTimeInMillis(System.currentTimeMillis());
+//        calSet.setTimeInMillis(System.currentTimeMillis());
         calSet.set(Calendar.DAY_OF_WEEK, week);
         calSet.set(Calendar.HOUR_OF_DAY, hour);
         calSet.set(Calendar.MINUTE, minut);
-        calSet.set(Calendar.SECOND, 00);
-        Toast.makeText(this, "hr"+week+" jm"+hour+" mn"+minut, Toast.LENGTH_SHORT).show();
+        calSet.set(Calendar.SECOND, 0);
         startAlarm(calSet,idNotif,idSched);
 
 
@@ -277,18 +284,19 @@ public class Setting_Activity extends AppCompatActivity
         intent.putExtra("SchedlID", ""+idSched);
         intent.putExtra("MapelName", ""+mapelName);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId1, intent, 0);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                    c.getTimeInMillis(), 1 * 60 * 60 * 1000, pendingIntent);
-
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                    c.getTimeInMillis(), 1 * 60 * 60 * 1000, pendingIntent);
-        } else {
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                    c.getTimeInMillis(), 1 * 60 * 60 * 1000, pendingIntent);
-        }
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                c.getTimeInMillis(), 1 * 60 * 60 * 1000, pendingIntent);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+//                    c.getTimeInMillis(), 1 * 60 * 60 * 1000, pendingIntent);
+//
+//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+//                    c.getTimeInMillis(), 1 * 60 * 60 * 1000, pendingIntent);
+//        } else {
+//            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+//                    c.getTimeInMillis(), 1 * 60 * 60 * 1000, pendingIntent);
+//        }
 
     }
 

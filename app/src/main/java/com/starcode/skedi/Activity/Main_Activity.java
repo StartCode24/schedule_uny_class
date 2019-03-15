@@ -2,10 +2,15 @@ package com.starcode.skedi.Activity;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -35,7 +40,10 @@ public class Main_Activity extends AppCompatActivity {
     @BindView(R.id.ed_nik)
     EditText edNik;
     @BindView(R.id.ed_password)
-    EditText edPassword;
+    TextInputEditText edPassword;
+
+    @BindView(R.id.showPassword)
+    CheckBox showPassword;
 
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
@@ -67,9 +75,16 @@ public class Main_Activity extends AppCompatActivity {
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             finish();
         }
-
-
         handler.postDelayed(runnable, 2000); //2000 is the timeout for the splash
+
+        showPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean value) {
+                if(value)edPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                else edPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+            }
+        });
     }
 
     @OnClick(R.id.btn_login)

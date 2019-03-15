@@ -29,7 +29,7 @@ import retrofit2.http.POST;
 public interface baseApiService {
     @FormUrlEncoded
     @POST("Users/LoginPost")
-    Call<LoginUserResponse> loginRequest(@Field("NIK") String nik,
+    Call<LoginUserResponse> loginRequest(@Field("NIS") String nik,
                                          @Field("Password") String password);
 
     @POST("Users/GetProfile")
@@ -39,7 +39,7 @@ public interface baseApiService {
     @FormUrlEncoded
     @POST("Users/EditProfile")
     Call<EditUserProfile> editUserProfile(@Field("siswa_id") String siswa_id,
-                                          @Field("siswa_nik") String siswa_nik,
+                                          @Field("siswa_nis") String siswa_nis,
                                           @Field("siswa_name") String siswa_name,
                                           @Field("siswa_alamat") String siswa_alamat,
                                           @Field("kelas_id") String kelas_id,
@@ -54,7 +54,6 @@ public interface baseApiService {
                                         @Field("siswa_name") String siswa_name,
                                         @Field("siswa_alamat") String siswa_alamat,
                                         @Field("kelas_nama") String kelas_nama,
-                                        @Field("jurusan_nama") String jurusan_nama,
                                         @Field("password_1") String siswa_password_1,
                                         @Field("password_2") String siswa_password_2
     );
@@ -69,7 +68,9 @@ public interface baseApiService {
                                           @Field("alarm_time") String alarm_time,
                                           @Field("kelas_id") String kelas_id,
                                           @Field("jurusan_id") String jurusan_id,
-                                          @Field("siswa_nik") String siswa_nik
+                                          @Field("siswa_nis") String siswa_nis,
+                                          @Field("homework_detail") int homework_detail,
+                                          @Field("minut_before") int minut_before
     );
 
     @FormUrlEncoded
@@ -83,7 +84,9 @@ public interface baseApiService {
                                               @Field("alarm_time") String alarm_time,
                                               @Field("kelas_id") String kelas_id,
                                               @Field("jurusan_id") String jurusan_id,
-                                              @Field("siswa_nik") String siswa_nik
+                                              @Field("siswa_nis") String siswa_nis,
+                                              @Field("homework_detail") int homework_detail,
+                                              @Field("minut_before") int minut_before
     );
 
     @FormUrlEncoded
@@ -118,14 +121,16 @@ public interface baseApiService {
     @POST("Content/GetHomeWork")
     Call<HomeWorkResponse> HomeWork(@Field("kelas_id") String kelas_id,
                                     @Field("jurusan_id") String jurusan_id,
-                                    @Field("siswa_nik") String siswa_nik);
+                                    @Field("siswa_nis") String siswa_nis);
 
 
     @POST("Content/GetJurusan")
     Call<AllJurusanResponse> getAllJurusan();
 
+    @FormUrlEncoded
     @POST("Content/GetMapel")
-    Call<AllMapelResponse> getAllMapel();
+    Call<AllMapelResponse> getAllMapel(@Field("kelas_id") String kelas_id,
+                                       @Field("jurusan_id") String jurusan_id);
 
     @POST("Content/GetIdHomework")
     Call<IDHomeWorkResponse> getIdHomeWork();

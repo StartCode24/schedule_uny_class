@@ -32,7 +32,7 @@
                     android:paddingBottom="7dp"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:text="Reminders Jadwal"
+                    android:text="Pengingat Jadwal"
                     android:textColor="#bbb"
                     android:textSize="19dp"
                     />
@@ -59,7 +59,7 @@
                         android:layout_weight="1"
                         android:fontFamily="sans-serif"
                         android:padding="5dp"
-                        android:text="Day Before"
+                        android:text="Hari Sebelum"
                         android:textColor="@color/bluelight"
                         android:textSize="15dp"
                          />
@@ -95,7 +95,7 @@
                         android:layout_weight="1"
                         android:fontFamily="sans-serif"
                         android:padding="5dp"
-                        android:text="Minute Before"
+                        android:text="Menit Sebelum"
                         android:textColor="@color/bluelight"
                         android:textSize="15dp"/>
                     <TextView

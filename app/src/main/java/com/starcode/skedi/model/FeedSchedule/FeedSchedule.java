@@ -62,8 +62,11 @@ public class FeedSchedule {
     @SerializedName("room_name")
     @Expose
     private String room_name;
+    @SerializedName("color_mapel")
+    @Expose
+    private String color_mapel;
 
-    public FeedSchedule(int schedule_id, String start_time, String finish_time, String day_name, int day_date, String note, int guru_id, String guru_name, int mapel_id, String mapel_name, int kelas_id, String kelas_name, int jurusan_id, String jurusan_name, int room_id, String room_name) {
+    public FeedSchedule(int schedule_id, String start_time, String finish_time, String day_name, int day_date, String note, int guru_id, String guru_name, int mapel_id, String mapel_name, int kelas_id, String kelas_name, int jurusan_id, String jurusan_name, int room_id, String room_name, String color_mapel) {
         this.schedule_id = schedule_id;
         this.start_time = start_time;
         this.finish_time = finish_time;
@@ -80,6 +83,7 @@ public class FeedSchedule {
         this.jurusan_name = jurusan_name;
         this.room_id = room_id;
         this.room_name = room_name;
+        this.color_mapel = color_mapel;
     }
 
     public int getSchedule_id() {
@@ -210,6 +214,14 @@ public class FeedSchedule {
         this.room_name = room_name;
     }
 
+    public String getColor_mapel() {
+        return color_mapel;
+    }
+
+    public void setColor_mapel(String color_mapel) {
+        this.color_mapel = color_mapel;
+    }
+
     @Override
     public String toString() {
         return "FeedSchedule{" +
@@ -229,6 +241,7 @@ public class FeedSchedule {
                 ", jurusan_name='" + jurusan_name + '\'' +
                 ", room_id=" + room_id +
                 ", room_name='" + room_name + '\'' +
+                ", color_mapel='" + color_mapel + '\'' +
                 '}';
     }
 }

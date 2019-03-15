@@ -5,9 +5,15 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
@@ -37,8 +43,8 @@ public class SignUpUser_Activity extends AppCompatActivity {
     RelativeLayout rellayS1;
     @BindView(R.id.eds_kelasSiswa)
     EditSpinner eds_kelasSiswa;
-    @BindView(R.id.eds_jurusanSiswa)
-    EditSpinner eds_jurusanSiswa;
+//    @BindView(R.id.eds_jurusanSiswa)
+//    EditSpinner eds_jurusanSiswa;
 
     @BindView(R.id.ed_nis)
     EditText ed_nis;
@@ -50,6 +56,8 @@ public class SignUpUser_Activity extends AppCompatActivity {
     EditText ed_password1;
     @BindView(R.id.ed_password2)
     EditText ed_password2;
+    @BindView(R.id.showPassword)
+    CheckBox showPassword;
 
 
     private static final String TAG = "SignUpUser_Activity";
@@ -76,9 +84,49 @@ public class SignUpUser_Activity extends AppCompatActivity {
         mContext = this;
         baseApiService = utilsApi.getApiServices();
         handler.postDelayed(runnable, 2000); //2000 is the timeout for the splash
-        getKelas();
-        getJurusan();
 
+        getKelas();
+//        getJurusan();
+        eds_kelasSiswa.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                closeKeyboard();
+                return false;
+            }
+        });
+        showPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean value) {
+                if(value){
+                    ed_password1.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    ed_password2.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+                else {
+                    ed_password1.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    ed_password2.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+
+            }
+        });
+
+//        eds_jurusanSiswa.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                closeKeyboard();
+//                return false;
+//            }
+//        });
+
+
+    }
+
+
+    public void closeKeyboard(){
+        View view=this.getCurrentFocus();
+        if(view!=null){
+            InputMethodManager imm=(InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+        }
     }
 
     private void getKelas() {
@@ -91,11 +139,12 @@ public class SignUpUser_Activity extends AppCompatActivity {
                     List<FeedAllKelas> allKelas = response.body().getAuth_Kelas().getData().getKelas();
                     ArrayList<String> KelasArray = new ArrayList<String>();
                     for (int i = 0; i < allKelas.size(); i++) {
-                        KelasArray.add(allKelas.get(i).getKelas_name());
+                        KelasArray.add(allKelas.get(i).getKelas_notasi());
                     }
 
                     ListAdapter adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item,
                             KelasArray);
+
                     eds_kelasSiswa.setAdapter(adapter);
 
                 }
@@ -109,51 +158,50 @@ public class SignUpUser_Activity extends AppCompatActivity {
     }
 
     private void getJurusan() {
-        Call<AllJurusanResponse> call2 = baseApiService.getAllJurusan();
-        call2.enqueue(new Callback<AllJurusanResponse>() {
-            @Override
-            public void onResponse(Call<AllJurusanResponse> call, Response<AllJurusanResponse> response) {
-                status2 = response.body().getAuth_Jurusan().getStatus();
-                if (status2.equals("200")) {
-                    List<FeedAllJurusan> allJurusan = response.body().getAuth_Jurusan().getData().getJurusan();
-                    ArrayList<String> JurusanArray = new ArrayList<String>();
-                    for (int i = 0; i < allJurusan.size(); i++) {
-                        JurusanArray.add(allJurusan.get(i).getJurusan_name());
-                    }
-
-                    ListAdapter adapter2 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item,
-                            JurusanArray);
-                    eds_jurusanSiswa.setAdapter(adapter2);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AllJurusanResponse> call, Throwable t) {
-
-            }
-        });
+//        Call<AllJurusanResponse> call2 = baseApiService.getAllJurusan();
+//        call2.enqueue(new Callback<AllJurusanResponse>() {
+//            @Override
+//            public void onResponse(Call<AllJurusanResponse> call, Response<AllJurusanResponse> response) {
+//                status2 = response.body().getAuth_Jurusan().getStatus();
+//                if (status2.equals("200")) {
+//                    List<FeedAllJurusan> allJurusan = response.body().getAuth_Jurusan().getData().getJurusan();
+//                    ArrayList<String> JurusanArray = new ArrayList<String>();
+//                    for (int i = 0; i < allJurusan.size(); i++) {
+//                        JurusanArray.add(allJurusan.get(i).getJurusan_name());
+//                    }
+//
+//                    ListAdapter adapter2 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item,
+//                            JurusanArray);
+//                    eds_jurusanSiswa.setAdapter(adapter2);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<AllJurusanResponse> call, Throwable t) {
+//
+//            }
+//        });
     }
 
 
     @OnClick(R.id.btn_daftar)
     public void btn_Daftar(View view) {
+        closeKeyboard();
         if (ed_nis.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "NIS Harus di isi", Toast.LENGTH_SHORT).show();
-        } else if (ed_namaSiswa.getText().toString().isEmpty() || ed_namaSiswa.getText().toString().contains(" ")) {
+        } else if (ed_namaSiswa.getText().toString().isEmpty() ) {
             Toast.makeText(mContext, "Nama Siswa Harus di isi", Toast.LENGTH_SHORT).show();
-        } else if (ed_alamatSiswa.getText().toString().isEmpty() || ed_alamatSiswa.getText().toString().contains(" ")) {
+        } else if (ed_alamatSiswa.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "Alamat Siswa Harus di isi", Toast.LENGTH_SHORT).show();
         } else if (eds_kelasSiswa.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "Kelas Siswa Harus di isi", Toast.LENGTH_SHORT).show();
-        } else if (eds_jurusanSiswa.getText().toString().isEmpty()) {
-            Toast.makeText(mContext, "Jurusan Siswa Harus di isi", Toast.LENGTH_SHORT).show();
-        } else if (ed_password1.getText().toString().isEmpty() || ed_password1.getText().toString().contains(" ")) {
+        } else if (ed_password1.getText().toString().isEmpty() ) {
             Toast.makeText(mContext, "Password Harus di isi", Toast.LENGTH_SHORT).show();
-        } else if (ed_password2.getText().toString().isEmpty() || ed_password2.getText().toString().contains(" ")) {
+        } else if (ed_password2.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "Konfirmasi Password Harus di isi", Toast.LENGTH_SHORT).show();
         } else {
             Call<SignUpUserResponse> call = baseApiService.SignUpUser(ed_nis.getText().toString(), ed_namaSiswa.getText().toString(),
-                    ed_alamatSiswa.getText().toString(), eds_kelasSiswa.getText().toString(), eds_jurusanSiswa.getText().toString(),
+                    ed_alamatSiswa.getText().toString(), eds_kelasSiswa.getText().toString(),
                     ed_password1.getText().toString(), ed_password2.getText().toString());
 
             call.enqueue(new Callback<SignUpUserResponse>() {

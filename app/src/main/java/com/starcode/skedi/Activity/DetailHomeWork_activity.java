@@ -1,6 +1,9 @@
 package com.starcode.skedi.Activity;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.starcode.skedi.R;
+import com.starcode.skedi.Receiver.AlertReceiver;
 import com.starcode.skedi.apiHolder.utilsApi;
 import com.starcode.skedi.model.DeleteHomeWorkResponse;
 import com.starcode.skedi.model.SearchHomeWorkResponse;
@@ -80,6 +84,7 @@ public class DetailHomeWork_activity extends AppCompatActivity {
                 myDialog.dismiss();
                 clearDataSession();
                 DeleteHomeWork();
+                cancelAlarm();
             }
         });
         btnClose.setOnClickListener(new View.OnClickListener() {
@@ -163,4 +168,13 @@ public class DetailHomeWork_activity extends AppCompatActivity {
         }
         idHomeWork=(int) sessionDetailHomeWork.getSpIdHomeWork();
     }
+    private void cancelAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, idHomeWork, intent, 0);
+
+        alarmManager.cancel(pendingIntent);
+        Toast.makeText(DetailHomeWork_activity.this,"Cancel Alarrm",Toast.LENGTH_LONG).show();
+    }
+
 }

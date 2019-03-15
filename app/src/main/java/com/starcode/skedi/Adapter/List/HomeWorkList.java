@@ -18,8 +18,10 @@ public class HomeWorkList {
     private int room_id;
     private int month;
     private String room_name;
+    private int homework_detail;
+    private int minut_before;
 
-    public HomeWorkList(int homework_id, String homework_date, String start_time, String finish_time, int day, String note, int guru_id, String guru_name, int mapel_id, String mapel_name, int kelas_id, String kelas_name, int jurusan_id, String jurusan_name, int room_id, int month, String room_name) {
+    public HomeWorkList(int homework_id, String homework_date, String start_time, String finish_time, int day, String note, int guru_id, String guru_name, int mapel_id, String mapel_name, int kelas_id, String kelas_name, int jurusan_id, String jurusan_name, int room_id, int month, String room_name, int homework_detail, int minut_before) {
         this.homework_id = homework_id;
         this.homework_date = homework_date;
         this.start_time = start_time;
@@ -37,6 +39,8 @@ public class HomeWorkList {
         this.room_id = room_id;
         this.month = month;
         this.room_name = room_name;
+        this.homework_detail = homework_detail;
+        this.minut_before = minut_before;
     }
 
     public int getHomework_id() {
@@ -173,5 +177,21 @@ public class HomeWorkList {
 
     public void setRoom_name(String room_name) {
         this.room_name = room_name;
+    }
+
+    public int getHomework_detail() {
+        return homework_detail;
+    }
+
+    public void setHomework_detail(int homework_detail) {
+        this.homework_detail = homework_detail;
+    }
+
+    public int getMinut_before() {
+        return minut_before;
+    }
+
+    public void setMinut_before(int minut_before) {
+        this.minut_before = minut_before;
     }
 }

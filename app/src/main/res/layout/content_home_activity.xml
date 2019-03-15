@@ -9,6 +9,10 @@
     tools:context=".Activity.Home_activity"
     android:background="@color/abu"
     tools:showIn="@layout/app_bar_home_activity">
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <com.alamkanak.weekview.WeekView
         android:id="@+id/weekView"
         android:layout_width="match_parent"
@@ -26,5 +30,6 @@
         app:todayBackgroundColor="@color/white"
         app:headerColumnBackground="#ffffffff"
         app:todayHeaderTextColor="@color/colorPrimary" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </android.support.design.widget.CoordinatorLayout>

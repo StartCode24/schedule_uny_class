@@ -74,7 +74,14 @@ public class FeedDataSearchHomeWork {
     @Expose
     private int minute;
 
-    public FeedDataSearchHomeWork(int homework_id, String start_time, String finish_time, String day_name, String note, int guru_id, String guru_name, int mapel_id, String mapel_name, int kelas_id, String kelas_name, String jurusan_name, String room_name, String alarm_time, String homework_date, String dateName, int month, int date, int years, int hours, int minute) {
+    @SerializedName("homework_detail")
+    @Expose
+    private int homework_detail;
+    @SerializedName("minut_before")
+    @Expose
+    private int minut_before;
+
+    public FeedDataSearchHomeWork(int homework_id, String start_time, String finish_time, String day_name, String note, int guru_id, String guru_name, int mapel_id, String mapel_name, int kelas_id, String kelas_name, String jurusan_name, String room_name, String alarm_time, String homework_date, String dateName, int month, int date, int years, int hours, int minute, int homework_detail) {
         this.homework_id = homework_id;
         this.start_time = start_time;
         this.finish_time = finish_time;
@@ -96,6 +103,7 @@ public class FeedDataSearchHomeWork {
         this.years = years;
         this.hours = hours;
         this.minute = minute;
+        this.homework_detail = homework_detail;
     }
 
     public int getHomework_id() {
@@ -266,6 +274,14 @@ public class FeedDataSearchHomeWork {
         this.minute = minute;
     }
 
+    public int getHomework_detail() {
+        return homework_detail;
+    }
+
+    public void setHomework_detail(int homework_detail) {
+        this.homework_detail = homework_detail;
+    }
+
     @Override
     public String toString() {
         return "FeedDataSearchHomeWork{" +
@@ -290,6 +306,8 @@ public class FeedDataSearchHomeWork {
                 ", years=" + years +
                 ", hours=" + hours +
                 ", minute=" + minute +
+                ", homework_detail=" + homework_detail +
+                ", minut_before=" + minut_before +
                 '}';
     }
 }

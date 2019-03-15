@@ -55,14 +55,20 @@ public class FeedHomeWork {
     @SerializedName("room_name")
     @Expose
     private String room_name;
-    @SerializedName("siswa_nik")
+    @SerializedName("siswa_nis")
     @Expose
-    private String siswa_nik;
+    private String siswa_nis;
     @SerializedName("alarm_time")
     @Expose
     private String alarm_time;
+    @SerializedName("homework_detail")
+    @Expose
+    private int homework_detail;
+    @SerializedName("minut_before")
+    @Expose
+    private int minut_before;
 
-    public FeedHomeWork(int homework_id, String homework_date, String start_time, String finish_time, int day, String note, int guru_id, String guru_name, int mapel_id, String mapel_name, int kelas_id, int month, String kelas_name, int jurusan_id, String jurusan_name, int room_id, String room_name, String siswa_nik, String alarm_time) {
+    public FeedHomeWork(int homework_id, String homework_date, String start_time, String finish_time, int day, String note, int guru_id, String guru_name, int mapel_id, String mapel_name, int kelas_id, int month, String kelas_name, int jurusan_id, String jurusan_name, int room_id, String room_name, String siswa_nis, String alarm_time, int homework_detail, int minut_before) {
         this.homework_id = homework_id;
         this.homework_date = homework_date;
         this.start_time = start_time;
@@ -80,8 +86,10 @@ public class FeedHomeWork {
         this.jurusan_name = jurusan_name;
         this.room_id = room_id;
         this.room_name = room_name;
-        this.siswa_nik = siswa_nik;
+        this.siswa_nis = siswa_nis;
         this.alarm_time = alarm_time;
+        this.homework_detail = homework_detail;
+        this.minut_before = minut_before;
     }
 
     public int getHomework_id() {
@@ -220,12 +228,12 @@ public class FeedHomeWork {
         this.room_name = room_name;
     }
 
-    public String getSiswa_nik() {
-        return siswa_nik;
+    public String getSiswa_nis() {
+        return siswa_nis;
     }
 
-    public void setSiswa_nik(String siswa_nik) {
-        this.siswa_nik = siswa_nik;
+    public void setSiswa_nis(String siswa_nis) {
+        this.siswa_nis = siswa_nis;
     }
 
     public String getAlarm_time() {
@@ -234,6 +242,22 @@ public class FeedHomeWork {
 
     public void setAlarm_time(String alarm_time) {
         this.alarm_time = alarm_time;
+    }
+
+    public int getHomework_detail() {
+        return homework_detail;
+    }
+
+    public void setHomework_detail(int homework_detail) {
+        this.homework_detail = homework_detail;
+    }
+
+    public int getMinut_before() {
+        return minut_before;
+    }
+
+    public void setMinut_before(int minut_before) {
+        this.minut_before = minut_before;
     }
 
     @Override
@@ -256,8 +280,10 @@ public class FeedHomeWork {
                 ", jurusan_name='" + jurusan_name + '\'' +
                 ", room_id=" + room_id +
                 ", room_name='" + room_name + '\'' +
-                ", siswa_nik='" + siswa_nik + '\'' +
+                ", siswa_nis='" + siswa_nis + '\'' +
                 ", alarm_time='" + alarm_time + '\'' +
+                ", homework_detail=" + homework_detail +
+                ", minut_before=" + minut_before +
                 '}';
     }
 }

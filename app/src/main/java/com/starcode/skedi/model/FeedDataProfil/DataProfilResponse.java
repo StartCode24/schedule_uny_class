@@ -8,9 +8,9 @@ public class DataProfilResponse {
     @Expose
     private String siswa_id;
 
-    @SerializedName("siswa_nik")
+    @SerializedName("siswa_nis")
     @Expose
-    private String siswa_nik;
+    private String siswa_nis;
 
     @SerializedName("siswa_name")
     @Expose
@@ -60,12 +60,12 @@ public class DataProfilResponse {
         this.siswa_note = siswa_note;
     }
 
-    public String getSiswa_nik() {
-        return siswa_nik;
+    public String getSiswa_nis() {
+        return siswa_nis;
     }
 
-    public void setSiswa_nik(String siswa_nik) {
-        this.siswa_nik = siswa_nik;
+    public void setSiswa_nis(String siswa_nis) {
+        this.siswa_nis = siswa_nis;
     }
 
     public String getSiswa_name() {
@@ -129,7 +129,7 @@ public class DataProfilResponse {
     public String toString() {
         return "DataProfilResponse{" +
                 "siswa_id='" + siswa_id + '\'' +
-                ", siswa_nik='" + siswa_nik + '\'' +
+                ", siswa_nis='" + siswa_nis + '\'' +
                 ", siswa_name='" + siswa_name + '\'' +
                 ", siswa_kelas='" + siswa_kelas + '\'' +
                 ", siswa_jurusan='" + siswa_jurusan + '\'' +

@@ -49,7 +49,7 @@
                 android:textColor="@color/white"
                 android:textSize="30sp" />
 
-            <!--NIK-->
+            <!--NIs-->
             <LinearLayout
                 android:id="@+id/linlay1"
                 android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
-                        android:text="@string/nik"
+                        android:text="@string/nis"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
@@ -110,6 +110,8 @@
                         android:background="@drawable/ed_action"
                         android:fontFamily="sans-serif-light"
                         android:paddingLeft="15dp"
+                        android:inputType="textFilter"
+                        android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         android:paddingRight="15dp"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
@@ -171,6 +173,8 @@
                         android:background="@drawable/ed_action"
                         android:textColorHint="#aa828282"
                         android:textSize="18dp"
+                        android:textIsSelectable="true"
+                        android:focusable="false"
                         app:dropDownDrawable="@drawable/picker"
                         app:dropDownDrawableSpacing="15dp"
                         app:dropDownDrawableWidth="25dp"
@@ -180,40 +184,43 @@
 
                 </LinearLayout>
                 <!--jurusan-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="vertical">
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="20dp"-->
+                    <!--android:orientation="vertical">-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Jurusan"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:fontFamily="sans-serif-light"-->
+                        <!--android:text="Jurusan"-->
+                        <!--android:textAllCaps="true"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="15sp" />-->
 
-                    <com.reginald.editspinner.EditSpinner
-                        android:id="@+id/eds_jurusanSiswa"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="5dp"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:textColor="@color/white"
-                        android:background="@drawable/ed_action"
-                        android:hint=""
-                        android:textColorHint="#aa828282"
-                        android:textSize="18dp"
-                        app:dropDownDrawable="@drawable/picker"
-                        app:dropDownDrawableSpacing="15dp"
-                        app:dropDownDrawableWidth="25dp"
-                        app:dropDownDrawableHeight="25dp"
-                        app:dropDownAnimStyle="@style/CustomPopupAnimation"/>
+                    <!--<com.reginald.editspinner.EditSpinner-->
+                        <!--android:id="@+id/eds_jurusanSiswa"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="40dp"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:paddingLeft="15dp"-->
+                        <!--android:paddingRight="15dp"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:background="@drawable/ed_action"-->
+                        <!--android:hint=""-->
+                        <!--android:textColorHint="#aa828282"-->
+                        <!--android:textSize="18dp"-->
+                        <!--android:inputType="none"-->
+                        <!--android:textIsSelectable="true"-->
+                        <!--android:focusable="false"-->
+                        <!--app:dropDownDrawable="@drawable/picker"-->
+                        <!--app:dropDownDrawableSpacing="15dp"-->
+                        <!--app:dropDownDrawableWidth="25dp"-->
+                        <!--app:dropDownDrawableHeight="25dp"-->
+                        <!--app:dropDownAnimStyle="@style/CustomPopupAnimation"/>-->
 
-                </LinearLayout>
+                <!--</LinearLayout>-->
                 <!--password 1-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -272,7 +279,15 @@
                         android:textColor="@color/white"
                         android:textSize="15sp" />
                 </LinearLayout>
-
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/showPassword"
+                    android:textColor="@color/white"
+                    android:textColorHighlight="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lihat Password"
+                    android:buttonTint="@color/white"
+                    />
 
             </LinearLayout>
 
@@ -292,7 +307,6 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
-
 
         </RelativeLayout>
 

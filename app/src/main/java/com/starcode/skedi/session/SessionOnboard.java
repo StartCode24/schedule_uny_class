@@ -3,18 +3,16 @@ package com.starcode.skedi.session;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class SessionManager {
+public class SessionOnboard {
     public static final String SP_CONTENTTYPE="spContentType";
-//    public static final String SP_ACCEPT="spAccept";
-    public static final String SP_AUTHORIZATION="spAuthorization";
-    public static final String SP_SESIONLOGIN="spTrue";
-    public static final String SP_HOURS="spHours";
-    public static final String SP_MINUTE="spMinute";
+    //    public static final String SP_ACCEPT="spAccept";
+    public static final String SP_ONBOARD="sponboard";
+    public static final String SP_SESIONCEK="spTrue";
 
     SharedPreferences sp;
     SharedPreferences.Editor spEditor;
 
-    public SessionManager(Context context){
+    public SessionOnboard(Context context){
         sp= context.getSharedPreferences(SP_CONTENTTYPE,Context.MODE_PRIVATE);
         spEditor=sp.edit();
     }
@@ -35,25 +33,18 @@ public class SessionManager {
     }
 
     public  String getSpContenttype() {
-         return sp.getString(SP_CONTENTTYPE, "");
+        return sp.getString(SP_CONTENTTYPE, "");
     }
 
 //    public  String getSpAccept() {
 //        return sp.getString(SP_ACCEPT, "");
 //    }
 
-    public  String getSpAuthorization() {
-        return sp.getString(SP_AUTHORIZATION, "");
-    }
-    public  int getSpHours() {
-        return sp.getInt(SP_HOURS, 0);
-    }
-    public  int getMinute() {
-        return sp.getInt(SP_MINUTE, 0);
+    public  String getSpsessionCek() {
+        return sp.getString(SP_SESIONCEK, "");
     }
 
-    public  Boolean getSpSesionlogin() {
-        return sp.getBoolean(SP_SESIONLOGIN, false);
+    public  Boolean getSpSesionOnboard() {
+        return sp.getBoolean(SP_ONBOARD, false);
     }
-
 }

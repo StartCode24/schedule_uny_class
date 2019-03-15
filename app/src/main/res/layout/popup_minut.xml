@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    xmlns:custom="http://schemas.android.com/tools"
+    android:layout_gravity="center"
+    android:background="@color/abu"
+    android:orientation="vertical">
+    >
+
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/appbar"
+
+        android:orientation="vertical">
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp">
+
+            <RadioGroup
+                android:id="@+id/radioMinut"
+                android:paddingLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+                <RadioButton
+                    android:id="@+id/radio0Minut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mnt0"
+                    android:padding="15dp"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/radio5Minut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mnt5"
+                    android:padding="15dp"
+                     />
+                <RadioButton
+                    android:id="@+id/radio10Minut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:text="@string/mnt10" />
+
+                <RadioButton
+                    android:id="@+id/radio15Minut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:text="@string/mnt15" />
+
+                <RadioButton
+                    android:id="@+id/radio30Minut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:text="@string/mnt30" />
+
+                <RadioButton
+                    android:id="@+id/radio60Minut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:text="@string/mnt60" />
+            </RadioGroup>
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvBtnSimpan"
+            android:gravity="right"
+            android:padding="15dp"
+            android:textSize="15sp"
+            android:textColor="@color/bluelight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Simpan"></TextView>
+    </LinearLayout>
+
+</LinearLayout>

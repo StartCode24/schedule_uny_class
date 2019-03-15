@@ -168,7 +168,7 @@ public class Profile_activity extends AppCompatActivity
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbarLayout.setTitle("Setting Profile");
+                    collapsingToolbarLayout.setTitle("");
                     isShow = true;
                 } else if (isShow) {
                     collapsingToolbarLayout.setTitle(" ");
@@ -263,7 +263,7 @@ public class Profile_activity extends AppCompatActivity
                         nama = response.body().getAuth_user().getData().getSiswa_name();
                         alamat = response.body().getAuth_user().getData().getSiswa_alamat();
                         jurusan = response.body().getAuth_user().getData().getSiswa_jurusan();
-                        nik = response.body().getAuth_user().getData().getSiswa_nik();
+                        nik = response.body().getAuth_user().getData().getSiswa_nis();
                         kelas = response.body().getAuth_user().getData().getSiswa_kelas();
                         idSiswa = response.body().getAuth_user().getData().getSiswa_id();
                         passwordLama = response.body().getAuth_user().getData().getSiswa_password();

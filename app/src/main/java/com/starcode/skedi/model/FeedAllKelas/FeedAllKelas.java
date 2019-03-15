@@ -16,10 +16,15 @@ public class FeedAllKelas {
     @Expose
     private String kelas_jurusan;
 
-    public FeedAllKelas(String kelas_id, String kelas_name, String kelas_jurusan) {
+    @SerializedName("kelas_notasi")
+    @Expose
+    private String kelas_notasi;
+
+    public FeedAllKelas(String kelas_id, String kelas_name, String kelas_jurusan, String kelas_notasi) {
         this.kelas_id = kelas_id;
         this.kelas_name = kelas_name;
         this.kelas_jurusan = kelas_jurusan;
+        this.kelas_notasi = kelas_notasi;
     }
 
     public String getKelas_id() {
@@ -46,12 +51,21 @@ public class FeedAllKelas {
         this.kelas_jurusan = kelas_jurusan;
     }
 
+    public String getKelas_notasi() {
+        return kelas_notasi;
+    }
+
+    public void setKelas_notasi(String kelas_notasi) {
+        this.kelas_notasi = kelas_notasi;
+    }
+
     @Override
     public String toString() {
         return "FeedAllKelas{" +
                 "kelas_id='" + kelas_id + '\'' +
                 ", kelas_name='" + kelas_name + '\'' +
                 ", kelas_jurusan='" + kelas_jurusan + '\'' +
+                ", kelas_notasi='" + kelas_notasi + '\'' +
                 '}';
     }
 }

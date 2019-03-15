@@ -34,8 +34,8 @@ public class DetailSchedule_Activity extends AppCompatActivity {
     @BindView(R.id.Tv_mapelName)
     TextView tvMapelName;
 
-    @BindView(R.id.Tv_month)
-    TextView tvMonth;
+//    @BindView(R.id.Tv_month)
+//    TextView tvMonth;
 
     @BindView(R.id.Tv_day)
     TextView tvDay;
@@ -52,8 +52,8 @@ public class DetailSchedule_Activity extends AppCompatActivity {
     @BindView(R.id.Tv_roomName)
     TextView tvRoomName;
 
-    @BindView(R.id.Tv_className)
-    TextView tvClassName;
+//    @BindView(R.id.Tv_className)
+//    TextView tvClassName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,13 +84,13 @@ public class DetailSchedule_Activity extends AppCompatActivity {
                     message = response.body().getAuth_SearchSched().getMessage();
                     if (status.equals("200")) {
                         tvMapelName.setText(response.body().getAuth_SearchSched().getData().getMapel_name());
-                        tvMonth.setText(response.body().getAuth_SearchSched().getData().getMonth());
+//                        tvMonth.setText(response.body().getAuth_SearchSched().getData().getMonth());
                         tvDay.setText(response.body().getAuth_SearchSched().getData().getDay_name());
                         tvTeacherName.setText(response.body().getAuth_SearchSched().getData().getGuru_name());
                         tvStarTime.setText(response.body().getAuth_SearchSched().getData().getStart_time());
                         tvFinishTime.setText(response.body().getAuth_SearchSched().getData().getFinish_time());
                         tvRoomName.setText(response.body().getAuth_SearchSched().getData().getRoom_name());
-                        tvClassName.setText(response.body().getAuth_SearchSched().getData().getKelas_name());
+//                        tvClassName.setText(response.body().getAuth_SearchSched().getData().getKelas_name());
                     } else {
                         Toast.makeText(DetailSchedule_Activity.this, "" + message, Toast.LENGTH_SHORT).show();
                     }

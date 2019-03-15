@@ -7,6 +7,7 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.TypedValue;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -49,6 +50,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,14 +74,15 @@ public class Home_activity extends AppCompatActivity
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-//    @BindView(R.id.fab)
-//    FloatingActionButton fab;
+    @BindView(R.id.fabRefresh)
+    FloatingActionButton fabRefresh;
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
 
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+
 
     private SessionManager sessionManager;
     private SessionDetailSchedule sessionDetailSchedule;
@@ -113,13 +116,13 @@ public class Home_activity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        fabRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Home_activity.this, Home_activity.class);
+                startActivity(intent);
+            }
+        });
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -143,6 +146,9 @@ public class Home_activity extends AppCompatActivity
 
         // Set long press listener for events.
         mWeekView.setEventLongPressListener(this);
+
+        mWeekView.goToHour(7);
+        mWeekView.setNumberOfVisibleDays(7);
 
         // Set long press listener for empty view
         mWeekView.setEmptyViewLongPressListener(this);
@@ -196,7 +202,7 @@ public class Home_activity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home_activity, menu);
+//        getMenuInflater().inflate(R.menu.home_activity, menu);
         return true;
     }
 
@@ -280,7 +286,6 @@ public class Home_activity extends AppCompatActivity
             startActivity(new Intent(Home_activity.this, About_Activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Profile) {
-            clearDataSession();
             startActivity(new Intent(Home_activity.this, Profile_activity.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         }
@@ -295,19 +300,14 @@ public class Home_activity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
 
-//        imageViewProfil=headerView.findViewById(R.id.imageViewProfile);
+
         tvName = headerView.findViewById(R.id.tvName);
         tvJurusan = headerView.findViewById(R.id.tvJurusan);
 
         tvName.setText(name);
         tvJurusan.setText(jurusan);
 
-//        imageViewProfil.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(getApplicationContext(),"Foto Profile",Toast.LENGTH_SHORT).show();
-//            }
-//        });
+
     }
 
     @Override
@@ -321,7 +321,9 @@ public class Home_activity extends AppCompatActivity
         mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
             @Override
             public String interpretDate(Calendar date) {
+                TimeZone tz = TimeZone.getTimeZone("Asia/Jakarta");
                 SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEE", Locale.getDefault());
+                weekdayNameFormat.setTimeZone(tz);
                 String weekday = weekdayNameFormat.format(date.getTime());
                 SimpleDateFormat format = new SimpleDateFormat("d", Locale.getDefault());
 
@@ -335,7 +337,7 @@ public class Home_activity extends AppCompatActivity
 
             @Override
             public String interpretTime(int hour) {
-                return hour > 12 ? (hour + 1) + " :00" : (hour == 0 ? "00 :00" : hour + " :00");
+                return   hour > 12 ? (hour + 1) + " :00" : (hour == 0 ? "00 :00" : hour + " :00");
             }
         });
     }
@@ -458,12 +460,7 @@ public class Home_activity extends AppCompatActivity
                                         schedule.get(i).getRoom_id(), schedule.get(i).getRoom_name()));
                             }
                             saveData();
-                            setRefresh = 1;
-                            if (setRefresh == 1) {
-                                Intent intent = new Intent(Home_activity.this, Home_activity.class);
-                                startActivity(intent);
-                                setRefresh = 0;
-                            }
+
                         } else {
 
                         }

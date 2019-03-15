@@ -2,6 +2,7 @@ package com.starcode.skedi.Activity;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,6 +11,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Vibrator;
 import android.support.design.widget.TextInputLayout;
@@ -22,9 +25,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -45,6 +52,8 @@ import com.starcode.skedi.Receiver.AlertReceiver;
 import com.starcode.skedi.utils.AlarmUtil;
 import com.starcode.skedi.utils.DateAndTimeUtil;
 
+import belka.us.androidtoggleswitch.widgets.BaseToggleSwitch;
+import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -62,9 +71,12 @@ public class AddHomeWork_Activity extends AppCompatActivity {
     @BindView(R.id.toolbar)Toolbar toolbar;
     @BindView(R.id.TvTanggal)TextView TvTanggal;
     @BindView(R.id.EdNote)EditText EdNote;
+    @BindView(R.id.TvPeringatan)TextView TvPeringatan;
+    @BindView(R.id.ChkTugas)CheckBox ChekTugas;
+
 
     @BindView(R.id.EdsMapel)EditSpinner EdsMapel;
-
+//    @BindView(R.id.Tg_Active)ToggleSwitch toggleSwitch;
 
     private Calendar calendar;
     Context mContext;
@@ -82,10 +94,15 @@ public class AddHomeWork_Activity extends AppCompatActivity {
     private String note="";
     private String idHomeWork;
     private String mapelName="";
+    private int homework_detail=0;
     private int mounth,years,date;
     private int hours=0;
     private int minute=0;
     private int idNotif=0;
+    private int beforeMinut=0;
+    private int minutSave,hoursSave;
+    Dialog mDialog;
+    private int ToglePosition=0;
 
 
 
@@ -105,22 +122,25 @@ public class AddHomeWork_Activity extends AppCompatActivity {
         sessionManager = new SessionManager(AddHomeWork_Activity.this);
         baseApiService = utilsApi.getApiServices();
         mContext = this;
+        mDialog = new Dialog(this);
         getIdHomeWork();
         getProfil();
-        getMapel();
+
+
         timePickerAlrm.setIs24HourView(true);
         icon = BitmapFactory.decodeResource(this.getResources(),
                 R.mipmap.ic_launcher);
 
         notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-
         timePickerAlrm.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker timePicker, int hour, int minut) {
                 alarm=hour + ":" + minut;
-                hours=hour;
-                minute=minut;
+                sessionManager.saveSPInt(SessionManager.SP_HOURS,hour);
+                sessionManager.saveSPInt(SessionManager.SP_MINUTE,minut);
+                hours=sessionManager.getSpHours();
+                minute=sessionManager.getMinute();
                 waktuMulai=alarm;
                 waktuAkhir=(hour+1) + ":" + minut;
 
@@ -142,11 +162,12 @@ public class AddHomeWork_Activity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 
     @OnClick(R.id.LnBTanggal)
     public void TvBtnTanggal(View view){
-        DatePickerDialog DatePicker = new DatePickerDialog(AddHomeWork_Activity.this, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog DatePicker = new DatePickerDialog(AddHomeWork_Activity.this, R.style.DialogTheme,new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker DatePicker, int year, int month, int dayOfMonth) {
                 calendar.set(Calendar.YEAR, year);
@@ -162,10 +183,53 @@ public class AddHomeWork_Activity extends AppCompatActivity {
         DatePicker.show();
     }
 
+    @OnClick(R.id.LnBTPeringatan)
+    public void LnBtPeringatan(View view){
+        mDialog.setContentView(R.layout.popup_minut);
+        final RadioGroup radioMinutGroup = (RadioGroup)mDialog.findViewById(R.id.radioMinut);
+        TextView minutSimpan=(TextView)mDialog.findViewById(R.id.tvBtnSimpan);
+        minutSimpan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int selectedId = radioMinutGroup.getCheckedRadioButtonId();
+
+                // find the radiobutton by returned id
+                RadioButton  radioMinutButton = (RadioButton)mDialog.findViewById(selectedId);
+                switch (selectedId){
+                    case R.id.radio0Minut:
+                        beforeMinut=0;
+                        break;
+                    case R.id.radio5Minut:
+                        beforeMinut=5;
+                        break;
+                    case R.id.radio10Minut:
+                        beforeMinut=10;
+                        break;
+                    case R.id.radio15Minut:
+                        beforeMinut=15;
+                        break;
+                    case R.id.radio30Minut:
+                        beforeMinut=30;
+                        break;
+                    case R.id.radio60Minut:
+                        beforeMinut=60;
+                        break;
+
+                }
+                TvPeringatan.setText(radioMinutButton.getText().toString());
+                mDialog.dismiss();
+            }
+        });
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mDialog.show();
+    }
+
+
 
 
     private void getMapel(){
-        retrofit2.Call<AllMapelResponse> call=baseApiService.getAllMapel();
+//        Toast.makeText(mContext, ""+kelasId, Toast.LENGTH_SHORT).show();
+        retrofit2.Call<AllMapelResponse> call=baseApiService.getAllMapel(kelasId,jurusanId);
         call.enqueue(new Callback<AllMapelResponse>() {
             @Override
             public void onResponse(retrofit2.Call<AllMapelResponse> call, Response<AllMapelResponse> response) {
@@ -200,7 +264,8 @@ public class AddHomeWork_Activity extends AppCompatActivity {
                     if (status.equals("200")) {
                         kelasId = response.body().getAuth_user().getData().getKelas_id();
                         jurusanId = response.body().getAuth_user().getData().getJurusan_id();
-                        siswaNis=response.body().getAuth_user().getData().getSiswa_nik();
+                        siswaNis=response.body().getAuth_user().getData().getSiswa_nis();
+                        getMapel();
                     } else {
                         sessionManager.saveSPBoolean(sessionManager.SP_SESIONLOGIN, false);
                         startActivity(new Intent(AddHomeWork_Activity.this, Main_Activity.class).
@@ -240,6 +305,10 @@ public class AddHomeWork_Activity extends AppCompatActivity {
     public void validateInput(){
         note=EdNote.getText().toString();
         mapelName=EdsMapel.getText().toString();
+        if(ChekTugas.isChecked())homework_detail=1;
+        else homework_detail=0;
+
+
         if(tanggalHomework.equals("")){
             Toast.makeText(AddHomeWork_Activity.this,"Cek Kembali Tanggal Pengingat",Toast.LENGTH_SHORT).show();
         }else if(waktuMulai.equals("")){
@@ -255,8 +324,29 @@ public class AddHomeWork_Activity extends AppCompatActivity {
         }else if(idHomeWork.isEmpty()) {
             Toast.makeText(AddHomeWork_Activity.this,"Cek Kembali Jaringan Internet Anda id Taks Tidak ditemukan",Toast.LENGTH_SHORT).show();
         }else {
+            hours=sessionManager.getSpHours();
+            minute=sessionManager.getMinute();
+            if(beforeMinut<60){
+//            if(minute<=5){
+                minute=minute-beforeMinut;
+                minutSave=Math.abs(minute);
+
+                if(minute<0){
+                    minutSave=60-minutSave;
+                    hoursSave=hours-1;
+                    minute=minutSave;
+                    hours=hoursSave;
+                }
+                minute=minutSave;
+//            }
+                alarm=hours + ":" + minutSave;
+            }else {
+                hours=(hours-1);
+                alarm=hours + ":" + minute;
+            }
             InputHomework();
             saveNotification();
+
 
         }
 
@@ -288,8 +378,9 @@ public class AddHomeWork_Activity extends AppCompatActivity {
 
     private void InputHomework(){
         if(!idHomeWork.isEmpty()){
+
         retrofit2.Call<AddHomeWorkResponse> call=baseApiService.AddHomeWork(idHomeWork,mapelName,note,tanggalHomework,
-                waktuMulai,waktuAkhir,alarm,kelasId,jurusanId,siswaNis);
+                waktuMulai,waktuAkhir,alarm,kelasId,jurusanId,siswaNis,homework_detail,beforeMinut);
 
         call.enqueue(new Callback<AddHomeWorkResponse>() {
             @Override
@@ -327,16 +418,17 @@ public class AddHomeWork_Activity extends AppCompatActivity {
 
 
     public void saveNotification() {
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(System.currentTimeMillis());
-        c.set(Calendar.YEAR, years);
-        c.set(Calendar.MONTH, mounth);
-        c.set(Calendar.DAY_OF_MONTH, date);
-        c.set(Calendar.HOUR_OF_DAY, hours);
-        c.set(Calendar.MINUTE, minute);
-        c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MILLISECOND, 0);
-        startAlarm(c);
+        Toast.makeText(mContext, ""+alarm+" "+homework_detail, Toast.LENGTH_SHORT).show();
+//        Calendar c = Calendar.getInstance();
+//        c.setTimeInMillis(System.currentTimeMillis());
+//        c.set(Calendar.YEAR, years);
+//        c.set(Calendar.MONTH, mounth);
+//        c.set(Calendar.DAY_OF_MONTH, date);
+//        c.set(Calendar.HOUR_OF_DAY, hours);
+//        c.set(Calendar.MINUTE, minute);
+//        c.set(Calendar.SECOND, 0);
+//        c.set(Calendar.MILLISECOND, 0);
+//        startAlarm(c);
 
     }
 

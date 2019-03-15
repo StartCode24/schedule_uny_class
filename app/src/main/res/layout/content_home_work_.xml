@@ -8,6 +8,7 @@
     android:background="@color/abu"
     tools:context=".Activity.HomeWork_Activity"
     tools:showIn="@layout/app_bar_home_work_">
+
     <com.alamkanak.weekview.WeekView
         android:id="@+id/HomeWork_weekView"
         android:layout_width="match_parent"
@@ -25,5 +26,6 @@
         app:todayBackgroundColor="@color/white"
         app:headerColumnBackground="#ffffffff"
         app:todayHeaderTextColor="@color/colorPrimary" />
+
 
 </RelativeLayout>
