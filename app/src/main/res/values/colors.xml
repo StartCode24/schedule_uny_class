@@ -10,9 +10,9 @@
     <color name="gradStop">#3450aa</color>
 
     <color name="toolbar">#efefef</color>
-    <color name="toolbar_text">#8f000000</color>
+    <color name="toolbar_text">#8fbebcbc</color>
     <color name="accent">#3450aa</color>
-    <color name="abu">#e5e6e7</color>
+    <color name="abu">#f4f4f4</color>
 
     <color name="event_color_01">#59dbe0</color>
     <color name="event_color_02">#f57f68</color>
@@ -23,4 +23,10 @@
     <color name="bluelight">#49acd5</color>
     <color name="green">#45bc62</color>
     <color name="orange">#eaad43</color>
+
+    <color name="selected_dot">#2D9CDB</color>
+    <color name="idle_dot">#662D9CDB</color>
+    <color name="ob_header">#4A4A4A</color>
+    <color name="ob_desc">#4A4A4A</color>
+
 </resources>
