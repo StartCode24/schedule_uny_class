@@ -14,19 +14,19 @@ android {
     buildTypes {
         debug {
 //            dev
-            buildConfigField "String", "SERVER_URL", '"http://192.168.100.9/kerja/freelancer/asli/homework-admin/Api/"'
+//            buildConfigField "String", "SERVER_URL", '"http://192.168.100.9/kerja/freelancer/asli/homework-admin/Api/"'
 //            buildConfigField "String", "SERVER_URL", '"http://192.168.1.13/kerja/freelancer/asli/homework-admin/Api/"'
 //            prod
-//            buildConfigField "String", "SERVER_URL", '"http://skedi.site/homework-admin/Api/"'
+            buildConfigField "String", "SERVER_URL", '"http://skedi.site/homework-admin/Api/"'
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            dev
-            buildConfigField "String", "SERVER_URL", '"http://192.168.100.9/kerja/freelancer/asli/homework-admin/Api/"'
+//            buildConfigField "String", "SERVER_URL", '"http://192.168.100.9/kerja/freelancer/asli/homework-admin/Api/"'
 //            buildConfigField "String", "SERVER_URL", '"http://192.168.1.13/kerja/freelancer/asli/homework-admin/Api/"'
 //            prod
-//                buildConfigField "String", "SERVER_URL", '"http://skedi.site/homework-admin/Api/"'
+                buildConfigField "String", "SERVER_URL", '"http://skedi.site/homework-admin/Api/"'
         }
 
     }

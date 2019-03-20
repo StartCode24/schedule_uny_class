@@ -262,7 +262,7 @@ public class Setting_Activity extends AppCompatActivity
 
         System.err.println("hour :"+hour+" minut:"+minut+" week:"+week+" id"+idSched+" notifId"+idNotif);
         Calendar calSet = Calendar.getInstance();
-        
+
         calSet.set(Calendar.DAY_OF_WEEK, week);
         calSet.set(Calendar.HOUR_OF_DAY, hour);
         calSet.set(Calendar.MINUTE, minut);
