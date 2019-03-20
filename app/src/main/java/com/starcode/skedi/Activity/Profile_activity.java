@@ -31,6 +31,8 @@ import com.starcode.skedi.R;
 import com.starcode.skedi.apiHolder.utilsApi;
 import com.starcode.skedi.model.DataProfilResponse;
 import com.starcode.skedi.model.EditUserProfile;
+import com.starcode.skedi.session.SessionDetailHomeWork;
+import com.starcode.skedi.session.SessionDetailSchedule;
 import com.starcode.skedi.session.SessionManager;
 
 import butterknife.BindView;
@@ -92,6 +94,8 @@ public class Profile_activity extends AppCompatActivity
     private ImageView imageViewProfil;
     private TextView tvName;
     private SessionManager sessionManager;
+    private SessionDetailHomeWork sessionDetailHomeWork;
+    private SessionDetailSchedule sessionDetailSchedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +104,8 @@ public class Profile_activity extends AppCompatActivity
         ButterKnife.bind(this);
         baseApiService = utilsApi.getApiServices();
         sessionManager = new SessionManager(Profile_activity.this);
+        sessionDetailSchedule = new SessionDetailSchedule(this);
+        sessionDetailHomeWork =new SessionDetailHomeWork(this);
         mDialog = new Dialog(this);
         getProfil();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -334,12 +340,14 @@ public class Profile_activity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_schedule) {
+            sessionDetailSchedule.saveSPInt(SessionDetailSchedule.SP_RELOADS,1);
             startActivity(new Intent(Profile_activity.this, Home_activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_setting) {
             startActivity(new Intent(Profile_activity.this, Setting_Activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_homework) {
+            sessionDetailHomeWork.saveSPInt(SessionDetailHomeWork.SP_RELOADH,1);
             startActivity(new Intent(Profile_activity.this, HomeWork_Activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
 //            Toast.makeText(Setting_Activity.this,"PR",Toast.LENGTH_SHORT).show();

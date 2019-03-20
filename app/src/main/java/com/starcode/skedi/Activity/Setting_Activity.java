@@ -23,6 +23,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -35,12 +37,15 @@ import com.starcode.skedi.Adapter.List.ScheduleList;
 import com.starcode.skedi.R;
 import com.starcode.skedi.Receiver.AlertReceiverDayBefore;
 import com.starcode.skedi.Receiver.AlertReceiverMinuteBefore;
+import com.starcode.skedi.Receiver.AlertReceiverMinuteBefore2;
 import com.starcode.skedi.apiHolder.utilsApi;
 import com.starcode.skedi.model.DataProfilResponse;
 import com.starcode.skedi.model.FeedSchedule.FeedSchedule;
 import com.starcode.skedi.model.FeedSearchScheduleAll.FeedSearchScheduleAll;
 import com.starcode.skedi.model.ScheduleResponse;
 import com.starcode.skedi.model.SearchScheduleAllResponse;
+import com.starcode.skedi.session.SessionDetailHomeWork;
+import com.starcode.skedi.session.SessionDetailSchedule;
 import com.starcode.skedi.session.SessionManager;
 import com.starcode.skedi.session.SessionMinuteBefore;
 
@@ -65,9 +70,12 @@ public class Setting_Activity extends AppCompatActivity
 
     private SessionManager sessionManager;
     private SessionMinuteBefore sessionMinuteBefore;
+    private SessionDetailHomeWork sessionDetailHomeWork;
+    private SessionDetailSchedule sessionDetailSchedule;
 
     @BindView(R.id.nav_view)NavigationView navigationView;
     @BindView(R.id.TvMinuteBefore)TextView TvMinutebefore;
+
 
     private com.starcode.skedi.apiHolder.baseApiService baseApiService;
     private static String status,status2;
@@ -85,13 +93,16 @@ public class Setting_Activity extends AppCompatActivity
     String mapelName="";
     int mapelId=0;
     String TimeStr = "";
-    String startHours = "";
-    String startMinute = "";
-    int alrmHours=0;
-    int alrmMinut=0;
+    int startHours ;
+    int startMinute ;
+    int weekday;
     int dayNumber=1;
     private TextView tvName;
     private TextView tvJurusan;
+    private int minutSave,hoursSave;
+
+    private int beforeMinut=0;
+
     ArrayList<AlarmSchedPerminute> mAlarmSchedPerminutes;
 
 
@@ -104,6 +115,8 @@ public class Setting_Activity extends AppCompatActivity
         baseApiService = utilsApi.getApiServices();
         sessionManager = new SessionManager(Setting_Activity.this);
         sessionMinuteBefore=new SessionMinuteBefore(Setting_Activity.this);
+        sessionDetailSchedule = new SessionDetailSchedule(this);
+        sessionDetailHomeWork =new SessionDetailHomeWork(this);
         getProfil();
         loadData();
         mDialog = new Dialog(this);
@@ -131,127 +144,109 @@ public class Setting_Activity extends AppCompatActivity
 //        finish();
     }
     @OnClick(R.id.Ln_MinuteBferoe)
-    void btn_MinuteBferoe(){
-        mDialog.setContentView(R.layout.pop_up_minute_before);
-        final NumberPicker hoursPicker=(NumberPicker)mDialog.findViewById(R.id.numberHours);
-        final NumberPicker minutePicker=(NumberPicker)mDialog.findViewById(R.id.numberMinute);
-        hoursPicker.setMinValue(0);
-        hoursPicker.setMaxValue(23);
-        minutePicker.setMinValue(0);
-        minutePicker.setMaxValue(59);
-        if(ActivePosition==0){
-            hoursPicker.setEnabled(false);
-            minutePicker.setEnabled(false);
-        }
+    public void btn_MinuteBferoe(View view){
+        mDialog.setContentView(R.layout.popup_minut);
 
-        hoursPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker numberPicker, int i, int hour) {
-                hours=hour;
-
-            }
-        });
-        minutePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker numberPicker, int i, int minut) {
-                minute=minut;
-            }
-        });
-
-        Button saveBtn=(Button)mDialog.findViewById(R.id.btn_save);
-        Button noBtn=(Button)mDialog.findViewById(R.id.btn_no);
-        ToggleSwitch toggleSwitch = (ToggleSwitch) mDialog.findViewById(R.id.Tg_Active);
-        ArrayList<String> labels = new ArrayList<>();
-        labels.add("OFF");
-        labels.add("ON");
-        toggleSwitch.setLabels(labels);
-
-//        senin=sessionDayBefore.getSpIdSenin();
-        toggleSwitch.setCheckedTogglePosition(sessionMinuteBefore.getSpAlarmActive());
         scheduleData();
-        toggleSwitch.setOnToggleSwitchChangeListener(new BaseToggleSwitch.OnToggleSwitchChangeListener() {
+        final RadioGroup radioMinutGroup = (RadioGroup)mDialog.findViewById(R.id.radioMinut);
+        TextView minutSimpan=(TextView)mDialog.findViewById(R.id.tvBtnSimpan);
+        minutSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onToggleSwitchChangeListener(int position, boolean isChecked) {
-                ActivePosition=position;
-                if(ActivePosition==0){
-                    hoursPicker.setEnabled(false);
-                    minutePicker.setEnabled(false);
-                }
-                else{
-                    hoursPicker.setEnabled(true);
-                    minutePicker.setEnabled(true);
-                }
+            public void onClick(View v) {
+                int selectedId = radioMinutGroup.getCheckedRadioButtonId();
 
-            }
-        });
-        if(mAlarmSchedPerminutes.size()==0){
-            ActivePosition=0;
-        }
+                // find the radiobutton by returned id
+                RadioButton radioMinutButton = (RadioButton)mDialog.findViewById(selectedId);
+                switch (selectedId){
+                    case R.id.radio0Minut:
+                        beforeMinut=0;
+                        break;
+                    case R.id.radio5Minut:
+                        beforeMinut=5;
+                        break;
+                    case R.id.radio10Minut:
+                        beforeMinut=10;
+                        break;
+                    case R.id.radio15Minut:
+                        beforeMinut=15;
+                        break;
+                    case R.id.radio30Minut:
+                        beforeMinut=30;
+                        break;
+                    case R.id.radio60Minut:
+                        beforeMinut=60;
+                        break;
 
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(ActivePosition==0){
-                    sessionMinuteBefore.saveSPString(SessionMinuteBefore.SP_ALARM_TIME,"OFF");
-                    sessionMinuteBefore.saveSPInt(SessionMinuteBefore.SP_ALARM_Active,ActivePosition);
-                    AlarmSchedCancel();
-                    Intent intent=new Intent(Setting_Activity.this,Setting_Activity.class);
-                    startActivity(intent);
-                    mAlarmSchedPerminutes.clear();
-                    clearDataSession();
+                }
+                if(mAlarmSchedPerminutes.size()!=0){
+
+                    if(beforeMinut==0){
+                        sessionMinuteBefore.saveSPString(sessionMinuteBefore.SP_ALARM_TIME, "OFF");
+                        AlarmSchedCancel();
+                    }else {
+                        sessionMinuteBefore.saveSPString(sessionMinuteBefore.SP_ALARM_TIME, beforeMinut+" Minut");
+                        AlarmSchedBefMinut(beforeMinut);
+                    }
+                        Toast.makeText(Setting_Activity.this, "Alarm Tersimapan", Toast.LENGTH_SHORT).show();
 
                 }else {
-                    sessionMinuteBefore.saveSPString(sessionMinuteBefore.SP_ALARM_TIME, hours + ":" + minute + " Jam");
-                    sessionMinuteBefore.saveSPInt(SessionMinuteBefore.SP_ALARM_Active,ActivePosition);
-                    AlarmSchedBefMinut(hours,minute);
-                    Toast.makeText(Setting_Activity.this, "Alarm Tersimapan", Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(Setting_Activity.this,Setting_Activity.class);
-                    startActivity(intent);
-                    mAlarmSchedPerminutes.clear();
-                    clearDataSession();
-
-
-
+                        sessionMinuteBefore.saveSPString(sessionMinuteBefore.SP_ALARM_TIME, "OFF");
+                        Toast.makeText(Setting_Activity.this, "jadwal Tidak ditemukan cek koneksi", Toast.LENGTH_SHORT).show();
+                        AlarmSchedCancel();
                 }
+                Intent intent=new Intent(Setting_Activity.this,Setting_Activity.class);
+                startActivity(intent);
+                mDialog.dismiss();
+//                sessionMinuteBefore.saveSPInt(SessionMinuteBefore.SP_ALARM_Active,ActivePosition);
+
             }
         });
 
-        noBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAlarmSchedPerminutes.clear();
-                clearDataSession();
-                mDialog.dismiss();
-            }
-        });
 
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mDialog.show();
     }
 
     public void AlarmSchedCancel(){
+
         for (int i=0;i<mAlarmSchedPerminutes.size();i++){
             notifId=1000020+i;
             cancelAlarm(notifId);
+
         }
         mAlarmSchedPerminutes.clear();
         clearDataSession();
     }
 
-    public void AlarmSchedBefMinut(int hours,int minutes){
+    public void AlarmSchedBefMinut(int beforeMinut){
 
-//        Toast.makeText(this, ""+alrmHours+":"+alrmMinut, Toast.LENGTH_SHORT).show();
         for (int i=0;i<mAlarmSchedPerminutes.size();i++){
             notifId=1000020+i;
             TimeStr=mAlarmSchedPerminutes.get(i).getStart_time();
             dayNumber=mAlarmSchedPerminutes.get(i).getDay_number();
             mapelName=mAlarmSchedPerminutes.get(i).getMapel_name();
             mapelId=mAlarmSchedPerminutes.get(i).getSchedule_id();
-            startHours=TimeStr.substring(0,2);
-            startMinute=TimeStr.substring(3,5);
-            alrmHours=Math.abs(Integer.parseInt(startHours)-hours);
-            alrmMinut=Math.abs(Integer.parseInt(startMinute)-minutes);
-            saveNotification(dayNumber,alrmHours,alrmMinut,notifId,mapelId);
+            startHours=Integer.parseInt(TimeStr.substring(0,2));
+            startMinute=Integer.parseInt(TimeStr.substring(3,5));
+            if(beforeMinut<60){
+
+                startMinute=startMinute-beforeMinut;
+                minutSave=Math.abs(startMinute);
+
+                if(startMinute<0){
+                    minutSave=60-minutSave;
+                    hoursSave=startHours-1;
+                    startMinute=minutSave;
+                    startHours=hoursSave;
+                }
+                startMinute=minutSave;
+
+            }else {
+                startHours=(startHours-1);
+            }
+
+
+//            saveNotification(dayNumber,startHours,startMinute,notifId,mapelId,i);
 
         }
         mAlarmSchedPerminutes.clear();
@@ -264,49 +259,69 @@ public class Setting_Activity extends AppCompatActivity
         mAlarmSchedPerminutes.clear();
 
     }
-    public void saveNotification(int week,int hour,int minut,int idNotif,int idSched){
+    public void saveNotification(int week,int hour,int minut,int idNotif,int idSched,int i){
+
+        System.err.println("hour :"+hour+" minut:"+minut+" week:"+week+" id"+idSched+" notifId"+idNotif);
         Calendar calSet = Calendar.getInstance();
-//        calSet.setTimeInMillis(System.currentTimeMillis());
-        calSet.set(Calendar.DAY_OF_WEEK, week);
+        if(week==2){
+            weekday=Calendar.MONDAY;
+        }if (week==3){
+            weekday=Calendar.TUESDAY;
+        }if(week==6){
+            weekday=Calendar.FRIDAY;
+        }
+
+        calSet.set(Calendar.DAY_OF_WEEK, weekday);
         calSet.set(Calendar.HOUR_OF_DAY, hour);
         calSet.set(Calendar.MINUTE, minut);
         calSet.set(Calendar.SECOND, 0);
-        startAlarm(calSet,idNotif,idSched);
+        calSet.set(Calendar.MILLISECOND, 0);
+        startAlarm(calSet,idNotif,idSched,i);
 
 
     }
 
-    private void startAlarm(Calendar c,int notifId1,int idSched) {
+    private void startAlarm(Calendar c,int notifId1,int idSched,int i) {
+        AlarmManager [] alarmManager=new AlarmManager[i];
+         alarmManager[i] = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiverMinuteBefore.class);
-        intent.putExtra("NOTIFID",""+ notifId1);
-        intent.putExtra("SchedlID", ""+idSched);
-        intent.putExtra("MapelName", ""+mapelName);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId1, intent, 0);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                c.getTimeInMillis(), 1 * 60 * 60 * 1000, pendingIntent);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-//                    c.getTimeInMillis(), 1 * 60 * 60 * 1000, pendingIntent);
-//
-//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-//                    c.getTimeInMillis(), 1 * 60 * 60 * 1000, pendingIntent);
-//        } else {
-//            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-//                    c.getTimeInMillis(), 1 * 60 * 60 * 1000, pendingIntent);
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Intent intent = new Intent(this, AlertReceiverMinuteBefore2.class);
+            intent.putExtra("NOTIFID",""+ notifId1);
+            intent.putExtra("SchedlID", ""+idSched);
+            intent.putExtra("MapelName", ""+mapelName);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId1, intent, 0);
+            alarmManager[i].setRepeating(AlarmManager.RTC_WAKEUP,
+                    c.getTimeInMillis(),  7 * 24 * 3600 * 1000, pendingIntent);
+        }else{
+            Intent intent = new Intent(this, AlertReceiverMinuteBefore.class);
+            intent.putExtra("NOTIFID",""+ notifId1);
+            intent.putExtra("SchedlID", ""+idSched);
+            intent.putExtra("MapelName", ""+mapelName);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId1, intent, 0);
+            alarmManager[i].setRepeating(AlarmManager.RTC_WAKEUP,
+                    c.getTimeInMillis(),  7 * 24 * 3600 * 1000, pendingIntent);
+        }
 
     }
 
     private void cancelAlarm(int notifId1) {
+        System.err.println("idcancel"+notifId1);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiverMinuteBefore.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId1, intent, 0);
-        alarmManager.cancel(pendingIntent);
-        Toast.makeText(Setting_Activity.this,"Cancel Alarrm",Toast.LENGTH_LONG).show();
-        clearDataSession();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Intent intent = new Intent(this, AlertReceiverMinuteBefore2.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId1, intent, 0);
+            alarmManager.cancel(pendingIntent);
+            Toast.makeText(Setting_Activity.this,"Cancel Alarrm",Toast.LENGTH_LONG).show();
+
+        }else{
+            Intent intent = new Intent(this, AlertReceiverMinuteBefore.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId1, intent, 0);
+            alarmManager.cancel(pendingIntent);
+            Toast.makeText(Setting_Activity.this,"Cancel Alarrm",Toast.LENGTH_LONG).show();
+
+        }
+
     }
 
     private void loadData() {
@@ -444,11 +459,13 @@ public class Setting_Activity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_schedule) {
+            sessionDetailSchedule.saveSPInt(SessionDetailSchedule.SP_RELOADS,1);
             startActivity(new Intent(Setting_Activity.this, Home_activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_setting) {
             Toast.makeText(Setting_Activity.this, "Setting", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_homework) {
+            sessionDetailHomeWork.saveSPInt(SessionDetailHomeWork.SP_RELOADH,1);
             startActivity(new Intent(Setting_Activity.this, HomeWork_Activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
 //            Toast.makeText(Setting_Activity.this,"PR",Toast.LENGTH_SHORT).show();
@@ -481,12 +498,7 @@ public class Setting_Activity extends AppCompatActivity
         tvName.setText(name);
         tvJurusan.setText(jurusan);
 
-//        imageViewProfil.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(getApplicationContext(),"Foto Profile",Toast.LENGTH_SHORT).show();
-//            }
-//        });
+
     }
 
 }

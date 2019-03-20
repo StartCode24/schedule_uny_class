@@ -6,10 +6,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/uny_logo"
+        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme2">
@@ -27,11 +29,11 @@
             android:name=".Activity.Home_activity"
             android:label="@string/title_activity_home_activity"
             android:noHistory="true"
+            android:parentActivityName=".Activity.Home_activity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.Setting_Activity"
             android:label="@string/title_activity_setting_"
-            android:parentActivityName=".Activity.Home_activity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activity.DetailSchedule_Activity" />
         <activity
@@ -58,8 +60,11 @@
         <activity android:name=".Activity.EditHomework_Activity" />
 
         <receiver android:name=".Receiver.AlertReceiver" />
+        <receiver android:name=".Receiver.AlertReceiver2" />
         <receiver android:name=".Receiver.AlertReceiverDayBefore" />
+        <receiver android:name=".Receiver.AlertReceiverDayBefore2" />
         <receiver android:name=".Receiver.AlertReceiverMinuteBefore" />
+        <receiver android:name=".Receiver.AlertReceiverMinuteBefore2" />
 
         <activity android:name=".Activity.DayBefore_Activity" />
         <!--<activity android:name=".Activity.Onboard_Activity"></activity>-->

@@ -68,7 +68,7 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:background="@color/event_color_01"
                         android:gravity="center"
                         android:orientation="vertical"

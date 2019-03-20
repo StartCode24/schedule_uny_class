@@ -14,7 +14,8 @@ android {
     buildTypes {
         debug {
 //            dev
-            buildConfigField "String", "SERVER_URL", '"http://192.168.100.8/kerja/freelancer/asli/homework-admin/Api/"'
+            buildConfigField "String", "SERVER_URL", '"http://192.168.100.9/kerja/freelancer/asli/homework-admin/Api/"'
+//            buildConfigField "String", "SERVER_URL", '"http://192.168.1.13/kerja/freelancer/asli/homework-admin/Api/"'
 //            prod
 //            buildConfigField "String", "SERVER_URL", '"http://skedi.site/homework-admin/Api/"'
         }
@@ -22,7 +23,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            dev
-            buildConfigField "String", "SERVER_URL", '"http://192.168.100.8/kerja/freelancer/asli/homework-admin/Api/"'
+            buildConfigField "String", "SERVER_URL", '"http://192.168.100.9/kerja/freelancer/asli/homework-admin/Api/"'
+//            buildConfigField "String", "SERVER_URL", '"http://192.168.1.13/kerja/freelancer/asli/homework-admin/Api/"'
 //            prod
 //                buildConfigField "String", "SERVER_URL", '"http://skedi.site/homework-admin/Api/"'
         }
@@ -32,7 +34,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:28.0.0-alpha1'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support:design:28.0.0'

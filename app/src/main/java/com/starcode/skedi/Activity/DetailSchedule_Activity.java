@@ -34,8 +34,7 @@ public class DetailSchedule_Activity extends AppCompatActivity {
     @BindView(R.id.Tv_mapelName)
     TextView tvMapelName;
 
-//    @BindView(R.id.Tv_month)
-//    TextView tvMonth;
+
 
     @BindView(R.id.Tv_day)
     TextView tvDay;
@@ -52,8 +51,7 @@ public class DetailSchedule_Activity extends AppCompatActivity {
     @BindView(R.id.Tv_roomName)
     TextView tvRoomName;
 
-//    @BindView(R.id.Tv_className)
-//    TextView tvClassName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +61,7 @@ public class DetailSchedule_Activity extends AppCompatActivity {
         sessionDetailSchedule = new SessionDetailSchedule(DetailSchedule_Activity.this);
         baseApiService = utilsApi.getApiServices();
         cekSession();
-//        Toast.makeText(this,""+sessionDetailSchedule.getSpIdSchedule(),Toast.LENGTH_SHORT).show();
+
         getDetailSched();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

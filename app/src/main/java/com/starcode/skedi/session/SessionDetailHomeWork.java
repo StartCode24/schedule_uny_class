@@ -7,6 +7,7 @@ public class SessionDetailHomeWork {
     public static final String SP_CONTENTYPE="spDetailHomeWork";
     public static final String SP_IDHOMEWORK="spid";
     public static final String SP_IDSCHEDULE2="spid2";
+    public static final String SP_RELOADH="SpReloadH";
 
     SharedPreferences sp;
     SharedPreferences.Editor spEditor;
@@ -41,4 +42,9 @@ public class SessionDetailHomeWork {
     public long getSpIdHomeWork() {
         return sp.getLong(SP_IDHOMEWORK,-1);
     }
+
+    public int getSpReloadH(){
+        return  sp.getInt(SP_RELOADH,0);
+    }
+
 }

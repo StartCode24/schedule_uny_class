@@ -21,6 +21,8 @@ import com.starcode.skedi.R;
 import com.starcode.skedi.apiHolder.baseApiService;
 import com.starcode.skedi.apiHolder.utilsApi;
 import com.starcode.skedi.model.DataProfilResponse;
+import com.starcode.skedi.session.SessionDetailHomeWork;
+import com.starcode.skedi.session.SessionDetailSchedule;
 import com.starcode.skedi.session.SessionManager;
 
 import butterknife.BindView;
@@ -33,6 +35,8 @@ public class About_Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private SessionManager sessionManager;
+    private SessionDetailHomeWork sessionDetailHomeWork;
+    private SessionDetailSchedule sessionDetailSchedule;
     private static String name;
     private static String jurusan;
     private static String status, status2;
@@ -50,6 +54,8 @@ public class About_Activity extends AppCompatActivity
         setContentView(R.layout.activity_about_);
         ButterKnife.bind(About_Activity.this);
         sessionManager = new SessionManager(About_Activity.this);
+        sessionDetailSchedule = new SessionDetailSchedule(this);
+        sessionDetailHomeWork =new SessionDetailHomeWork(this);
         baseApiService = utilsApi.getApiServices();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,14 +65,12 @@ public class About_Activity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         getProfil();
     }
 
     @Override
     public void onBackPressed() {
-
             Intent a = new Intent(Intent.ACTION_MAIN);
             a.addCategory(Intent.CATEGORY_HOME);
             a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -134,12 +138,14 @@ public class About_Activity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_schedule) {
+            sessionDetailSchedule.saveSPInt(SessionDetailSchedule.SP_RELOADS,1);
             startActivity(new Intent(About_Activity.this, Home_activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_setting) {
             startActivity(new Intent(About_Activity.this, Setting_Activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_homework) {
+            sessionDetailHomeWork.saveSPInt(SessionDetailHomeWork.SP_RELOADH,1);
             startActivity(new Intent(About_Activity.this, HomeWork_Activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
 //            Toast.makeText(About_Activity.this,"PR",Toast.LENGTH_SHORT).show();
@@ -163,18 +169,11 @@ public class About_Activity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
 
-//        imageViewProfil=headerView.findViewById(R.id.imageViewProfile);
         tvName = headerView.findViewById(R.id.tvName);
         tvJurusan = headerView.findViewById(R.id.tvJurusan);
 
         tvName.setText(name);
         tvJurusan.setText(jurusan);
 
-//        imageViewProfil.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(getApplicationContext(),"Foto Profile",Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 }

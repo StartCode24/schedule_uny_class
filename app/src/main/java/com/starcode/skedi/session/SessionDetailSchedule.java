@@ -7,6 +7,7 @@ public class SessionDetailSchedule {
     public static final String SP_CONTENTYPE="spDetailSchedule";
     public static final String SP_IDSCHEDULE="spid";
     public static final String SP_IDSCHEDULE2="spid2";
+    public static final String SP_RELOADS="SpReloadS";
 
     SharedPreferences sp;
     SharedPreferences.Editor spEditor;
@@ -40,5 +41,8 @@ public class SessionDetailSchedule {
 //    }
     public long getSpIdSchedule() {
         return sp.getLong(SP_IDSCHEDULE,-1);
+    }
+    public int getSpReloadS(){
+        return  sp.getInt(SP_RELOADS,0);
     }
 }
