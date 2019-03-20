@@ -56,13 +56,13 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:padding="15dp"
-                            android:text="NIK" />
+                            android:text="NIS" />
 
                         <TextView
                             android:id="@+id/tvNik"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:gravity="left"
                             android:padding="15dp"
                             android:text=""
@@ -95,7 +95,7 @@
                             android:id="@+id/tvNama"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:gravity="left"
                             android:padding="15dp"
                             android:text=""
@@ -128,7 +128,7 @@
                             android:id="@+id/tvJurusan"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:gravity="left"
                             android:padding="15dp"
                             android:text=""
@@ -162,7 +162,7 @@
                             android:id="@+id/tvKelas"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:gravity="left"
                             android:padding="15dp"
                             android:text=""
@@ -196,7 +196,7 @@
                             android:id="@+id/tvAlamat"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:gravity="left"
                             android:padding="15dp"
                             android:text=""
@@ -252,6 +252,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:drawableRight="@drawable/ic_create_black_24dp"
                             android:id="@+id/tvPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

@@ -1,54 +1,74 @@
 apply plugin: 'com.android.application'
 
+
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.starcode.schedule_uny"
         minSdkVersion 22
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
-            buildConfigField "String", "SERVER_URL", '"http://192.168.100.12/kerja/freelancer/asli/homework-admin/Api/"'
+//            dev
+//            buildConfigField "String", "SERVER_URL", '"http://192.168.100.9/kerja/freelancer/asli/homework-admin/Api/"'
+//            buildConfigField "String", "SERVER_URL", '"http://192.168.1.13/kerja/freelancer/asli/homework-admin/Api/"'
+//            prod
+            buildConfigField "String", "SERVER_URL", '"http://skedi.site/homework-admin/Api/"'
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "SERVER_URL", '"http://192.168.100.12/kerja/freelancer/asli/homework-admin/Api/"'
+//            dev
+//            buildConfigField "String", "SERVER_URL", '"http://192.168.100.9/kerja/freelancer/asli/homework-admin/Api/"'
+//            buildConfigField "String", "SERVER_URL", '"http://192.168.1.13/kerja/freelancer/asli/homework-admin/Api/"'
+//            prod
+                buildConfigField "String", "SERVER_URL", '"http://skedi.site/homework-admin/Api/"'
         }
+
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.1.1-alpha1'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'com.android.support:cardview-v7:27.1.1'
-
+    implementation 'com.android.support:cardview-v7:28.0.0'
     //    gradle buter knife
     implementation 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-
-//    imageCircle
+    //    imageCircle
     implementation 'de.hdodenhof:circleimageview:2.1.0'
-
     // Glide
     implementation 'com.github.bumptech.glide:glide:3.7.0'
-
     //     gradel retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.0.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.0.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit:retrofit:1.9.0'
+    //    gradel recurrence
+    implementation 'com.jpardogo.materialtabstrip:library:1.1.0'
+    implementation 'com.afollestad.material-dialogs:commons:0.8.6.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     implementation 'com.squareup.okhttp3:okhttp:3.4.1'
-
-//    week calender
+    //    week calender
     implementation 'com.github.alamkanak:android-week-view:1.2.6'
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+//    spiner
+    implementation 'com.reginald:editspinner:1.0.0'
+//    togle switch
+    implementation 'us.belka:androidtoggleswitch:1.2.2'
+    implementation 'com.llollox:androidtoggleswitch:2.0.1'
+
+//    number picker
+//    implementation 'com.shawnlin:number-picker:2.4.8'
 }

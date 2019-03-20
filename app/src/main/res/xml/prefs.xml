@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Notification">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="checkBoxVibrate"
+            android:title="Vibrate">
+        </CheckBoxPreference>
+        <RingtonePreference
+            android:showDefault="true"
+            android:key="Notifications"
+            android:title="Sound"
+            android:defaultValue="content://settings/system/notification_sound"
+            android:ringtoneType="notification">
+        </RingtonePreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="checkBoxLED"
+            android:title="LED">
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:key="checkBoxOngoing"
+            android:title="Persistent"
+            android:summary="Prevent notification from being swiped away">
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:key="checkBoxMarkAsDone"
+            android:title="Mark as done"
+            android:summary="Add a  Mark as done action to the notification">
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:key="checkBoxSnooze"
+            android:title="Snooze"
+            android:summary="Add a snooze action to the notification">
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:key="checkNaggingg"
+            android:title="Nagging reminder"
+            android:summary="Continuosly notify you of the current notification">
+        </CheckBoxPreference>
+
+        <com.starcode.skedi.dialogs.PreferenceNagTimePicker
+            android:key="nagInterval"
+            android:title="Nagging Interval"/>
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
