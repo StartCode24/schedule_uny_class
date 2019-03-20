@@ -85,11 +85,11 @@ public class Setting_Activity extends AppCompatActivity
     private int hours=0;
     private int minute=0;
     private int notifId=0;
-    int ActivePosition=0;
+
     private static String kelas_id="";
     private static String jurusan_id="";
 
-    private ImageView imageViewProfil;
+
     String mapelName="";
     int mapelId=0;
     String TimeStr = "";
@@ -245,7 +245,6 @@ public class Setting_Activity extends AppCompatActivity
                 startHours=(startHours-1);
             }
 
-
 //            saveNotification(dayNumber,startHours,startMinute,notifId,mapelId,i);
 
         }
@@ -263,15 +262,8 @@ public class Setting_Activity extends AppCompatActivity
 
         System.err.println("hour :"+hour+" minut:"+minut+" week:"+week+" id"+idSched+" notifId"+idNotif);
         Calendar calSet = Calendar.getInstance();
-        if(week==2){
-            weekday=Calendar.MONDAY;
-        }if (week==3){
-            weekday=Calendar.TUESDAY;
-        }if(week==6){
-            weekday=Calendar.FRIDAY;
-        }
-
-        calSet.set(Calendar.DAY_OF_WEEK, weekday);
+        
+        calSet.set(Calendar.DAY_OF_WEEK, week);
         calSet.set(Calendar.HOUR_OF_DAY, hour);
         calSet.set(Calendar.MINUTE, minut);
         calSet.set(Calendar.SECOND, 0);
