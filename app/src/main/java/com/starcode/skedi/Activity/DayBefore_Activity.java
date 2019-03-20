@@ -151,6 +151,7 @@ public class DayBefore_Activity extends AppCompatActivity {
         toggleSwitch.setLabels(labels);
 
         senin=sessionDayBefore.getSpIdSenin();
+
         if(senin==0)timePickerAlrm.setEnabled(false);
         toggleSwitch.setCheckedTogglePosition(sessionDayBefore.getSpIdSenin());
 
@@ -166,9 +167,7 @@ public class DayBefore_Activity extends AppCompatActivity {
 
             }
         });
-        if(mDataSchedForDay.size()==0){
-            senin=0;
-        }
+
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -215,8 +214,8 @@ public class DayBefore_Activity extends AppCompatActivity {
                 mDialog.dismiss();
             }
         });
-        Toast.makeText(this, ""+senin, Toast.LENGTH_SHORT).show();
 
+        System.err.println("valuueee "+senin);
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mDialog.show();
     }
@@ -258,9 +257,9 @@ public class DayBefore_Activity extends AppCompatActivity {
                 else timePickerAlrm.setEnabled(true);
             }
         });
-        if(mDataSchedForDay.size()==0){
-            selasa=0;
-        }
+//        if(mDataSchedForDay.size()==0){
+//            selasa=0;
+//        }
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -352,9 +351,9 @@ public class DayBefore_Activity extends AppCompatActivity {
 
             }
         });
-        if(mDataSchedForDay.size()==0){
-            rabu=0;
-        }
+//        if(mDataSchedForDay.size()==0){
+//            rabu=0;
+//        }
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -446,9 +445,9 @@ public class DayBefore_Activity extends AppCompatActivity {
 
             }
         });
-        if(mDataSchedForDay.size()==0){
-            kamis=0;
-        }
+//        if(mDataSchedForDay.size()==0){
+//            kamis=0;
+//        }
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -540,9 +539,9 @@ public class DayBefore_Activity extends AppCompatActivity {
 
             }
         });
-        if(mDataSchedForDay.size()==0){
-            jumat=0;
-        }
+//        if(mDataSchedForDay.size()==0){
+//            jumat=0;
+//        }
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -634,9 +633,9 @@ public class DayBefore_Activity extends AppCompatActivity {
 
             }
         });
-        if(mDataSchedForDay.size()==0){
-            sabtu=0;
-        }
+//        if(mDataSchedForDay.size()==0){
+//            sabtu=0;
+//        }
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -884,11 +883,11 @@ public class DayBefore_Activity extends AppCompatActivity {
     public void saveNotificationSenin(int week,int hour,int minut){
         Calendar calSet = Calendar.getInstance();
 //        calSet.setTimeInMillis(System.currentTimeMillis());
-        calSet.set(Calendar.DAY_OF_WEEK, week);
-        calSet.set(Calendar.HOUR_OF_DAY, hour);
-        calSet.set(Calendar.MINUTE, minut);
-        calSet.set(Calendar.SECOND, 0);
-        calSet.set(Calendar.MILLISECOND, 0);
+        calSet.add(Calendar.DAY_OF_WEEK, week);
+        calSet.add(Calendar.HOUR_OF_DAY, hour);
+        calSet.add(Calendar.MINUTE, minut);
+        calSet.add(Calendar.SECOND, 00);
+        calSet.add(Calendar.MILLISECOND, 00);
         startAlarm(calSet,week);
 
 
@@ -896,7 +895,7 @@ public class DayBefore_Activity extends AppCompatActivity {
 
     private void startAlarm(Calendar c,int week) {
 //        Toast.makeText(this, ""+nameMapel.size(), Toast.LENGTH_SHORT).show();
-//        System.err.println("Tolong2");
+
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -905,14 +904,14 @@ public class DayBefore_Activity extends AppCompatActivity {
             intent.putExtra("MapelName", nameMapel);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId, intent, 0);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                    c.getTimeInMillis(),  AlarmManager.INTERVAL_DAY * 7, pendingIntent);
+                    c.getTimeInMillis(),   7 * 24 * 60 * 60 * 1000, pendingIntent);
         } else {
             Intent intent = new Intent(this, AlertReceiverDayBefore.class);
             intent.putExtra("NOTIFID",""+ notifId);
             intent.putExtra("MapelName", nameMapel);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId, intent, 0);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                c.getTimeInMillis(),  AlarmManager.INTERVAL_DAY * 7, pendingIntent);
+                    c.getTimeInMillis(),   7 * 24 * 60 * 60 * 1000, pendingIntent);
         }
 
     }

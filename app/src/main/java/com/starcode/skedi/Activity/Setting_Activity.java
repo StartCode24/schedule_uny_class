@@ -245,7 +245,7 @@ public class Setting_Activity extends AppCompatActivity
                 startHours=(startHours-1);
             }
 
-//            saveNotification(dayNumber,startHours,startMinute,notifId,mapelId,i);
+            saveNotification(dayNumber,startHours,startMinute,notifId,mapelId,i);
 
         }
         mAlarmSchedPerminutes.clear();
@@ -260,39 +260,39 @@ public class Setting_Activity extends AppCompatActivity
     }
     public void saveNotification(int week,int hour,int minut,int idNotif,int idSched,int i){
 
-        System.err.println("hour :"+hour+" minut:"+minut+" week:"+week+" id"+idSched+" notifId"+idNotif);
+//        System.err.println("hour :"+hour+" minut:"+minut+" week:"+week+" id"+idSched+" notifId"+idNotif);
         Calendar calSet = Calendar.getInstance();
 
-        calSet.set(Calendar.DAY_OF_WEEK, week);
-        calSet.set(Calendar.HOUR_OF_DAY, hour);
-        calSet.set(Calendar.MINUTE, minut);
-        calSet.set(Calendar.SECOND, 0);
-        calSet.set(Calendar.MILLISECOND, 0);
+        calSet.add(Calendar.DAY_OF_WEEK, week);
+        calSet.add(Calendar.HOUR_OF_DAY, hour);
+        calSet.add(Calendar.MINUTE, minut);
+        calSet.add(Calendar.SECOND, 00);
+        calSet.add(Calendar.MILLISECOND, 00);
         startAlarm(calSet,idNotif,idSched,i);
 
 
     }
 
     private void startAlarm(Calendar c,int notifId1,int idSched,int i) {
-        AlarmManager [] alarmManager=new AlarmManager[i];
-         alarmManager[i] = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Intent intent = new Intent(this, AlertReceiverMinuteBefore2.class);
             intent.putExtra("NOTIFID",""+ notifId1);
             intent.putExtra("SchedlID", ""+idSched);
             intent.putExtra("MapelName", ""+mapelName);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId1, intent, 0);
-            alarmManager[i].setRepeating(AlarmManager.RTC_WAKEUP,
-                    c.getTimeInMillis(),  7 * 24 * 3600 * 1000, pendingIntent);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                    c.getTimeInMillis(),   7 * 24 * 60 * 60 * 1000, pendingIntent);
         }else{
             Intent intent = new Intent(this, AlertReceiverMinuteBefore.class);
             intent.putExtra("NOTIFID",""+ notifId1);
             intent.putExtra("SchedlID", ""+idSched);
             intent.putExtra("MapelName", ""+mapelName);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId1, intent, 0);
-            alarmManager[i].setRepeating(AlarmManager.RTC_WAKEUP,
-                    c.getTimeInMillis(),  7 * 24 * 3600 * 1000, pendingIntent);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId1, intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                    c.getTimeInMillis(),   7 * 24 * 60 * 60 * 1000, pendingIntent);
         }
 
     }
