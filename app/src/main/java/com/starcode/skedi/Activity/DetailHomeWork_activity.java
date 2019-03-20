@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,11 +36,13 @@ public class DetailHomeWork_activity extends AppCompatActivity {
     @BindView(R.id.Tv_mapelName)TextView TvMapelName;
     @BindView(R.id.Tv_noteDetail)TextView TvNoteDetail;
     @BindView(R.id.Tv_date)TextView TvDate;
+    @BindView(R.id.TvTugas)TextView TvTugas;
 
     Dialog myDialog;
     private int idNotif=0;
     private String status,message,error,message2;
     private int idHomeWork;
+    private int cekTugas;
     private SessionDetailHomeWork sessionDetailHomeWork;
     private com.starcode.skedi.apiHolder.baseApiService baseApiService;
 
@@ -148,6 +151,12 @@ public class DetailHomeWork_activity extends AppCompatActivity {
                         TvMapelName.setText(response.body().getAuth_SearchHomeWork().getData().getMapel_name());
                         TvDate.setText(response.body().getAuth_SearchHomeWork().getData().getHomework_date());
                         TvNoteDetail.setText(response.body().getAuth_SearchHomeWork().getData().getNote());
+                        cekTugas=response.body().getAuth_SearchHomeWork().getData().getHomework_detail();
+                        if(cekTugas==1){
+                            TvDate.setPaintFlags(TvDate.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                            TvNoteDetail.setPaintFlags(TvNoteDetail.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                            TvTugas.setText("(Tugas Sudah Dikerjakan)");
+                        }
                     }else {
                         Toast.makeText(DetailHomeWork_activity.this,""+message,Toast.LENGTH_SHORT).show();
                     }

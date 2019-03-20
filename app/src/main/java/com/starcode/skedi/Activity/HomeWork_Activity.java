@@ -45,6 +45,7 @@ import com.starcode.skedi.model.FeedSchedule.FeedSchedule;
 import com.starcode.skedi.model.HomeWorkResponse;
 import com.starcode.skedi.model.ScheduleResponse;
 import com.starcode.skedi.session.SessionDetailHomeWork;
+import com.starcode.skedi.session.SessionDetailSchedule;
 import com.starcode.skedi.session.SessionManager;
 
 
@@ -97,6 +98,7 @@ public class HomeWork_Activity extends AppCompatActivity
 
     private SessionManager sessionManager;
     private SessionDetailHomeWork sessionDetailHomeWork;
+    private SessionDetailSchedule sessionDetailSchedule;
     private com.starcode.skedi.apiHolder.baseApiService baseApiService;
     private static String status, status2;
     private static String name="";
@@ -121,6 +123,7 @@ public class HomeWork_Activity extends AppCompatActivity
 
         loadData();
         sessionManager = new SessionManager(HomeWork_Activity.this);
+        sessionDetailSchedule = new SessionDetailSchedule(HomeWork_Activity.this);
         sessionDetailHomeWork =new SessionDetailHomeWork(HomeWork_Activity.this);
         setSupportActionBar(toolbar);
         baseApiService = utilsApi.getApiServices();
@@ -131,8 +134,8 @@ public class HomeWork_Activity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 clearDataSession();
-                startActivity(new Intent(HomeWork_Activity.this, AddHomeWork_Activity.class).
-                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                Intent intent=new Intent(HomeWork_Activity.this,AddHomeWork_Activity.class);
+                startActivity(intent);
             }
         });
         fabRefresh.setOnClickListener(new View.OnClickListener() {
@@ -155,9 +158,10 @@ public class HomeWork_Activity extends AppCompatActivity
         mWeekView.setEventLongPressListener(this);
         mWeekView.setMonthChangeListener(this);
         mWeekView.goToHour(7);
-        mWeekView.setNumberOfVisibleDays(7);
+        mWeekView.setNumberOfVisibleDays(5);
         mWeekView.setEmptyViewLongPressListener(this);
         setupDateTimeInterpreter(false);
+
 
 
     }
@@ -271,6 +275,7 @@ public class HomeWork_Activity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_schedule) {
+            sessionDetailSchedule.saveSPInt(SessionDetailSchedule.SP_RELOADS,1);
             clearDataSession();
             startActivity(new Intent(HomeWork_Activity.this, Home_activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -279,7 +284,6 @@ public class HomeWork_Activity extends AppCompatActivity
             startActivity(new Intent(HomeWork_Activity.this, Setting_Activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_homework) {
-
             Toast.makeText(HomeWork_Activity.this, "Lihat PR", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_logout) {
             clearDataSession();
@@ -307,6 +311,7 @@ public class HomeWork_Activity extends AppCompatActivity
         super.onResume();
         HomeWorkk();
 
+
     }
 
     public void initComponentNavHeader() {
@@ -320,12 +325,7 @@ public class HomeWork_Activity extends AppCompatActivity
         tvName.setText(name);
         tvJurusan.setText(jurusan);
 
-//        imageViewProfil.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(getApplicationContext(),"Foto Profile",Toast.LENGTH_SHORT).show();
-//            }
-//        });
+
     }
 
 
@@ -366,8 +366,8 @@ public class HomeWork_Activity extends AppCompatActivity
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         sessionDetailHomeWork.saveSPLong(SessionDetailHomeWork.SP_IDHOMEWORK, event.getId());
         Toast.makeText(this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(HomeWork_Activity.this, DetailHomeWork_activity.class).
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+        Intent intent=new Intent(HomeWork_Activity.this, DetailHomeWork_activity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -399,9 +399,7 @@ public class HomeWork_Activity extends AppCompatActivity
                 String FinisHours = TimeFns.substring(0, 2);
                 String FinisMinute = TimeFns.substring(3, 5);
 
-//
-//                Toast.makeText(HomeWork_Activity.this," "+newMonth+" "+newYear+" "+Integer.parseInt(startMinute)+" "
-//                        +mHomeWorkLists.size(),Toast.LENGTH_LONG).show();
+
                 startTime = Calendar.getInstance();
 //                startTime.setTimeInMillis(System.currentTimeMillis());
                 startTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(startHours));
@@ -451,6 +449,13 @@ public class HomeWork_Activity extends AppCompatActivity
         String json = gson.toJson(mHomeWorkLists);
         editor.putString("HomeWork", json);
         editor.apply();
+        if(sessionDetailHomeWork.getSpReloadH()==1){
+//            Toast.makeText(this, ""+sessionDetailHomeWork.getSpReloadH(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(HomeWork_Activity.this, HomeWork_Activity.class);
+            startActivity(intent);
+            sessionDetailHomeWork.saveSPInt(SessionDetailHomeWork.SP_RELOADH,0);
+
+        }
     }
 
     private void loadData() {

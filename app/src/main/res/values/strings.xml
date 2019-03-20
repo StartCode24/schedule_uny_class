@@ -40,6 +40,7 @@
     <string name="nama_P">Handaru Jati, Ph.D.</string>
     <string name="nip">19740511 199903 1 002</string>
     <string name="title_activity_profile_activity">Profile</string>
+    <string name="notification_channel_followers">Follower Notification Channel</string>
 
     <string name="ob_header1">Akses Mudah</string>
     <string name="ob_header2">Personalisasi</string>
@@ -57,6 +58,9 @@
     <string name="mnt15">15 menit sebelum</string>
     <string name="mnt30">30 menit sebelum</string>
     <string name="mnt60">60 menit sebelum</string>
+
+    <!-- Names -->
+    <string name="names_array">Ethan</string>
 
 
 </resources>

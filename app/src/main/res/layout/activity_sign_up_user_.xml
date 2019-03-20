@@ -18,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:paddingTop="20dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:paddingBottom="40dp"
@@ -29,7 +30,7 @@
             android:layout_height="80dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@mipmap/uny_logo" />
+            android:src="@mipmap/skedilogo" />
 
         <RelativeLayout
             android:id="@+id/rellayS1"
@@ -43,7 +44,7 @@
                 android:id="@+id/tv_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="SignUp"
                 android:textColor="@color/white"

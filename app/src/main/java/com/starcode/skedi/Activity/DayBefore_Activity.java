@@ -26,6 +26,7 @@ import com.starcode.skedi.Adapter.List.ScheduleList;
 import com.starcode.skedi.R;
 import com.starcode.skedi.Receiver.AlertReceiver;
 import com.starcode.skedi.Receiver.AlertReceiverDayBefore;
+import com.starcode.skedi.Receiver.AlertReceiverDayBefore2;
 import com.starcode.skedi.apiHolder.baseApiService;
 import com.starcode.skedi.apiHolder.utilsApi;
 import com.starcode.skedi.model.DataProfilResponse;
@@ -61,16 +62,18 @@ public class DayBefore_Activity extends AppCompatActivity {
     @BindView(R.id.toolbar)Toolbar toolbar;
     @BindView(R.id.Ln_Minggu)LinearLayout LnMinggu;
 
+    private AlertReceiverDayBefore alertReceiverDayBefore=null;
+    private AlertReceiverDayBefore2 alertReceiverDayBefore2=null;
     private SessionDayBefore sessionDayBefore;
     private SessionManager sessionManager;
     Dialog mDialog;
-    int senin=0,selasa=0,rabu=0,kamis=0,jumat=0,sabtu=0,minggu=0;
+    int senin,selasa,rabu,kamis,jumat,sabtu,minggu;
     private String Day;
     private String status,status2="";
     private  String kelas_id;
     private String jurusan_id;
-    private int hours=0;
-    private int minute=0;
+    private int hours=-1;
+    private int minute;
     private int notifId=0;
     private String Timer="";
     ArrayList<String> nameMapel=new ArrayList<String>();
@@ -115,6 +118,13 @@ public class DayBefore_Activity extends AppCompatActivity {
 
 
     }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(DayBefore_Activity.this,Setting_Activity.class);
+        startActivity(intent);
+        finish();
+    }
+
 
     @OnClick(R.id.Ln_Senin)
     void btnSenin(){
@@ -143,6 +153,7 @@ public class DayBefore_Activity extends AppCompatActivity {
         senin=sessionDayBefore.getSpIdSenin();
         if(senin==0)timePickerAlrm.setEnabled(false);
         toggleSwitch.setCheckedTogglePosition(sessionDayBefore.getSpIdSenin());
+
         mDataSchedForDay.clear();
         DataSchedForDay("Senin");
         toggleSwitch.setOnToggleSwitchChangeListener(new BaseToggleSwitch.OnToggleSwitchChangeListener() {
@@ -171,7 +182,7 @@ public class DayBefore_Activity extends AppCompatActivity {
                         startActivity(intent);
                         mDialog.dismiss();
                     }else {
-                        if(hours==0){
+                        if(hours==-1){
                             Toast.makeText(DayBefore_Activity.this, "Cek Kembali Waktu Alarm", Toast.LENGTH_SHORT).show();
                         }else {
                         if(mDataSchedForDay.size()!=0){
@@ -204,6 +215,7 @@ public class DayBefore_Activity extends AppCompatActivity {
                 mDialog.dismiss();
             }
         });
+        Toast.makeText(this, ""+senin, Toast.LENGTH_SHORT).show();
 
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mDialog.show();
@@ -262,7 +274,7 @@ public class DayBefore_Activity extends AppCompatActivity {
                     startActivity(intent);
                     mDialog.dismiss();
                 }else {
-                    if(hours==0){
+                    if(hours==-1){
                         Toast.makeText(DayBefore_Activity.this, "Cek Kembali Waktu Alarm", Toast.LENGTH_SHORT).show();
                     }else {
 
@@ -357,7 +369,7 @@ public class DayBefore_Activity extends AppCompatActivity {
                     startActivity(intent);
                     mDialog.dismiss();
                 }else {
-                    if(hours==0){
+                    if(hours==-1){
                         Toast.makeText(DayBefore_Activity.this, "Cek Kembali Waktu Alarm", Toast.LENGTH_SHORT).show();
                     }else {
 
@@ -451,7 +463,7 @@ public class DayBefore_Activity extends AppCompatActivity {
                     startActivity(intent);
                     mDialog.dismiss();
                 }else {
-                    if(hours==0){
+                    if(hours==-1){
                         Toast.makeText(DayBefore_Activity.this, "Cek Kembali Waktu Alarm", Toast.LENGTH_SHORT).show();
                     }else {
 
@@ -545,7 +557,7 @@ public class DayBefore_Activity extends AppCompatActivity {
                     startActivity(intent);
                     mDialog.dismiss();
                 }else {
-                    if(hours==0){
+                    if(hours==-1){
                         Toast.makeText(DayBefore_Activity.this, "Cek Kembali Waktu Alarm", Toast.LENGTH_SHORT).show();
                     }else {
 
@@ -639,7 +651,7 @@ public class DayBefore_Activity extends AppCompatActivity {
                     startActivity(intent);
                     mDialog.dismiss();
                 }else {
-                    if(hours==0){
+                    if(hours==-1){
                         Toast.makeText(DayBefore_Activity.this, "Cek Kembali Waktu Alarm", Toast.LENGTH_SHORT).show();
                     }else {
 
@@ -884,31 +896,42 @@ public class DayBefore_Activity extends AppCompatActivity {
 
     private void startAlarm(Calendar c,int week) {
 //        Toast.makeText(this, ""+nameMapel.size(), Toast.LENGTH_SHORT).show();
+//        System.err.println("Tolong2");
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiverDayBefore.class);
-        intent.putExtra("NOTIFID",""+ notifId);
-        intent.putExtra("MapelName", nameMapel);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId, intent, 0);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                c.getTimeInMillis(),  1 * 60 * 60 * 1000, pendingIntent);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-//                    c.getTimeInMillis(),  1 * 60 * 60 * 1000, pendingIntent);
-//        } else {
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-//                c.getTimeInMillis(),  1 * 60 * 60 * 1000, pendingIntent);
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Intent intent = new Intent(this, AlertReceiverDayBefore2.class);
+            intent.putExtra("NOTIFID",""+ notifId);
+            intent.putExtra("MapelName", nameMapel);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId, intent, 0);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                    c.getTimeInMillis(),  AlarmManager.INTERVAL_DAY * 7, pendingIntent);
+        } else {
+            Intent intent = new Intent(this, AlertReceiverDayBefore.class);
+            intent.putExtra("NOTIFID",""+ notifId);
+            intent.putExtra("MapelName", nameMapel);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId, intent, 0);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                c.getTimeInMillis(),  AlarmManager.INTERVAL_DAY * 7, pendingIntent);
+        }
 
     }
 
     private void cancelAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiverDayBefore.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId, intent, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Intent intent = new Intent(this, AlertReceiverDayBefore2.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId, intent, 0);
+            alarmManager.cancel(pendingIntent);
+            Toast.makeText(DayBefore_Activity.this,"Cancel Alarrm",Toast.LENGTH_LONG).show();
+            clearDataSession();
+        }else {
+            Intent intent = new Intent(this, AlertReceiverDayBefore.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId, intent, 0);
+            alarmManager.cancel(pendingIntent);
+            Toast.makeText(DayBefore_Activity.this,"Cancel Alarrm",Toast.LENGTH_LONG).show();
+            clearDataSession();
+        }
 
-        alarmManager.cancel(pendingIntent);
-        Toast.makeText(DayBefore_Activity.this,"Cancel Alarrm",Toast.LENGTH_LONG).show();
-        clearDataSession();
     }
 }

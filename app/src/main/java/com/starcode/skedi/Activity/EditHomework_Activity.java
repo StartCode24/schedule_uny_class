@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.reginald.editspinner.EditSpinner;
 import com.starcode.skedi.R;
 import com.starcode.skedi.Receiver.AlertReceiver;
+import com.starcode.skedi.Receiver.AlertReceiver2;
 import com.starcode.skedi.apiHolder.baseApiService;
 import com.starcode.skedi.apiHolder.utilsApi;
 import com.starcode.skedi.model.AllMapelResponse;
@@ -44,8 +45,10 @@ import com.starcode.skedi.session.SessionDetailHomeWork;
 import com.starcode.skedi.session.SessionManager;
 import com.starcode.skedi.utils.DateAndTimeUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -138,6 +141,13 @@ public class EditHomework_Activity extends AppCompatActivity {
         });
 
     }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(EditHomework_Activity.this,HomeWork_Activity.class);
+        startActivity(intent);
+        finish();
+    }
+
 
     @OnClick(R.id.LnBTanggal)
     public void TvBtnTanggal(View view){
@@ -355,9 +365,6 @@ public class EditHomework_Activity extends AppCompatActivity {
 
     public void updateHomework(){
 
-//        Toast.makeText(EditHomework_Activity.this,""+idHomeWork+mapelName+note+tanggalHomework+
-//                waktuMulai+waktuAkhir+alarm+kelasId+jurusanId+siswaNis,Toast.LENGTH_SHORT).show();
-
         Call<EditHomeWorkResponse> call=baseApiService.UpdateHomeWork(idHomeWork,mapelName,note,tanggalHomework,
                 waktuMulai,waktuAkhir,alarm,kelasId,jurusanId,siswaNis,homework_detail,beforeMinut);
         call.enqueue(new Callback<EditHomeWorkResponse>() {
@@ -368,6 +375,7 @@ public class EditHomework_Activity extends AppCompatActivity {
                     message = response.body().getAuth_UpdateHomework().getMessage();
                     if (error.equals("200")) {
                         Toast.makeText(EditHomework_Activity.this, "Data Berhasil Disimpan", Toast.LENGTH_SHORT).show();
+                        sessionDetailHomeWork.saveSPInt(SessionDetailHomeWork.SP_RELOADH,1);
                         Intent intent = new Intent(EditHomework_Activity.this, HomeWork_Activity.class);
                         startActivity(intent);
                         finish();
@@ -400,7 +408,23 @@ public class EditHomework_Activity extends AppCompatActivity {
         c.set(Calendar.MINUTE, minute);
         c.set(Calendar.SECOND, 0);
         c.set(Calendar.MILLISECOND, 0);
-        startAlarm(c);
+
+        // and get that as a Date
+        Date dateSpecified = c.getTime();
+
+        Calendar todayDate = Calendar.getInstance();
+
+        // and get that as a Date
+        Date dateToday = todayDate.getTime();
+        // test your condition
+        if (dateSpecified.before(dateToday)) {
+//            Toast.makeText(mContext, "Date specified [" + dateSpecified + "] is before today [" + dateToday + "]", Toast.LENGTH_SHORT).show();
+//            System.err.println("Date specified [" + dateSpecified + "] is before today [" + dateToday + "]");
+            cancelAlarm();
+        } else {
+//            Toast.makeText(mContext, "Date specified [" + dateSpecified + "] is NOT before today [" + dateToday + "]", Toast.LENGTH_SHORT).show();
+            startAlarm(c);
+        }
 
     }
 
@@ -413,28 +437,39 @@ public class EditHomework_Activity extends AppCompatActivity {
     }
     private void startAlarm(Calendar c) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiver.class);
-        intent.putExtra("NOTIF_ID",""+ idNotif);
-        intent.putExtra("NOTIF_MAPEL",""+ mapelName);
-        intent.putExtra("NOTIF_NOTE",""+ note);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, idNotif, intent, 0);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
-        } else {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Intent intent = new Intent(this, AlertReceiver2.class);
+            intent.putExtra("NOTIF_ID",""+ idNotif);
+            intent.putExtra("NOTIF_MAPEL",""+ mapelName);
+            intent.putExtra("NOTIF_NOTE",""+ note);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, idNotif, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+        }else{
+            Intent intent = new Intent(this, AlertReceiver.class);
+            intent.putExtra("NOTIF_ID",""+ idNotif);
+            intent.putExtra("NOTIF_MAPEL",""+ mapelName);
+            intent.putExtra("NOTIF_NOTE",""+ note);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, idNotif, intent, PendingIntent.FLAG_CANCEL_CURRENT);
             alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
         }
+
+
 
     }
 
     private void cancelAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Intent intent = new Intent(this, AlertReceiver2.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, idNotif, intent, 0);
+            alarmManager.cancel(pendingIntent);
+        }else{
+            Intent intent = new Intent(this, AlertReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, idNotif, intent, 0);
+            alarmManager.cancel(pendingIntent);
+        }
 
-        alarmManager.cancel(pendingIntent);
-        Toast.makeText(EditHomework_Activity.this,"Cancel Alarrm",Toast.LENGTH_LONG).show();
+
     }
 
 }

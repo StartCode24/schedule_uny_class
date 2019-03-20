@@ -35,6 +35,7 @@ import com.starcode.skedi.apiHolder.baseApiService;
 import com.starcode.skedi.model.DataProfilResponse;
 import com.starcode.skedi.model.FeedSchedule.FeedSchedule;
 import com.starcode.skedi.model.ScheduleResponse;
+import com.starcode.skedi.session.SessionDetailHomeWork;
 import com.starcode.skedi.session.SessionDetailSchedule;
 import com.starcode.skedi.session.SessionManager;
 import com.starcode.skedi.apiHolder.utilsApi;
@@ -86,6 +87,7 @@ public class Home_activity extends AppCompatActivity
 
     private SessionManager sessionManager;
     private SessionDetailSchedule sessionDetailSchedule;
+    private SessionDetailHomeWork sessionDetailHomeWork;
     private baseApiService baseApiService;
     private static String status, status2;
     private static String name;
@@ -108,8 +110,9 @@ public class Home_activity extends AppCompatActivity
         ButterKnife.bind(Home_activity.this);
         sessionManager = new SessionManager(Home_activity.this);
         sessionDetailSchedule = new SessionDetailSchedule(Home_activity.this);
+        sessionDetailHomeWork =new SessionDetailHomeWork(Home_activity.this);
         baseApiService = utilsApi.getApiServices();
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         mcContext = this;
         loadData();
         getProfil();
@@ -272,6 +275,7 @@ public class Home_activity extends AppCompatActivity
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_homework) {
             clearDataSession();
+            sessionDetailHomeWork.saveSPInt(SessionDetailHomeWork.SP_RELOADH,1);
             startActivity(new Intent(Home_activity.this, HomeWork_Activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             //        Toast.makeText(Home_activity.this,"PR",Toast.LENGTH_SHORT).show();
@@ -314,6 +318,7 @@ public class Home_activity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         schedulee();
+
 
     }
 
@@ -424,6 +429,13 @@ public class Home_activity extends AppCompatActivity
         String json = gson.toJson(mScheduleList);
         editor.putString("schedule", json);
         editor.apply();
+        if(sessionDetailSchedule.getSpReloadS()==1){
+//            Toast.makeText(this, ""+sessionDetailSchedule.getSpReloadS(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Home_activity.this, Home_activity.class);
+            startActivity(intent);
+            sessionDetailSchedule.saveSPInt(SessionDetailSchedule.SP_RELOADS,0);
+
+        }
     }
 
     private void loadData() {
