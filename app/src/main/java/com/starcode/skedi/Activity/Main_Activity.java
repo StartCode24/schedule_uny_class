@@ -19,6 +19,7 @@ import com.starcode.skedi.R;
 import com.starcode.skedi.apiHolder.baseApiService;
 import com.starcode.skedi.apiHolder.utilsApi;
 import com.starcode.skedi.model.LoginUserResponse;
+import com.starcode.skedi.session.SessionDetailSchedule;
 import com.starcode.skedi.session.SessionManager;
 
 import butterknife.BindView;
@@ -56,6 +57,7 @@ public class Main_Activity extends AppCompatActivity {
 
     private baseApiService baseApiService;
     private SessionManager sessionManager;
+    private SessionDetailSchedule sessionDetailSchedule;
 
     private static String auth_token;
     private static String status;
@@ -70,6 +72,7 @@ public class Main_Activity extends AppCompatActivity {
         ButterKnife.bind(this);
         baseApiService = utilsApi.getApiServices();
         sessionManager = new SessionManager(Main_Activity.this);
+        sessionDetailSchedule = new SessionDetailSchedule(this);
         if (sessionManager.getSpSesionlogin()) {
             startActivity(new Intent(Main_Activity.this, Home_activity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -103,10 +106,12 @@ public class Main_Activity extends AppCompatActivity {
     public void loginRequest() {
         String nik = edNik.getText().toString();
         String password = edPassword.getText().toString();
+        sessionDetailSchedule.saveSPInt(SessionDetailSchedule.SP_RELOADS,1);
+        sessionManager.saveSPInt(SessionManager.SP_RELOADSM,1);
 
         if (nik.isEmpty() || password.isEmpty()) {
             Toast.makeText(Main_Activity.this, "Nik atau password tidak boleh kosong", Toast.LENGTH_SHORT).show();
-            ;
+
         } else {
 
             Call<LoginUserResponse> call = baseApiService.loginRequest(nik, password);
@@ -119,6 +124,7 @@ public class Main_Activity extends AppCompatActivity {
 
                         try {
                             if (status.equals("200")) {
+
                                 auth_token = response.body().getAuth_login().getData().getAuth_token();
                                 sessionManager.saveSPString(sessionManager.SP_CONTENTTYPE, ContentType);
                                 sessionManager.saveSPString(sessionManager.SP_AUTHORIZATION, auth_token);

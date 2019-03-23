@@ -13,6 +13,17 @@
                       <PersistentState>
                         <option name="children">
                           <map>
+                            <entry key="actionbar">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="assetType" value="IMAGE" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
                             <entry key="launcherLegacy">
                               <value>
                                 <PersistentState>
@@ -23,6 +34,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
+                                                <entry key="paddingPercent" value="15" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>

@@ -10,6 +10,7 @@ public class SessionManager {
     public static final String SP_SESIONLOGIN="spTrue";
     public static final String SP_HOURS="spHours";
     public static final String SP_MINUTE="spMinute";
+    public static final String SP_RELOADSM="SpReloadSM";
 
     SharedPreferences sp;
     SharedPreferences.Editor spEditor;
@@ -54,6 +55,9 @@ public class SessionManager {
 
     public  Boolean getSpSesionlogin() {
         return sp.getBoolean(SP_SESIONLOGIN, false);
+    }
+    public int getSpReloadSM(){
+        return  sp.getInt(SP_RELOADSM,0);
     }
 
 }

@@ -159,6 +159,15 @@ public class Home_activity extends AppCompatActivity
         // Set up a date time interpreter to interpret how the date and time will be formatted in
         // the week view. This is optional.
         setupDateTimeInterpreter(false);
+        if(sessionManager.getSpReloadSM()==1){
+            Toast.makeText(this, ""+sessionDetailSchedule.getSpReloadS(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Home_activity.this, Home_activity.class);
+            startActivity(intent);
+            sessionManager.saveSPInt(SessionManager.SP_RELOADSM,0);
+
+        }
+
+
     }
 
     //    get Profil

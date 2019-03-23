@@ -88,11 +88,11 @@
                         android:id="@+id/EdNote"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/bluelight"
                         android:hint="Catatan"
                         android:paddingBottom="20dp"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp" />
+                        android:paddingRight="10dp"
+                        android:textCursorDrawable="@drawable/custom_edit_text_cursor" />
 
                     <View
                         android:layout_width="match_parent"
@@ -209,7 +209,7 @@
                                 android:layout_weight="2"
                                 android:fontFamily="sans-serif-medium"
                                 android:gravity="end"
-                                android:text="(klik disini untuk seting pengingat)"
+                                android:text="(klik disini untuk mengatur pengingat)"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -257,7 +257,7 @@
                                 android:layout_weight="2"
                                 android:fontFamily="sans-serif-medium"
                                 android:gravity="end"
-                                android:text="(Centang tugas jika pr telah selesai)"
+                                android:text="(klik kotak disamping jika tugas telah selesai)"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
