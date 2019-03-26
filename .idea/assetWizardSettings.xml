@@ -34,7 +34,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="paddingPercent" value="15" />
+                                                <entry key="paddingPercent" value="5" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -47,7 +47,7 @@
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="cropped" value="true" />
-                                      <entry key="imageAsset" value="D:\projek\Projek Android\Freelancer\uny_code\WhatsApp Image 2019-03-16 at 12.36.35 (1).jpeg" />
+                                      <entry key="imageAsset" value="D:\projek\Projek Android\Freelancer\favicon.jpg" />
                                       <entry key="outputName" value="skedilogo" />
                                     </map>
                                   </option>
