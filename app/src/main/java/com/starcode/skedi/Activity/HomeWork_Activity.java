@@ -134,6 +134,7 @@ public class HomeWork_Activity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 clearDataSession();
+                sessionDetailSchedule.saveSPString(SessionDetailSchedule.SP_MAPEL,"");
                 Intent intent=new Intent(HomeWork_Activity.this,AddHomeWork_Activity.class);
                 startActivity(intent);
             }

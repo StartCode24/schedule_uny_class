@@ -49,6 +49,7 @@ import com.starcode.skedi.model.DataProfilResponse;
 import com.starcode.skedi.model.FeedAllMapel.FeedAllMapel;
 import com.starcode.skedi.model.IDHomeWorkResponse;
 import com.starcode.skedi.session.SessionDetailHomeWork;
+import com.starcode.skedi.session.SessionDetailSchedule;
 import com.starcode.skedi.session.SessionManager;
 import com.starcode.skedi.Receiver.AlertReceiver;
 import com.starcode.skedi.utils.AlarmUtil;
@@ -113,6 +114,7 @@ public class AddHomeWork_Activity extends AppCompatActivity {
     private NotificationCompat.Builder notificationBuilder;
     private int currentNotificationID = 0;
     private NotificationManager notificationManager;
+    private SessionDetailSchedule sessionDetailSchedule;
     private Bitmap icon;
 
 
@@ -124,10 +126,12 @@ public class AddHomeWork_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_add_home_work_);
         ButterKnife.bind(this);
         sessionManager = new SessionManager(AddHomeWork_Activity.this);
+        sessionDetailSchedule = new SessionDetailSchedule(this);
         sessionDetailHomeWork =new SessionDetailHomeWork(this);
         baseApiService = utilsApi.getApiServices();
         mContext = this;
         mDialog = new Dialog(this);
+        cekSession();
         getIdHomeWork();
         getProfil();
 
@@ -162,6 +166,7 @@ public class AddHomeWork_Activity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sessionDetailSchedule.saveSPString(SessionDetailSchedule.SP_MAPEL,"");
                 Intent intent=new Intent(AddHomeWork_Activity.this,HomeWork_Activity.class);
                 startActivity(intent);
                 finish();
@@ -171,9 +176,17 @@ public class AddHomeWork_Activity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
+        sessionDetailSchedule.saveSPString(SessionDetailSchedule.SP_MAPEL,"");
         Intent intent = new Intent(AddHomeWork_Activity.this,HomeWork_Activity.class);
         startActivity(intent);
         finish();
+    }
+    public void cekSession(){
+        if(sessionDetailSchedule.getSpMapel()!=""){
+            EdsMapel.setText(sessionDetailSchedule.getSpMapel());
+        }
+
+//        Toast.makeText(this, ""+SchedlID, Toast.LENGTH_SHORT).show();
     }
 
 

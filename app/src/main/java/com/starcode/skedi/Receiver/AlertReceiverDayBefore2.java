@@ -20,6 +20,7 @@ public class AlertReceiverDayBefore2 extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
         ArrayList<String> MapelName = (ArrayList<String>) bundle.getStringArrayList("MapelName");
+                System.err.println("sizeee"+ MapelName.size());
         for (int i=0;i<MapelName.size();i++){
             note ="\n"+MapelName.get(i);
             mapel +=note;

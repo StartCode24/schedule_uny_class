@@ -53,6 +53,7 @@ import java.lang.reflect.Type;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import belka.us.androidtoggleswitch.widgets.BaseToggleSwitch;
@@ -263,11 +264,11 @@ public class Setting_Activity extends AppCompatActivity
 //        System.err.println("hour :"+hour+" minut:"+minut+" week:"+week+" id"+idSched+" notifId"+idNotif);
         Calendar calSet = Calendar.getInstance();
 
-        calSet.add(Calendar.DAY_OF_WEEK, week);
-        calSet.add(Calendar.HOUR_OF_DAY, hour);
-        calSet.add(Calendar.MINUTE, minut);
-        calSet.add(Calendar.SECOND, 00);
-        calSet.add(Calendar.MILLISECOND, 00);
+        calSet.set(Calendar.DAY_OF_WEEK, week);
+        calSet.set(Calendar.HOUR_OF_DAY, hour);
+        calSet.set(Calendar.MINUTE, minut);
+        calSet.set(Calendar.SECOND, 00);
+        calSet.set(Calendar.MILLISECOND, 00);
         startAlarm(calSet,idNotif,idSched,i);
 
 
@@ -283,16 +284,70 @@ public class Setting_Activity extends AppCompatActivity
             intent.putExtra("SchedlID", ""+idSched);
             intent.putExtra("MapelName", ""+mapelName);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                    c.getTimeInMillis(),   7 * 24 * 60 * 60 * 1000, pendingIntent);
+            PendingIntent pendingIntent2 = PendingIntent.getBroadcast(this, notifId1+12, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Calendar todayDate = Calendar.getInstance();
+            int dayToday = todayDate.get(Calendar.DAY_OF_WEEK);
+            Date dateSpecified = c.getTime();
+            Date dateToday = todayDate.getTime();
+            int dayWeek = c.get(Calendar.DAY_OF_WEEK);
+            if (dayWeek == dayToday) {
+
+                if(dateSpecified.before(dateToday)){
+                    System.err.println("(hari ini jam terlewat)"+ dayToday+" Hari ke" + dayWeek+" "+mapelName);
+                    alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                            c.getTimeInMillis()+(86400000*7), AlarmManager.INTERVAL_DAY, pendingIntent);
+                }else {
+                    System.err.println("(hari ini )"+ dayToday+" Hari ke" + dayWeek+" "+mapelName+" "+ dateToday);
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent2);
+                    alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                            c.getTimeInMillis()+(86400000*7), AlarmManager.INTERVAL_DAY, pendingIntent);
+                }
+            }else if(dayWeek>dayToday){
+                System.err.println("(sesudah)"+ dayToday+" Hari ke" + dayWeek+" "+mapelName);
+                int dayNext=dayWeek-dayToday;
+                alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis()+(86400000*dayNext), pendingIntent2);
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                        c.getTimeInMillis()+(86400000*7), AlarmManager.INTERVAL_DAY, pendingIntent);
+            }else if(dayWeek<dayToday){
+                System.err.println("(sebelum)"+ dayToday+" Hari ke" + dayWeek+" "+mapelName);
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                        c.getTimeInMillis()+(86400000*7), AlarmManager.INTERVAL_DAY, pendingIntent);
+            }
+
         }else{
             Intent intent = new Intent(this, AlertReceiverMinuteBefore.class);
             intent.putExtra("NOTIFID",""+ notifId1);
             intent.putExtra("SchedlID", ""+idSched);
             intent.putExtra("MapelName", ""+mapelName);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId1, intent,  PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                    c.getTimeInMillis(),   7 * 24 * 60 * 60 * 1000, pendingIntent);
+            PendingIntent pendingIntent2 = PendingIntent.getBroadcast(this, notifId1+12, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Calendar todayDate = Calendar.getInstance();
+            int dayToday = todayDate.get(Calendar.DAY_OF_WEEK);
+            Date dateSpecified = c.getTime();
+            Date dateToday = todayDate.getTime();
+            int dayWeek = c.get(Calendar.DAY_OF_WEEK);
+            if (dayWeek == dayToday) {
+                if(dateSpecified.before(dateToday)){
+                    System.err.println("(hari ini jam terlewat)"+ dayToday+" Hari ke" + dayWeek+" "+mapelName);
+                    alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                            c.getTimeInMillis()+(86400000*7), AlarmManager.INTERVAL_DAY, pendingIntent);
+                }else {
+                    System.err.println("(hari ini )"+ dayToday+" Hari ke" + dayWeek+" "+mapelName);
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent2);
+                    alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                            c.getTimeInMillis()+(86400000*7), AlarmManager.INTERVAL_DAY, pendingIntent);
+                }
+            }else if(dayWeek>dayToday){
+                System.err.println("(sesudah)"+ dayToday+" Hari ke" + dayWeek+" "+mapelName);
+                int dayNext=dayWeek-dayToday;
+                alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis()+(86400000*dayNext), pendingIntent2);
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                        c.getTimeInMillis()+(86400000*7), AlarmManager.INTERVAL_DAY, pendingIntent);
+            }else if(dayWeek<dayToday){
+                System.err.println("(sebelum)"+ dayToday+" Hari ke" + dayWeek+" "+mapelName);
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                        c.getTimeInMillis()+(86400000*7), AlarmManager.INTERVAL_DAY, pendingIntent);
+            }
         }
 
     }

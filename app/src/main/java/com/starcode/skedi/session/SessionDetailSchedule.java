@@ -8,6 +8,7 @@ public class SessionDetailSchedule {
     public static final String SP_IDSCHEDULE="spid";
     public static final String SP_IDSCHEDULE2="spid2";
     public static final String SP_RELOADS="SpReloadS";
+    public static final String SP_MAPEL="SpMapel";
 
     SharedPreferences sp;
     SharedPreferences.Editor spEditor;
@@ -44,5 +45,8 @@ public class SessionDetailSchedule {
     }
     public int getSpReloadS(){
         return  sp.getInt(SP_RELOADS,0);
+    }
+    public String getSpMapel(){
+        return  sp.getString(SP_MAPEL,"");
     }
 }

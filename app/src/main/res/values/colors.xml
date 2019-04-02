@@ -7,7 +7,7 @@
     <color name="white">#FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="gradStart">#32457e</color>
-    <color name="gradStop">#3450aa</color>
+    <color name="gradStop">#263b7c</color>
 
     <color name="toolbar">#efefef</color>
     <color name="toolbar_text">#8fbebcbc</color>
@@ -20,9 +20,11 @@
     <color name="event_color_04">#f8b552</color>
 
     <color name="bluedark">#2f333f</color>
-    <color name="bluelight">#49acd5</color>
+    <color name="bluelight">#6ed1fa</color>
     <color name="green">#45bc62</color>
     <color name="orange">#eaad43</color>
+    <color name="blue2">#3ef5d3</color>
+    <color name="blue_dark2">#036e67</color>
 
     <color name="selected_dot">#2D9CDB</color>
     <color name="idle_dot">#662D9CDB</color>

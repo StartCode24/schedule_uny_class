@@ -5,40 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/bg_color"
+    android:layout_gravity="center"
+    android:layout_centerInParent="true"
+    android:background="@drawable/gradient_color"
     tools:context=".Activity.Main_Activity">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp">
+        <LinearLayout
+            android:id="@+id/LnImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <ImageView
+                android:id="@+id/imgView_logo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:gravity="center_vertical"
+                android:src="@drawable/skeditrans" />
+        </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imgView_logo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@mipmap/skedilogo" />
 
         <RelativeLayout
             android:id="@+id/rellay1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imgView_logo"
+            android:gravity="center"
+            android:layout_below="@+id/LnImage"
             android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_login"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="Login"
+                android:text="Skedi"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="30sp" />
+
 <!--NIK-->
             <LinearLayout
                 android:id="@+id/linlay1"
@@ -53,27 +65,28 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="@string/nis"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
 
-                    <EditText
-                        android:id="@+id/ed_nik"
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/ed_action"
-                        android:fontFamily="sans-serif-light"
-                        android:inputType="number"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:layout_height="wrap_content"
+                        app:passwordToggleEnabled="true"
+                        android:hint="@string/nis"
+                        android:textColorHint="@color/white"
+                        >
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/ed_nik"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="sans-serif-light"
+                            app:backgroundTint="@color/white"
+                            android:drawableStart="@drawable/ic_account_box_white_24dp"
+                            android:inputType="number"
+                            android:drawablePadding="5dp"
+                            android:paddingRight="15dp"
+                            android:textColor="@color/white"
+                            android:textSize="15sp" />
+                    </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
 <!--password-->
@@ -83,29 +96,33 @@
                     android:layout_marginTop="20dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="@string/password"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:fontFamily="sans-serif-light"-->
+                        <!--android:text="@string/password"-->
+                        <!--android:textAllCaps="true"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="15sp" />-->
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:passwordToggleEnabled="true"
+                    android:hint="@string/password"
+                    android:textColorHint="@color/white"
                     >
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/ed_password"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/ed_action"
                         android:fontFamily="sans-serif-light"
                         android:inputType="textPassword"
-                        android:paddingLeft="15dp"
+                        android:drawableStart="@drawable/ic_https_white_24dp"
+                        app:backgroundTint="@color/white"
+                        android:drawablePadding="5dp"
                         android:paddingRight="15dp"
+
                         android:textColor="@color/white"
                         android:textSize="15sp" />
                 </android.support.design.widget.TextInputLayout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_color"
+    android:background="@drawable/gradient_color"
     android:orientation="vertical"
     android:gravity="center"
     tools:context=".Activity.SignUpUser_Activity">
@@ -23,28 +23,35 @@
         android:layout_marginRight="40dp"
         android:paddingBottom="40dp"
         >
-
-        <ImageView
-            android:id="@+id/imgView_logo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@mipmap/skedilogo" />
-
+        <LinearLayout
+            android:id="@+id/LnImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <ImageView
+                android:id="@+id/imgView_logo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/skeditrans" />
+        </LinearLayout>
         <RelativeLayout
             android:id="@+id/rellayS1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imgView_logo"
+            android:layout_below="@+id/LnImage"
             android:visibility="gone">
 
 
             <TextView
                 android:id="@+id/tv_login"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:fontFamily="sans-serif-medium"
                 android:text="SignUp"
                 android:textColor="@color/white"
@@ -78,10 +85,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/ed_action"
+
+                        android:drawablePadding="5dp"
+                        android:backgroundTint="@color/white"
                         android:fontFamily="sans-serif-light"
                         android:inputType="number"
-                        android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
@@ -108,9 +116,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/ed_action"
+
+                        android:drawablePadding="5dp"
+                        android:backgroundTint="@color/white"
                         android:fontFamily="sans-serif-light"
-                        android:paddingLeft="15dp"
                         android:inputType="textFilter"
                         android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         android:paddingRight="15dp"
@@ -139,9 +148,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/ed_action"
+
+                        android:drawablePadding="5dp"
+                        android:backgroundTint="@color/white"
                         android:fontFamily="sans-serif-light"
-                        android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
@@ -167,11 +177,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="5dp"
-                        android:paddingLeft="15dp"
                         android:paddingRight="15dp"
-                        android:hint=""
                         android:textColor="@color/white"
-                        android:background="@drawable/ed_action"
+                        android:drawablePadding="5dp"
+                        android:backgroundTint="@color/white"
                         android:textColorHint="#aa828282"
                         android:textSize="18dp"
                         android:textIsSelectable="true"
@@ -184,45 +193,7 @@
                         />
 
                 </LinearLayout>
-                <!--jurusan-->
-                <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="20dp"-->
-                    <!--android:orientation="vertical">-->
 
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:fontFamily="sans-serif-light"-->
-                        <!--android:text="Jurusan"-->
-                        <!--android:textAllCaps="true"-->
-                        <!--android:textColor="@color/white"-->
-                        <!--android:textSize="15sp" />-->
-
-                    <!--<com.reginald.editspinner.EditSpinner-->
-                        <!--android:id="@+id/eds_jurusanSiswa"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="40dp"-->
-                        <!--android:layout_marginTop="5dp"-->
-                        <!--android:paddingLeft="15dp"-->
-                        <!--android:paddingRight="15dp"-->
-                        <!--android:textColor="@color/white"-->
-                        <!--android:background="@drawable/ed_action"-->
-                        <!--android:hint=""-->
-                        <!--android:textColorHint="#aa828282"-->
-                        <!--android:textSize="18dp"-->
-                        <!--android:inputType="none"-->
-                        <!--android:textIsSelectable="true"-->
-                        <!--android:focusable="false"-->
-                        <!--app:dropDownDrawable="@drawable/picker"-->
-                        <!--app:dropDownDrawableSpacing="15dp"-->
-                        <!--app:dropDownDrawableWidth="25dp"-->
-                        <!--app:dropDownDrawableHeight="25dp"-->
-                        <!--app:dropDownAnimStyle="@style/CustomPopupAnimation"/>-->
-
-                <!--</LinearLayout>-->
-                <!--password 1-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -243,9 +214,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/ed_action"
+
+                        android:drawablePadding="5dp"
+                        android:backgroundTint="@color/white"
                         android:fontFamily="sans-serif-light"
-                        android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:inputType="textPassword"
                         android:textColor="@color/white"
@@ -272,9 +244,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/ed_action"
+
+                        android:drawablePadding="5dp"
+                        android:backgroundTint="@color/white"
                         android:fontFamily="sans-serif-light"
-                        android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:inputType="textPassword"
                         android:textColor="@color/white"

@@ -39,7 +39,7 @@ public class Main_Activity extends AppCompatActivity {
     RelativeLayout rellay2;
 
     @BindView(R.id.ed_nik)
-    EditText edNik;
+    TextInputEditText edNik;
     @BindView(R.id.ed_password)
     TextInputEditText edPassword;
 

@@ -82,6 +82,7 @@ public class DetailSchedule_Activity extends AppCompatActivity {
                     message = response.body().getAuth_SearchSched().getMessage();
                     if (status.equals("200")) {
                         tvMapelName.setText(response.body().getAuth_SearchSched().getData().getMapel_name());
+                        sessionDetailSchedule.saveSPString(SessionDetailSchedule.SP_MAPEL,response.body().getAuth_SearchSched().getData().getMapel_name());
 //                        tvMonth.setText(response.body().getAuth_SearchSched().getData().getMonth());
                         tvDay.setText(response.body().getAuth_SearchSched().getData().getDay_name());
                         tvTeacherName.setText(response.body().getAuth_SearchSched().getData().getGuru_name());

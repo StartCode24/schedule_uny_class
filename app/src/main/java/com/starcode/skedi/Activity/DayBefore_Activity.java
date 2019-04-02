@@ -39,6 +39,7 @@ import com.starcode.skedi.session.SessionManager;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import belka.us.androidtoggleswitch.widgets.BaseToggleSwitch;
@@ -52,31 +53,40 @@ import retrofit2.Response;
 
 public class DayBefore_Activity extends AppCompatActivity {
 
-    @BindView(R.id.TvSenin)TextView TvSenin;
-    @BindView(R.id.TvSelasa)TextView TvSelasa;
-    @BindView(R.id.TvRabu)TextView TvRabu;
-    @BindView(R.id.TvKamis)TextView TvKamis;
-    @BindView(R.id.TvJumat)TextView TvJumat;
-    @BindView(R.id.TvSabtu)TextView TvSabtu;
-    @BindView(R.id.TvMinggu)TextView TvMinggu;
-    @BindView(R.id.toolbar)Toolbar toolbar;
-    @BindView(R.id.Ln_Minggu)LinearLayout LnMinggu;
+    @BindView(R.id.TvSenin)
+    TextView TvSenin;
+    @BindView(R.id.TvSelasa)
+    TextView TvSelasa;
+    @BindView(R.id.TvRabu)
+    TextView TvRabu;
+    @BindView(R.id.TvKamis)
+    TextView TvKamis;
+    @BindView(R.id.TvJumat)
+    TextView TvJumat;
+    @BindView(R.id.TvSabtu)
+    TextView TvSabtu;
+    @BindView(R.id.TvMinggu)
+    TextView TvMinggu;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.Ln_Minggu)
+    LinearLayout LnMinggu;
 
-    private AlertReceiverDayBefore alertReceiverDayBefore=null;
-    private AlertReceiverDayBefore2 alertReceiverDayBefore2=null;
+    private AlertReceiverDayBefore alertReceiverDayBefore = null;
+    private AlertReceiverDayBefore2 alertReceiverDayBefore2 = null;
     private SessionDayBefore sessionDayBefore;
     private SessionManager sessionManager;
     Dialog mDialog;
-    int senin,selasa,rabu,kamis,jumat,sabtu,minggu;
+    int senin, selasa, rabu, kamis, jumat, sabtu, minggu;
     private String Day;
-    private String status,status2="";
-    private  String kelas_id;
+    private String status, status2 = "";
+    private String kelas_id;
     private String jurusan_id;
-    private int hours=-1;
+    private int hours = -1;
     private int minute;
-    private int notifId=0;
-    private String Timer="";
-    ArrayList<String> nameMapel=new ArrayList<String>();
+    private int notifId = 0;
+    private String Timer = "";
+    ArrayList<String> nameMapel = new ArrayList<String>();
     ArrayList<DataSchedForDay> mDataSchedForDay;
     private com.starcode.skedi.apiHolder.baseApiService baseApiService;
 
@@ -88,7 +98,7 @@ public class DayBefore_Activity extends AppCompatActivity {
         baseApiService = utilsApi.getApiServices();
         sessionManager = new SessionManager(DayBefore_Activity.this);
         getProfil();
-        sessionDayBefore=new SessionDayBefore(DayBefore_Activity.this);
+        sessionDayBefore = new SessionDayBefore(DayBefore_Activity.this);
         loadData();
         toolbar.setTitle("Pengaturan Alarm");
         setSupportActionBar(toolbar);
@@ -98,7 +108,7 @@ public class DayBefore_Activity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(DayBefore_Activity.this,Setting_Activity.class);
+                Intent intent = new Intent(DayBefore_Activity.this, Setting_Activity.class);
                 startActivity(intent);
                 finish();
             }
@@ -116,43 +126,43 @@ public class DayBefore_Activity extends AppCompatActivity {
         mDialog = new Dialog(this);
 
 
-
     }
+
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(DayBefore_Activity.this,Setting_Activity.class);
+        Intent intent = new Intent(DayBefore_Activity.this, Setting_Activity.class);
         startActivity(intent);
         finish();
     }
 
 
     @OnClick(R.id.Ln_Senin)
-    void btnSenin(){
+    void btnSenin() {
         mDialog.setContentView(R.layout.popup_day_before);
-        final TimePicker timePickerAlrm=(TimePicker)mDialog.findViewById(R.id.timePickerAlrm);
-        TextView TvPengingat=(TextView)mDialog.findViewById(R.id.TvPengingat);
+        final TimePicker timePickerAlrm = (TimePicker) mDialog.findViewById(R.id.timePickerAlrm);
+        TextView TvPengingat = (TextView) mDialog.findViewById(R.id.TvPengingat);
         TvPengingat.setText("Senin )");
         timePickerAlrm.setIs24HourView(true);
 
         timePickerAlrm.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker timePicker, int hour, int minut) {
-                hours=hour;
-                minute=minut;
-                Timer =hour+":"+minut+" WIB";
+                hours = hour;
+                minute = minut;
+                Timer = hour + ":" + minut + " WIB";
             }
         });
-        Button saveBtn=(Button)mDialog.findViewById(R.id.btn_save);
-        Button noBtn=(Button)mDialog.findViewById(R.id.btn_no);
+        Button saveBtn = (Button) mDialog.findViewById(R.id.btn_save);
+        Button noBtn = (Button) mDialog.findViewById(R.id.btn_no);
         ToggleSwitch toggleSwitch = (ToggleSwitch) mDialog.findViewById(R.id.Tg_Active);
         ArrayList<String> labels = new ArrayList<>();
         labels.add("OFF");
         labels.add("ON");
         toggleSwitch.setLabels(labels);
 
-        senin=sessionDayBefore.getSpIdSenin();
+        senin = sessionDayBefore.getSpIdSenin();
 
-        if(senin==0)timePickerAlrm.setEnabled(false);
+        if (senin == 0) timePickerAlrm.setEnabled(false);
         toggleSwitch.setCheckedTogglePosition(sessionDayBefore.getSpIdSenin());
 
         mDataSchedForDay.clear();
@@ -160,8 +170,8 @@ public class DayBefore_Activity extends AppCompatActivity {
         toggleSwitch.setOnToggleSwitchChangeListener(new BaseToggleSwitch.OnToggleSwitchChangeListener() {
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
-                senin=position;
-                if(senin==0)timePickerAlrm.setEnabled(false);
+                senin = position;
+                if (senin == 0) timePickerAlrm.setEnabled(false);
                 else timePickerAlrm.setEnabled(true);
 
 
@@ -171,35 +181,35 @@ public class DayBefore_Activity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    notifId=100000001;
-                    if (senin==0){
-                        sessionDayBefore.saveSPInt(SessionDayBefore.SP_SENIN,senin);
-                        sessionDayBefore.saveSPString(sessionDayBefore.SP_SENIN_TIME,"OFF");
-                        cancelAlarm();
-                        mDataSchedForDay.clear();
-                        Intent intent = new Intent(DayBefore_Activity.this, DayBefore_Activity.class);
-                        startActivity(intent);
-                        mDialog.dismiss();
-                    }else {
-                        if(hours==-1){
-                            Toast.makeText(DayBefore_Activity.this, "Cek Kembali Waktu Alarm", Toast.LENGTH_SHORT).show();
-                        }else {
-                        if(mDataSchedForDay.size()!=0){
+                notifId = 100000001;
+                if (senin == 0) {
+                    sessionDayBefore.saveSPInt(SessionDayBefore.SP_SENIN, senin);
+                    sessionDayBefore.saveSPString(sessionDayBefore.SP_SENIN_TIME, "OFF");
+                    cancelAlarm();
+                    mDataSchedForDay.clear();
+                    Intent intent = new Intent(DayBefore_Activity.this, DayBefore_Activity.class);
+                    startActivity(intent);
+                    mDialog.dismiss();
+                } else {
+                    if (hours == -1) {
+                        Toast.makeText(DayBefore_Activity.this, "Cek Kembali Waktu Alarm", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (mDataSchedForDay.size() != 0) {
                             DataSched();
-                            saveNotificationSenin(1,hours,minute);
-                            sessionDayBefore.saveSPInt(SessionDayBefore.SP_SENIN,senin);
-                            sessionDayBefore.saveSPString(sessionDayBefore.SP_SENIN_TIME,Timer);
+                            saveNotificationSenin(1, hours, minute);
+                            sessionDayBefore.saveSPInt(SessionDayBefore.SP_SENIN, senin);
+                            sessionDayBefore.saveSPString(sessionDayBefore.SP_SENIN_TIME, Timer);
                             mDataSchedForDay.clear();
                             Toast.makeText(DayBefore_Activity.this, "Alarm Tersimapan", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(DayBefore_Activity.this, DayBefore_Activity.class);
                             startActivity(intent);
                             mDialog.dismiss();
-                        }else {
+                        } else {
                             Toast.makeText(DayBefore_Activity.this, "Tidak Ada Jadwal", Toast.LENGTH_SHORT).show();
                             mDataSchedForDay.clear();
                             mDialog.dismiss();
                         }
-                        }
+                    }
 
                 }
 
@@ -215,45 +225,45 @@ public class DayBefore_Activity extends AppCompatActivity {
             }
         });
 
-        System.err.println("valuueee "+senin);
+        System.err.println("valuueee " + senin);
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mDialog.show();
     }
 
     @OnClick(R.id.Ln_Selasa)
-    void btnSelasa(){
+    void btnSelasa() {
         mDialog.setContentView(R.layout.popup_day_before);
-        final TimePicker timePickerAlrm=(TimePicker)mDialog.findViewById(R.id.timePickerAlrm);
-        TextView TvPengingat=(TextView)mDialog.findViewById(R.id.TvPengingat);
+        final TimePicker timePickerAlrm = (TimePicker) mDialog.findViewById(R.id.timePickerAlrm);
+        TextView TvPengingat = (TextView) mDialog.findViewById(R.id.TvPengingat);
         TvPengingat.setText("Selasa )");
         timePickerAlrm.setIs24HourView(true);
 
         timePickerAlrm.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker timePicker, int hour, int minut) {
-                hours=hour;
-                minute=minut;
-                Timer =hour+":"+minut+" WIB";
+                hours = hour;
+                minute = minut;
+                Timer = hour + ":" + minut + " WIB";
             }
         });
-        Button saveBtn=(Button)mDialog.findViewById(R.id.btn_save);
-        Button noBtn=(Button)mDialog.findViewById(R.id.btn_no);
+        Button saveBtn = (Button) mDialog.findViewById(R.id.btn_save);
+        Button noBtn = (Button) mDialog.findViewById(R.id.btn_no);
         ToggleSwitch toggleSwitch = (ToggleSwitch) mDialog.findViewById(R.id.Tg_Active);
         ArrayList<String> labels = new ArrayList<>();
         labels.add("OFF");
         labels.add("ON");
         toggleSwitch.setLabels(labels);
 
-        selasa=sessionDayBefore.getSpIdSlasa();
-        if(selasa==0)timePickerAlrm.setEnabled(false);
+        selasa = sessionDayBefore.getSpIdSlasa();
+        if (selasa == 0) timePickerAlrm.setEnabled(false);
         toggleSwitch.setCheckedTogglePosition(sessionDayBefore.getSpIdSlasa());
         mDataSchedForDay.clear();
         DataSchedForDay("Selasa");
         toggleSwitch.setOnToggleSwitchChangeListener(new BaseToggleSwitch.OnToggleSwitchChangeListener() {
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
-                selasa=position;
-                if(selasa==0)timePickerAlrm.setEnabled(false);
+                selasa = position;
+                if (selasa == 0) timePickerAlrm.setEnabled(false);
                 else timePickerAlrm.setEnabled(true);
             }
         });
@@ -263,31 +273,31 @@ public class DayBefore_Activity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                notifId=100000002;
-                if (selasa==0){
-                    sessionDayBefore.saveSPInt(SessionDayBefore.SP_SELASA,selasa);
-                    sessionDayBefore.saveSPString(sessionDayBefore.SP_SELASA_TIME,"OFF");
+                notifId = 100000002;
+                if (selasa == 0) {
+                    sessionDayBefore.saveSPInt(SessionDayBefore.SP_SELASA, selasa);
+                    sessionDayBefore.saveSPString(sessionDayBefore.SP_SELASA_TIME, "OFF");
                     cancelAlarm();
                     mDataSchedForDay.clear();
                     Intent intent = new Intent(DayBefore_Activity.this, DayBefore_Activity.class);
                     startActivity(intent);
                     mDialog.dismiss();
-                }else {
-                    if(hours==-1){
+                } else {
+                    if (hours == -1) {
                         Toast.makeText(DayBefore_Activity.this, "Cek Kembali Waktu Alarm", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
 
-                        if(mDataSchedForDay.size()!=0){
+                        if (mDataSchedForDay.size() != 0) {
                             DataSched();
-                            saveNotificationSenin(2,hours,minute);
-                            sessionDayBefore.saveSPInt(SessionDayBefore.SP_SELASA,selasa);
-                            sessionDayBefore.saveSPString(sessionDayBefore.SP_SELASA_TIME,Timer);
+                            saveNotificationSenin(2, hours, minute);
+                            sessionDayBefore.saveSPInt(SessionDayBefore.SP_SELASA, selasa);
+                            sessionDayBefore.saveSPString(sessionDayBefore.SP_SELASA_TIME, Timer);
                             mDataSchedForDay.clear();
                             Toast.makeText(DayBefore_Activity.this, "Alarm Tersimapan", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(DayBefore_Activity.this, DayBefore_Activity.class);
                             startActivity(intent);
                             mDialog.dismiss();
-                        }else {
+                        } else {
                             Toast.makeText(DayBefore_Activity.this, "Tidak Ada Jadwal", Toast.LENGTH_SHORT).show();
                             mDataSchedForDay.clear();
                             mDialog.dismiss();
@@ -313,31 +323,31 @@ public class DayBefore_Activity extends AppCompatActivity {
     }
 
     @OnClick(R.id.Ln_Rabu)
-    void btnRabu(){
+    void btnRabu() {
         mDialog.setContentView(R.layout.popup_day_before);
-        final TimePicker timePickerAlrm=(TimePicker)mDialog.findViewById(R.id.timePickerAlrm);
-        TextView TvPengingat=(TextView)mDialog.findViewById(R.id.TvPengingat);
+        final TimePicker timePickerAlrm = (TimePicker) mDialog.findViewById(R.id.timePickerAlrm);
+        TextView TvPengingat = (TextView) mDialog.findViewById(R.id.TvPengingat);
         TvPengingat.setText("Rabu )");
         timePickerAlrm.setIs24HourView(true);
 
         timePickerAlrm.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker timePicker, int hour, int minut) {
-                hours=hour;
-                minute=minut;
-                Timer =hour+":"+minut+" WIB";
+                hours = hour;
+                minute = minut;
+                Timer = hour + ":" + minut + " WIB";
             }
         });
-        Button saveBtn=(Button)mDialog.findViewById(R.id.btn_save);
-        Button noBtn=(Button)mDialog.findViewById(R.id.btn_no);
+        Button saveBtn = (Button) mDialog.findViewById(R.id.btn_save);
+        Button noBtn = (Button) mDialog.findViewById(R.id.btn_no);
         ToggleSwitch toggleSwitch = (ToggleSwitch) mDialog.findViewById(R.id.Tg_Active);
         ArrayList<String> labels = new ArrayList<>();
         labels.add("OFF");
         labels.add("ON");
         toggleSwitch.setLabels(labels);
 
-        rabu=sessionDayBefore.getSpIdRabu();
-        if(rabu==0)timePickerAlrm.setEnabled(false);
+        rabu = sessionDayBefore.getSpIdRabu();
+        if (rabu == 0) timePickerAlrm.setEnabled(false);
         toggleSwitch.setCheckedTogglePosition(sessionDayBefore.getSpIdRabu());
         mDataSchedForDay.clear();
         DataSchedForDay("Rabu");
@@ -345,8 +355,8 @@ public class DayBefore_Activity extends AppCompatActivity {
         toggleSwitch.setOnToggleSwitchChangeListener(new BaseToggleSwitch.OnToggleSwitchChangeListener() {
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
-                rabu=position;
-                if(rabu==0)timePickerAlrm.setEnabled(false);
+                rabu = position;
+                if (rabu == 0) timePickerAlrm.setEnabled(false);
                 else timePickerAlrm.setEnabled(true);
 
             }
@@ -358,31 +368,31 @@ public class DayBefore_Activity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                notifId=100000003;
-                if (rabu==0){
-                    sessionDayBefore.saveSPInt(SessionDayBefore.SP_RABU,rabu);
-                    sessionDayBefore.saveSPString(sessionDayBefore.SP_RABU_TIME,"OFF");
+                notifId = 100000003;
+                if (rabu == 0) {
+                    sessionDayBefore.saveSPInt(SessionDayBefore.SP_RABU, rabu);
+                    sessionDayBefore.saveSPString(sessionDayBefore.SP_RABU_TIME, "OFF");
                     cancelAlarm();
                     mDataSchedForDay.clear();
                     Intent intent = new Intent(DayBefore_Activity.this, DayBefore_Activity.class);
                     startActivity(intent);
                     mDialog.dismiss();
-                }else {
-                    if(hours==-1){
+                } else {
+                    if (hours == -1) {
                         Toast.makeText(DayBefore_Activity.this, "Cek Kembali Waktu Alarm", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
 
-                        if(mDataSchedForDay.size()!=0){
+                        if (mDataSchedForDay.size() != 0) {
                             DataSched();
-                            saveNotificationSenin(3,hours,minute);
-                            sessionDayBefore.saveSPInt(SessionDayBefore.SP_RABU,rabu);
-                            sessionDayBefore.saveSPString(sessionDayBefore.SP_RABU_TIME,Timer);
+                            saveNotificationSenin(3, hours, minute);
+                            sessionDayBefore.saveSPInt(SessionDayBefore.SP_RABU, rabu);
+                            sessionDayBefore.saveSPString(sessionDayBefore.SP_RABU_TIME, Timer);
                             mDataSchedForDay.clear();
                             Toast.makeText(DayBefore_Activity.this, "Alarm Tersimapan", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(DayBefore_Activity.this, DayBefore_Activity.class);
                             startActivity(intent);
                             mDialog.dismiss();
-                        }else {
+                        } else {
                             Toast.makeText(DayBefore_Activity.this, "Tidak Ada Jadwal", Toast.LENGTH_SHORT).show();
                             mDataSchedForDay.clear();
                             mDialog.dismiss();
@@ -408,39 +418,39 @@ public class DayBefore_Activity extends AppCompatActivity {
     }
 
     @OnClick(R.id.Ln_Kamis)
-    void btnKamis(){
+    void btnKamis() {
         mDialog.setContentView(R.layout.popup_day_before);
-        final TimePicker timePickerAlrm=(TimePicker)mDialog.findViewById(R.id.timePickerAlrm);
-        TextView TvPengingat=(TextView)mDialog.findViewById(R.id.TvPengingat);
+        final TimePicker timePickerAlrm = (TimePicker) mDialog.findViewById(R.id.timePickerAlrm);
+        TextView TvPengingat = (TextView) mDialog.findViewById(R.id.TvPengingat);
         TvPengingat.setText("Kamis )");
         timePickerAlrm.setIs24HourView(true);
 
         timePickerAlrm.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker timePicker, int hour, int minut) {
-                hours=hour;
-                minute=minut;
-                Timer =hour+":"+minut+" WIB";
+                hours = hour;
+                minute = minut;
+                Timer = hour + ":" + minut + " WIB";
             }
         });
-        Button saveBtn=(Button)mDialog.findViewById(R.id.btn_save);
-        Button noBtn=(Button)mDialog.findViewById(R.id.btn_no);
+        Button saveBtn = (Button) mDialog.findViewById(R.id.btn_save);
+        Button noBtn = (Button) mDialog.findViewById(R.id.btn_no);
         ToggleSwitch toggleSwitch = (ToggleSwitch) mDialog.findViewById(R.id.Tg_Active);
         ArrayList<String> labels = new ArrayList<>();
         labels.add("OFF");
         labels.add("ON");
         toggleSwitch.setLabels(labels);
 
-        kamis=sessionDayBefore.getSpIdKamis();
-        if(kamis==0)timePickerAlrm.setEnabled(false);
+        kamis = sessionDayBefore.getSpIdKamis();
+        if (kamis == 0) timePickerAlrm.setEnabled(false);
         toggleSwitch.setCheckedTogglePosition(sessionDayBefore.getSpIdKamis());
         mDataSchedForDay.clear();
         DataSchedForDay("Kamis");
         toggleSwitch.setOnToggleSwitchChangeListener(new BaseToggleSwitch.OnToggleSwitchChangeListener() {
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
-                kamis=position;
-                if(kamis==0)timePickerAlrm.setEnabled(false);
+                kamis = position;
+                if (kamis == 0) timePickerAlrm.setEnabled(false);
                 else timePickerAlrm.setEnabled(true);
 
             }
@@ -452,31 +462,31 @@ public class DayBefore_Activity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                notifId=100000004;
-                if (kamis==0){
-                    sessionDayBefore.saveSPInt(SessionDayBefore.SP_KAMIS,kamis);
-                    sessionDayBefore.saveSPString(sessionDayBefore.SP_KAMIS_TIME,"OFF");
+                notifId = 100000004;
+                if (kamis == 0) {
+                    sessionDayBefore.saveSPInt(SessionDayBefore.SP_KAMIS, kamis);
+                    sessionDayBefore.saveSPString(sessionDayBefore.SP_KAMIS_TIME, "OFF");
                     cancelAlarm();
                     mDataSchedForDay.clear();
                     Intent intent = new Intent(DayBefore_Activity.this, DayBefore_Activity.class);
                     startActivity(intent);
                     mDialog.dismiss();
-                }else {
-                    if(hours==-1){
+                } else {
+                    if (hours == -1) {
                         Toast.makeText(DayBefore_Activity.this, "Cek Kembali Waktu Alarm", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
 
-                        if(mDataSchedForDay.size()!=0){
+                        if (mDataSchedForDay.size() != 0) {
                             DataSched();
-                            saveNotificationSenin(4,hours,minute);
-                            sessionDayBefore.saveSPInt(SessionDayBefore.SP_KAMIS,kamis);
-                            sessionDayBefore.saveSPString(sessionDayBefore.SP_KAMIS_TIME,Timer);
+                            saveNotificationSenin(4, hours, minute);
+                            sessionDayBefore.saveSPInt(SessionDayBefore.SP_KAMIS, kamis);
+                            sessionDayBefore.saveSPString(sessionDayBefore.SP_KAMIS_TIME, Timer);
                             mDataSchedForDay.clear();
                             Toast.makeText(DayBefore_Activity.this, "Alarm Tersimapan", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(DayBefore_Activity.this, DayBefore_Activity.class);
                             startActivity(intent);
                             mDialog.dismiss();
-                        }else {
+                        } else {
                             Toast.makeText(DayBefore_Activity.this, "Tidak Ada Jadwal", Toast.LENGTH_SHORT).show();
                             mDataSchedForDay.clear();
                             mDialog.dismiss();
@@ -502,39 +512,39 @@ public class DayBefore_Activity extends AppCompatActivity {
     }
 
     @OnClick(R.id.Ln_Jumat)
-    void btnJumat(){
+    void btnJumat() {
         mDialog.setContentView(R.layout.popup_day_before);
-        final TimePicker timePickerAlrm=(TimePicker)mDialog.findViewById(R.id.timePickerAlrm);
-        TextView TvPengingat=(TextView)mDialog.findViewById(R.id.TvPengingat);
+        final TimePicker timePickerAlrm = (TimePicker) mDialog.findViewById(R.id.timePickerAlrm);
+        TextView TvPengingat = (TextView) mDialog.findViewById(R.id.TvPengingat);
         TvPengingat.setText("Jumat )");
         timePickerAlrm.setIs24HourView(true);
 
         timePickerAlrm.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker timePicker, int hour, int minut) {
-                hours=hour;
-                minute=minut;
-                Timer =hour+":"+minut+" WIB";
+                hours = hour;
+                minute = minut;
+                Timer = hour + ":" + minut + " WIB";
             }
         });
-        Button saveBtn=(Button)mDialog.findViewById(R.id.btn_save);
-        Button noBtn=(Button)mDialog.findViewById(R.id.btn_no);
+        Button saveBtn = (Button) mDialog.findViewById(R.id.btn_save);
+        Button noBtn = (Button) mDialog.findViewById(R.id.btn_no);
         ToggleSwitch toggleSwitch = (ToggleSwitch) mDialog.findViewById(R.id.Tg_Active);
         ArrayList<String> labels = new ArrayList<>();
         labels.add("OFF");
         labels.add("ON");
         toggleSwitch.setLabels(labels);
 
-        jumat=sessionDayBefore.getSpIdJumat();
-        if(jumat==0)timePickerAlrm.setEnabled(false);
+        jumat = sessionDayBefore.getSpIdJumat();
+        if (jumat == 0) timePickerAlrm.setEnabled(false);
         toggleSwitch.setCheckedTogglePosition(sessionDayBefore.getSpIdJumat());
         mDataSchedForDay.clear();
         DataSchedForDay("Jumat");
         toggleSwitch.setOnToggleSwitchChangeListener(new BaseToggleSwitch.OnToggleSwitchChangeListener() {
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
-                jumat=position;
-                if(jumat==0)timePickerAlrm.setEnabled(false);
+                jumat = position;
+                if (jumat == 0) timePickerAlrm.setEnabled(false);
                 else timePickerAlrm.setEnabled(true);
 
             }
@@ -546,31 +556,31 @@ public class DayBefore_Activity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                notifId=100000005;
-                if (jumat==0){
-                    sessionDayBefore.saveSPInt(SessionDayBefore.SP_JUMAT,jumat);
-                    sessionDayBefore.saveSPString(sessionDayBefore.SP_JUMAT_TIME,"OFF");
+                notifId = 100000005;
+                if (jumat == 0) {
+                    sessionDayBefore.saveSPInt(SessionDayBefore.SP_JUMAT, jumat);
+                    sessionDayBefore.saveSPString(sessionDayBefore.SP_JUMAT_TIME, "OFF");
                     cancelAlarm();
                     mDataSchedForDay.clear();
                     Intent intent = new Intent(DayBefore_Activity.this, DayBefore_Activity.class);
                     startActivity(intent);
                     mDialog.dismiss();
-                }else {
-                    if(hours==-1){
+                } else {
+                    if (hours == -1) {
                         Toast.makeText(DayBefore_Activity.this, "Cek Kembali Waktu Alarm", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
 
-                        if(mDataSchedForDay.size()!=0){
+                        if (mDataSchedForDay.size() != 0) {
                             DataSched();
-                            saveNotificationSenin(5,hours,minute);
-                            sessionDayBefore.saveSPInt(SessionDayBefore.SP_JUMAT,jumat);
-                            sessionDayBefore.saveSPString(sessionDayBefore.SP_JUMAT_TIME,Timer);
+                            saveNotificationSenin(5, hours, minute);
+                            sessionDayBefore.saveSPInt(SessionDayBefore.SP_JUMAT, jumat);
+                            sessionDayBefore.saveSPString(sessionDayBefore.SP_JUMAT_TIME, Timer);
                             mDataSchedForDay.clear();
                             Toast.makeText(DayBefore_Activity.this, "Alarm Tersimapan", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(DayBefore_Activity.this, DayBefore_Activity.class);
                             startActivity(intent);
                             mDialog.dismiss();
-                        }else {
+                        } else {
                             Toast.makeText(DayBefore_Activity.this, "Tidak Ada Jadwal", Toast.LENGTH_SHORT).show();
                             mDataSchedForDay.clear();
                             mDialog.dismiss();
@@ -596,39 +606,39 @@ public class DayBefore_Activity extends AppCompatActivity {
     }
 
     @OnClick(R.id.Ln_Sabtu)
-    void btnSabtu(){
+    void btnSabtu() {
         mDialog.setContentView(R.layout.popup_day_before);
-        final TimePicker timePickerAlrm=(TimePicker)mDialog.findViewById(R.id.timePickerAlrm);
-        TextView TvPengingat=(TextView)mDialog.findViewById(R.id.TvPengingat);
+        final TimePicker timePickerAlrm = (TimePicker) mDialog.findViewById(R.id.timePickerAlrm);
+        TextView TvPengingat = (TextView) mDialog.findViewById(R.id.TvPengingat);
         TvPengingat.setText("Sabtu )");
         timePickerAlrm.setIs24HourView(true);
 
         timePickerAlrm.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker timePicker, int hour, int minut) {
-                hours=hour;
-                minute=minut;
-                Timer =hour+":"+minut+" WIB";
+                hours = hour;
+                minute = minut;
+                Timer = hour + ":" + minut + " WIB";
             }
         });
-        Button saveBtn=(Button)mDialog.findViewById(R.id.btn_save);
-        Button noBtn=(Button)mDialog.findViewById(R.id.btn_no);
+        Button saveBtn = (Button) mDialog.findViewById(R.id.btn_save);
+        Button noBtn = (Button) mDialog.findViewById(R.id.btn_no);
         ToggleSwitch toggleSwitch = (ToggleSwitch) mDialog.findViewById(R.id.Tg_Active);
         ArrayList<String> labels = new ArrayList<>();
         labels.add("OFF");
         labels.add("ON");
         toggleSwitch.setLabels(labels);
 
-        sabtu=sessionDayBefore.getSpIdSabtu();
-        if(sabtu==0)timePickerAlrm.setEnabled(false);
+        sabtu = sessionDayBefore.getSpIdSabtu();
+        if (sabtu == 0) timePickerAlrm.setEnabled(false);
         toggleSwitch.setCheckedTogglePosition(sessionDayBefore.getSpIdSabtu());
         mDataSchedForDay.clear();
         DataSchedForDay("Sabtu");
         toggleSwitch.setOnToggleSwitchChangeListener(new BaseToggleSwitch.OnToggleSwitchChangeListener() {
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
-                sabtu=position;
-                if(sabtu==0)timePickerAlrm.setEnabled(false);
+                sabtu = position;
+                if (sabtu == 0) timePickerAlrm.setEnabled(false);
                 else timePickerAlrm.setEnabled(true);
 
             }
@@ -640,31 +650,31 @@ public class DayBefore_Activity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                notifId=100000006;
-                if (sabtu==0){
-                    sessionDayBefore.saveSPInt(SessionDayBefore.SP_SABTU,sabtu);
-                    sessionDayBefore.saveSPString(sessionDayBefore.SP_SABTU_TIME,"OFF");
+                notifId = 100000006;
+                if (sabtu == 0) {
+                    sessionDayBefore.saveSPInt(SessionDayBefore.SP_SABTU, sabtu);
+                    sessionDayBefore.saveSPString(sessionDayBefore.SP_SABTU_TIME, "OFF");
                     cancelAlarm();
                     mDataSchedForDay.clear();
                     Intent intent = new Intent(DayBefore_Activity.this, DayBefore_Activity.class);
                     startActivity(intent);
                     mDialog.dismiss();
-                }else {
-                    if(hours==-1){
+                } else {
+                    if (hours == -1) {
                         Toast.makeText(DayBefore_Activity.this, "Cek Kembali Waktu Alarm", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
 
-                        if(mDataSchedForDay.size()!=0){
+                        if (mDataSchedForDay.size() != 0) {
                             DataSched();
-                            saveNotificationSenin(6,hours,minute);
-                            sessionDayBefore.saveSPInt(SessionDayBefore.SP_SABTU,sabtu);
-                            sessionDayBefore.saveSPString(sessionDayBefore.SP_SABTU_TIME,Timer);
+                            saveNotificationSenin(6, hours, minute);
+                            sessionDayBefore.saveSPInt(SessionDayBefore.SP_SABTU, sabtu);
+                            sessionDayBefore.saveSPString(sessionDayBefore.SP_SABTU_TIME, Timer);
                             mDataSchedForDay.clear();
                             Toast.makeText(DayBefore_Activity.this, "Alarm Tersimapan", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(DayBefore_Activity.this, DayBefore_Activity.class);
                             startActivity(intent);
                             mDialog.dismiss();
-                        }else {
+                        } else {
                             Toast.makeText(DayBefore_Activity.this, "Tidak Ada Jadwal", Toast.LENGTH_SHORT).show();
                             mDataSchedForDay.clear();
                             mDialog.dismiss();
@@ -807,40 +817,41 @@ public class DayBefore_Activity extends AppCompatActivity {
             }
         });
     }
-    public void DataSched(){
 
-        for(int i=0;i<mDataSchedForDay.size();i++){
+    public void DataSched() {
+
+        for (int i = 0; i < mDataSchedForDay.size(); i++) {
             nameMapel.add(mDataSchedForDay.get(i).getMapel_name());
         }
         clearDataSession();
     }
 
-    public void DataSchedForDay(String day){
+    public void DataSchedForDay(String day) {
 //        Toast.makeText(this, ""+jurusan_id+" "+kelas_id+" "+day, Toast.LENGTH_SHORT).show();
-        Call<SearchSchedForDayResponse> call=baseApiService.SearchSchedForDay(kelas_id,jurusan_id,day);
+        Call<SearchSchedForDayResponse> call = baseApiService.SearchSchedForDay(kelas_id, jurusan_id, day);
         call.enqueue(new Callback<SearchSchedForDayResponse>() {
             @Override
             public void onResponse(Call<SearchSchedForDayResponse> call, Response<SearchSchedForDayResponse> response) {
-                if (response.isSuccessful()){
-                    status2=response.body().getAuth_SearchSchedForDay().getStatus();
-                    if(status2.equals("200")){
-                        List<FeedSearchSchedForDay> searchSchedForDays=response.body().getAuth_SearchSchedForDay().getData().getSchedule();
-                        for (int i=0;i<searchSchedForDays.size();i++){
+                if (response.isSuccessful()) {
+                    status2 = response.body().getAuth_SearchSchedForDay().getStatus();
+                    if (status2.equals("200")) {
+                        List<FeedSearchSchedForDay> searchSchedForDays = response.body().getAuth_SearchSchedForDay().getData().getSchedule();
+                        for (int i = 0; i < searchSchedForDays.size(); i++) {
                             mDataSchedForDay.add(new DataSchedForDay(searchSchedForDays.get(i).getSchedule_id(),
-                                    searchSchedForDays.get(i).getStart_time(),searchSchedForDays.get(i).getFinish_time(),
-                                    searchSchedForDays.get(i).getDay_name(),searchSchedForDays.get(i).getDay_date(),
-                                    searchSchedForDays.get(i).getNote(),searchSchedForDays.get(i).getGuru_id(),
-                                    searchSchedForDays.get(i).getGuru_name(),searchSchedForDays.get(i).getMapel_id(),
-                                    searchSchedForDays.get(i).getMapel_name(),searchSchedForDays.get(i).getKelas_id(),
-                                    searchSchedForDays.get(i).getKelas_name(),searchSchedForDays.get(i).getJurusan_id(),
-                                    searchSchedForDays.get(i).getJurusan_name(),searchSchedForDays.get(i).getRoom_id(),
+                                    searchSchedForDays.get(i).getStart_time(), searchSchedForDays.get(i).getFinish_time(),
+                                    searchSchedForDays.get(i).getDay_name(), searchSchedForDays.get(i).getDay_date(),
+                                    searchSchedForDays.get(i).getNote(), searchSchedForDays.get(i).getGuru_id(),
+                                    searchSchedForDays.get(i).getGuru_name(), searchSchedForDays.get(i).getMapel_id(),
+                                    searchSchedForDays.get(i).getMapel_name(), searchSchedForDays.get(i).getKelas_id(),
+                                    searchSchedForDays.get(i).getKelas_name(), searchSchedForDays.get(i).getJurusan_id(),
+                                    searchSchedForDays.get(i).getJurusan_name(), searchSchedForDays.get(i).getRoom_id(),
                                     searchSchedForDays.get(i).getRoom_name()
-                                    ));
+                            ));
 
                         }
                         saveData();
                         Toast.makeText(DayBefore_Activity.this, "Jadwal Ada", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(DayBefore_Activity.this, "Jadwal Tidak Ada", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -852,8 +863,9 @@ public class DayBefore_Activity extends AppCompatActivity {
             }
         });
     }
+
     private void clearDataSession() {
-        SharedPreferences sharedPreferences = getSharedPreferences("daybeforesched",  Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("daybeforesched", Context.MODE_PRIVATE);
         sharedPreferences.edit().clear().commit();
 //        this.getSharedPreferences("daybeforesched", MODE_PRIVATE).edit().clear().commit();
         mDataSchedForDay.clear();
@@ -861,7 +873,7 @@ public class DayBefore_Activity extends AppCompatActivity {
     }
 
     private void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("daybeforesched",  Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("daybeforesched", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("DataSchedule", null);
         Type type = new TypeToken<ArrayList<DataSchedForDay>>() {
@@ -872,46 +884,105 @@ public class DayBefore_Activity extends AppCompatActivity {
             mDataSchedForDay = new ArrayList<>();
         }
     }
+
     private void saveData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("daybeforesched",  Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("daybeforesched", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(mDataSchedForDay);
         editor.putString("DataSchedule", json);
         editor.apply();
     }
-    public void saveNotificationSenin(int week,int hour,int minut){
+
+    public void saveNotificationSenin(int week, int hour, int minut) {
         Calendar calSet = Calendar.getInstance();
 //        calSet.setTimeInMillis(System.currentTimeMillis());
-        calSet.add(Calendar.DAY_OF_WEEK, week);
-        calSet.add(Calendar.HOUR_OF_DAY, hour);
-        calSet.add(Calendar.MINUTE, minut);
-        calSet.add(Calendar.SECOND, 00);
-        calSet.add(Calendar.MILLISECOND, 00);
-        startAlarm(calSet,week);
+        calSet.set(Calendar.DAY_OF_WEEK, week);
+        calSet.set(Calendar.HOUR_OF_DAY, hour);
+        calSet.set(Calendar.MINUTE, minut);
+        calSet.set(Calendar.SECOND, 00);
+        calSet.set(Calendar.MILLISECOND, 00);
+        startAlarm(calSet, week);
 
 
     }
 
-    private void startAlarm(Calendar c,int week) {
-//        Toast.makeText(this, ""+nameMapel.size(), Toast.LENGTH_SHORT).show();
+    private void startAlarm(Calendar c, int week) {
+
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Intent intent = new Intent(this, AlertReceiverDayBefore2.class);
-            intent.putExtra("NOTIFID",""+ notifId);
+            intent.putExtra("NOTIFID", "" + notifId);
             intent.putExtra("MapelName", nameMapel);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId, intent, 0);
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                    c.getTimeInMillis(),   7 * 24 * 60 * 60 * 1000, pendingIntent);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent2 = PendingIntent.getBroadcast(this, notifId+11, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Calendar todayDate = Calendar.getInstance();
+            int dayToday = todayDate.get(Calendar.DAY_OF_WEEK);
+            Date dateSpecified = c.getTime();
+            Date dateToday = todayDate.getTime();
+            int dayWeek = c.get(Calendar.DAY_OF_WEEK);
+            if (dayWeek == dayToday) {
+
+                if(dateSpecified.before(dateToday)){
+                    System.err.println("(hari ini jam terlewat)"+ dayToday+" Hari ke" + dayWeek);
+                    alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                            c.getTimeInMillis()+(86400000*7), AlarmManager.INTERVAL_DAY, pendingIntent);
+                }else{
+                    System.err.println("(hari ini) Hari ke" + dayWeek);
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent2);
+                    alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                            c.getTimeInMillis()+(86400000*7), AlarmManager.INTERVAL_DAY, pendingIntent);
+                }
+
+            }else if(dayWeek>dayToday){
+                System.err.println("(sesudah) Hari ke" + dayWeek);
+                int dayNext=dayWeek-dayToday;
+                alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis()+(86400000*dayNext), pendingIntent2);
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                        c.getTimeInMillis()+(86400000*7), AlarmManager.INTERVAL_DAY, pendingIntent);
+            }else if(dayWeek<dayToday){
+                System.err.println("(sebelum) Hari ke" + dayWeek);
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                        c.getTimeInMillis()+(86400000*7), AlarmManager.INTERVAL_DAY, pendingIntent);
+            }
+
+
         } else {
             Intent intent = new Intent(this, AlertReceiverDayBefore.class);
-            intent.putExtra("NOTIFID",""+ notifId);
+            intent.putExtra("NOTIFID", "" + notifId);
             intent.putExtra("MapelName", nameMapel);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId, intent, 0);
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                    c.getTimeInMillis(),   7 * 24 * 60 * 60 * 1000, pendingIntent);
+            PendingIntent pendingIntent2 = PendingIntent.getBroadcast(this, notifId+11, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Calendar todayDate = Calendar.getInstance();
+            int dayToday = todayDate.get(Calendar.DAY_OF_WEEK);
+            Date dateSpecified = c.getTime();
+            Date dateToday = todayDate.getTime();
+            int dayWeek = c.get(Calendar.DAY_OF_WEEK);
+            if (dayWeek == dayToday) {
+
+                if(dateSpecified.before(dateToday)){
+                    System.err.println("(hari ini jam terlewat)"+ dayToday+" Hari ke" + dayWeek);
+                    alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                            c.getTimeInMillis()+(86400000*7), AlarmManager.INTERVAL_DAY, pendingIntent);
+                }else{
+                    System.err.println("(hari ini)"+ dayToday+" Hari ke" + dayWeek);
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent2);
+                    alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                            c.getTimeInMillis()+(86400000*7), AlarmManager.INTERVAL_DAY, pendingIntent);
+                }
+            }else if(dayWeek>dayToday){
+                System.err.println("(sesudah) "+ dayToday+"Hari ke" + dayWeek);
+                int dayNext=dayWeek-dayToday;
+                alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis()+(86400000*dayNext), pendingIntent2);
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                        c.getTimeInMillis()+(86400000*7), AlarmManager.INTERVAL_DAY, pendingIntent);
+            }else if(dayWeek<dayToday){
+                System.err.println("(sebelum) "+ dayToday+" Hari ke" + dayWeek);
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                        c.getTimeInMillis()+(86400000*7), AlarmManager.INTERVAL_DAY, pendingIntent);
+            }
         }
 
     }
@@ -922,13 +993,13 @@ public class DayBefore_Activity extends AppCompatActivity {
             Intent intent = new Intent(this, AlertReceiverDayBefore2.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId, intent, 0);
             alarmManager.cancel(pendingIntent);
-            Toast.makeText(DayBefore_Activity.this,"Cancel Alarrm",Toast.LENGTH_LONG).show();
+            Toast.makeText(DayBefore_Activity.this, "Cancel Alarrm", Toast.LENGTH_LONG).show();
             clearDataSession();
-        }else {
+        } else {
             Intent intent = new Intent(this, AlertReceiverDayBefore.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifId, intent, 0);
             alarmManager.cancel(pendingIntent);
-            Toast.makeText(DayBefore_Activity.this,"Cancel Alarrm",Toast.LENGTH_LONG).show();
+            Toast.makeText(DayBefore_Activity.this, "Cancel Alarrm", Toast.LENGTH_LONG).show();
             clearDataSession();
         }
 
