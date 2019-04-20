@@ -122,8 +122,12 @@ public class Home_activity extends AppCompatActivity
         fabRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                clearDataSession();
+                sessionDetailSchedule.saveSPInt(SessionDetailSchedule.SP_RELOADS,1);
                 Intent intent = new Intent(Home_activity.this, Home_activity.class);
                 startActivity(intent);
+
+
             }
         });
 
@@ -150,7 +154,7 @@ public class Home_activity extends AppCompatActivity
         // Set long press listener for events.
         mWeekView.setEventLongPressListener(this);
 
-        mWeekView.goToHour(7);
+        mWeekView.goToHour(6);
         mWeekView.setNumberOfVisibleDays(7);
 
         // Set long press listener for empty view
@@ -299,14 +303,14 @@ public class Home_activity extends AppCompatActivity
                 SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEE", Locale.getDefault());
                 weekdayNameFormat.setTimeZone(tz);
                 String weekday = weekdayNameFormat.format(date.getTime());
-                SimpleDateFormat format = new SimpleDateFormat("d", Locale.getDefault());
-
+                SimpleDateFormat format = new SimpleDateFormat(" d", Locale.getDefault());
+                format.setTimeZone(tz);
                 // All android api level do not have a standard way of getting the first letter of
                 // the week day name. Hence we get the first char programmatically.
                 // Details: http://stackoverflow.com/questions/16959502/get-one-letter-abbreviation-of-week-day-of-a-date-in-java#answer-16959657
                 if (shortDate)
                     weekday = String.valueOf(weekday.charAt(0));
-                return weekday.toUpperCase();
+                return weekday.toUpperCase() ;
             }
 
             @Override
@@ -349,6 +353,7 @@ public class Home_activity extends AppCompatActivity
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         if (mScheduleList.size() > 0) {
+
             for (int i = 0; i < mScheduleList.size(); i++) {
                 Calendar endTime;
                 WeekViewEvent event;
@@ -359,25 +364,30 @@ public class Home_activity extends AppCompatActivity
                 String startMinute = TimeStr.substring(3, 5);
                 String FinisHours = TimeFns.substring(0, 2);
                 String FinisMinute = TimeFns.substring(3, 5);
+                String monthSched=mScheduleList.get(i).getMonthNow();
+                int month=Integer.parseInt(monthSched);
+                System.err.println("bulan : "+newMonth +" "+monthSched);
+                if(newMonth==month) {
+                    startTime = Calendar.getInstance();
 
-                startTime = Calendar.getInstance();
-                startTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(startHours));
-                startTime.set(Calendar.MINUTE, Integer.parseInt(startMinute));
-                startTime.set(Calendar.MONTH, newMonth - 1);
-                startTime.set(Calendar.YEAR, newYear);
-                startTime.set(Calendar.DATE, mScheduleList.get(i).getDay_date());
+                    startTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(startHours));
+                    startTime.set(Calendar.MINUTE, Integer.parseInt(startMinute));
+                    startTime.set(Calendar.MONTH, newMonth - 1);
+                    startTime.set(Calendar.YEAR, newYear);
+                    startTime.set(Calendar.DATE, mScheduleList.get(i).getDay_date());
 //                startTime.set(Calendar.DAY_OF_WEEK_IN_MONTH,0);
-                endTime = (Calendar) startTime.clone();
-                endTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(FinisHours));
-                startTime.set(Calendar.MINUTE, Integer.parseInt(FinisMinute));
-                endTime.set(Calendar.MONTH, newMonth - 1);
-                endTime.set(Calendar.DATE, mScheduleList.get(i).getDay_date());
+                    endTime = (Calendar) startTime.clone();
+                    endTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(FinisHours));
+                    startTime.set(Calendar.MINUTE, Integer.parseInt(FinisMinute));
+                    endTime.set(Calendar.MONTH, newMonth - 1);
+                    endTime.set(Calendar.DATE, mScheduleList.get(i).getDay_date());
 
-                event = new WeekViewEvent(mScheduleList.get(i).getSchedule_id(), getEventTitle(startTime), startTime, endTime);
-                event.setColor(getResources().getColor(R.color.event_color_03));
-                event.setName(mScheduleList.get(i).getMapel_name() + "\n" +
-                        mScheduleList.get(i).getRoom_name());
-                events.add(event);
+                    event = new WeekViewEvent(mScheduleList.get(i).getSchedule_id(), getEventTitle(startTime), startTime, endTime);
+                    event.setColor(getResources().getColor(R.color.event_color_03));
+                    event.setName(mScheduleList.get(i).getMapel_name() + "\n" +
+                            mScheduleList.get(i).getRoom_name());
+                    events.add(event);
+                }
             }
 
 
@@ -435,11 +445,13 @@ public class Home_activity extends AppCompatActivity
                             for (int i = 0; i < schedule.size(); i++) {
                                 mScheduleList.add(new ScheduleList(schedule.get(i).getSchedule_id(),
                                         schedule.get(i).getStart_time(), schedule.get(i).getFinish_time(), schedule.get(i).getDay_name(), schedule.get(i).getDay_date(),
-                                        schedule.get(i).getNote(), schedule.get(i).getGuru_id(), schedule.get(i).getGuru_name(),
+                                        schedule.get(i).getMonth(),schedule.get(i).getNote(), schedule.get(i).getGuru_id(), schedule.get(i).getGuru_name(),
                                         schedule.get(i).getMapel_id(), schedule.get(i).getMapel_name(), schedule.get(i).getKelas_id(),
                                         schedule.get(i).getKelas_name(), schedule.get(i).getJurusan_id(), schedule.get(i).getJurusan_name(),
                                         schedule.get(i).getRoom_id(), schedule.get(i).getRoom_name()));
+
                             }
+
                             saveData();
 
                         } else {

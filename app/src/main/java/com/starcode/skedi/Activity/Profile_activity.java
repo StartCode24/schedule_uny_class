@@ -44,14 +44,14 @@ import retrofit2.Response;
 
 public class Profile_activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    @BindView(R.id.appbar)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.toolbarDetProfil)
-    Toolbar toolbarDetProfil;
-    @BindView(R.id.image_backdropDetProduct)
-    ImageView backDropDetProduct;
-    @BindView(R.id.collapsing_toolbar)
-    CollapsingToolbarLayout collapsingToolbarLayout;
+//    @BindView(R.id.appbar)
+//    AppBarLayout appBarLayout;
+//    @BindView(R.id.toolbarDetProfil)
+//    Toolbar toolbarDetProfil;
+//    @BindView(R.id.image_backdropDetProduct)
+//    ImageView backDropDetProduct;
+//    @BindView(R.id.collapsing_toolbar)
+//    CollapsingToolbarLayout collapsingToolbarLayout;
 
 
     @BindView(R.id.tvNik)
@@ -110,8 +110,8 @@ public class Profile_activity extends AppCompatActivity
         getProfil();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        initCollapsingToolbar();
-
+//        initCollapsingToolbar();
+//
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -158,31 +158,31 @@ public class Profile_activity extends AppCompatActivity
     }
 
 
-    private void initCollapsingToolbar() {
-
-        collapsingToolbarLayout.setTitle(" ");
-        appBarLayout.setExpanded(true);
-
-// hiding & showing the title when toolbar expanded & collapsed
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = false;
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbarLayout.setTitle("");
-                    isShow = true;
-                } else if (isShow) {
-                    collapsingToolbarLayout.setTitle(" ");
-                    isShow = false;
-                }
-            }
-        });
-    }
+//    private void initCollapsingToolbar() {
+//
+//        collapsingToolbarLayout.setTitle(" ");
+//        appBarLayout.setExpanded(true);
+//
+//// hiding & showing the title when toolbar expanded & collapsed
+//        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//            boolean isShow = false;
+//            int scrollRange = -1;
+//
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                if (scrollRange == -1) {
+//                    scrollRange = appBarLayout.getTotalScrollRange();
+//                }
+//                if (scrollRange + verticalOffset == 0) {
+//                    collapsingToolbarLayout.setTitle("");
+//                    isShow = true;
+//                } else if (isShow) {
+//                    collapsingToolbarLayout.setTitle(" ");
+//                    isShow = false;
+//                }
+//            }
+//        });
+//    }
 
     @OnClick(R.id.LnPassword)
     void btnPassword() {

@@ -10,6 +10,8 @@
     <string name="action_settings">Settings</string>
     <string name="date_today">Today</string>
     <string name="title_activity_setting_">Pengaturan</string>
+    <string name="akun_ada">Sudah Punya Akun ?</string>
+    <string name="activity_login">Login</string>
     <string name="nik">Nik</string>
     <string name="nis">Nis</string>
     <string name="password">Password</string>
@@ -30,7 +32,7 @@
     <string name="async_error">Could not download events from the internet</string>
     <string name="title_activity_about_">Tentang</string>
 
-    <string name="deskripsi">Skedi (schedule for study) adalah aplikasi notifikasi jadwal pelajaran bagi siswa SMK .....(belum pasti)</string>
+    <string name="deskripsi">Skedi (schedule for study) adalah aplikasi notifikasi jadwal pelajaran bagi siswa SMK Negri 2 Depok</string>
     <string name="mahasiswa">Mahasiswa</string>
     <string name="nama_m">Khusnul Fitriani</string>
     <string name="nim">12520241066</string>

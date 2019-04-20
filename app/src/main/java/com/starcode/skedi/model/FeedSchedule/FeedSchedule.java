@@ -17,21 +17,31 @@ public class FeedSchedule {
     @SerializedName("schedule_id")
     @Expose
     private int schedule_id;
+
+    @SerializedName("month")
+    @Expose
+    private String month;
+
     @SerializedName("start_time")
     @Expose
     private String start_time;
+
     @SerializedName("finish_time")
     @Expose
     private String finish_time;
+
     @SerializedName("day_name")
     @Expose
     private String day_name;
+
     @SerializedName("day_date")
     @Expose
     private int day_date;
+
     @SerializedName("note")
     @Expose
     private String note;
+
     @SerializedName("guru_id")
     @Expose
     private int guru_id;
@@ -66,8 +76,9 @@ public class FeedSchedule {
     @Expose
     private String color_mapel;
 
-    public FeedSchedule(int schedule_id, String start_time, String finish_time, String day_name, int day_date, String note, int guru_id, String guru_name, int mapel_id, String mapel_name, int kelas_id, String kelas_name, int jurusan_id, String jurusan_name, int room_id, String room_name, String color_mapel) {
+    public FeedSchedule(int schedule_id, String month, String start_time, String finish_time, String day_name, int day_date, String note, int guru_id, String guru_name, int mapel_id, String mapel_name, int kelas_id, String kelas_name, int jurusan_id, String jurusan_name, int room_id, String room_name, String color_mapel) {
         this.schedule_id = schedule_id;
+        this.month = month;
         this.start_time = start_time;
         this.finish_time = finish_time;
         this.day_name = day_name;
@@ -92,6 +103,14 @@ public class FeedSchedule {
 
     public void setSchedule_id(int schedule_id) {
         this.schedule_id = schedule_id;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
     }
 
     public String getStart_time() {
@@ -226,6 +245,7 @@ public class FeedSchedule {
     public String toString() {
         return "FeedSchedule{" +
                 "schedule_id=" + schedule_id +
+                ", month='" + month + '\'' +
                 ", start_time='" + start_time + '\'' +
                 ", finish_time='" + finish_time + '\'' +
                 ", day_name='" + day_name + '\'' +

@@ -399,26 +399,27 @@ public class HomeWork_Activity extends AppCompatActivity
                 String startMinute = TimeStr.substring(3, 5);
                 String FinisHours = TimeFns.substring(0, 2);
                 String FinisMinute = TimeFns.substring(3, 5);
-
-
-                startTime = Calendar.getInstance();
+                int month=mHomeWorkLists.get(i).getMonth();
+                if(newMonth==month) {
+                    startTime = Calendar.getInstance();
 //                startTime.setTimeInMillis(System.currentTimeMillis());
-                startTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(startHours));
-                startTime.set(Calendar.MINUTE, Integer.parseInt(startMinute));
-                startTime.set(Calendar.MONTH, newMonth - 1);
-                startTime.set(Calendar.YEAR, newYear);
-                startTime.set(Calendar.DATE, mHomeWorkLists.get(i).getDay());
+                    startTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(startHours));
+                    startTime.set(Calendar.MINUTE, Integer.parseInt(startMinute));
+                    startTime.set(Calendar.MONTH, newMonth - 1);
+                    startTime.set(Calendar.YEAR, newYear);
+                    startTime.set(Calendar.DATE, mHomeWorkLists.get(i).getDay());
 
-                endTime = (Calendar) startTime.clone();
-                endTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(FinisHours));
-                startTime.set(Calendar.MINUTE, Integer.parseInt(FinisMinute));
-                endTime.set(Calendar.MONTH, newMonth - 1);
-                endTime.set(Calendar.DATE, mHomeWorkLists.get(i).getDay());
-                event = new WeekViewEvent(mHomeWorkLists.get(i).getHomework_id(), getEventTitle(startTime), startTime, endTime);
-                event.setColor(getResources().getColor(R.color.event_color_03));
-                event.setName(mHomeWorkLists.get(i).getMapel_name() + "\n" +
-                        mHomeWorkLists.get(i).getRoom_name());
-                events.add(event);
+                    endTime = (Calendar) startTime.clone();
+                    endTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(FinisHours));
+                    startTime.set(Calendar.MINUTE, Integer.parseInt(FinisMinute));
+                    endTime.set(Calendar.MONTH, newMonth - 1);
+                    endTime.set(Calendar.DATE, mHomeWorkLists.get(i).getDay());
+                    event = new WeekViewEvent(mHomeWorkLists.get(i).getHomework_id(), getEventTitle(startTime), startTime, endTime);
+                    event.setColor(getResources().getColor(R.color.event_color_03));
+                    event.setName(mHomeWorkLists.get(i).getMapel_name() + "\n" +
+                            mHomeWorkLists.get(i).getRoom_name());
+                    events.add(event);
+                }
             }
         }
 

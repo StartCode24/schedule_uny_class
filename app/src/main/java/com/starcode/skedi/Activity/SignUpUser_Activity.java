@@ -60,6 +60,7 @@ public class SignUpUser_Activity extends AppCompatActivity {
     CheckBox showPassword;
 
 
+
     private static final String TAG = "SignUpUser_Activity";
     private String status, status2, status3, message;
 
@@ -181,6 +182,13 @@ public class SignUpUser_Activity extends AppCompatActivity {
 //
 //            }
 //        });
+    }
+
+    @OnClick(R.id.btn_Login)
+    public void btn_login(View view){
+        Intent intent=new Intent(SignUpUser_Activity.this,Main_Activity.class);
+        startActivity(intent);
+        finish();
     }
 
 

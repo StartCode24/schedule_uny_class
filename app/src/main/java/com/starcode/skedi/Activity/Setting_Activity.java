@@ -151,6 +151,25 @@ public class Setting_Activity extends AppCompatActivity
         scheduleData();
         final RadioGroup radioMinutGroup = (RadioGroup)mDialog.findViewById(R.id.radioMinut);
         TextView minutSimpan=(TextView)mDialog.findViewById(R.id.tvBtnSimpan);
+        RadioButton R0=(RadioButton)mDialog.findViewById(R.id.radio0Minut);
+        RadioButton R1=(RadioButton)mDialog.findViewById(R.id.radio5Minut);
+        RadioButton R2=(RadioButton)mDialog.findViewById(R.id.radio10Minut);
+        RadioButton R3=(RadioButton)mDialog.findViewById(R.id.radio15Minut);
+        RadioButton R4=(RadioButton)mDialog.findViewById(R.id.radio30Minut);
+        RadioButton R5=(RadioButton)mDialog.findViewById(R.id.radio60Minut);
+        if(sessionMinuteBefore.getSpAlarmTime().equals("0 Minut"))
+            R0.setChecked(true);
+        if(sessionMinuteBefore.getSpAlarmTime().equals("5 Minut"))
+            R1.setChecked(true);
+        if(sessionMinuteBefore.getSpAlarmTime().equals("10 Minut"))
+            R2.setChecked(true);
+        if(sessionMinuteBefore.getSpAlarmTime().equals("15 Minut"))
+            R3.setChecked(true);
+        if(sessionMinuteBefore.getSpAlarmTime().equals("30 Minut"))
+            R4.setChecked(true);
+        if(sessionMinuteBefore.getSpAlarmTime().equals("60 Minut"))
+            R5.setChecked(true);
+
         minutSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
