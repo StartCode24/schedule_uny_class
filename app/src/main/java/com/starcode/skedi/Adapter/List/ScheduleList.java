@@ -18,8 +18,9 @@ public class ScheduleList {
     private String jurusan_name;
     private int room_id;
     private String room_name;
+    private String color_mapel;
 
-    public ScheduleList(int schedule_id, String start_time, String finish_time, String day_name, int day_date, String monthNow, String note, int guru_id, String guru_name, int mapel_id, String mapel_name, int kelas_id, String kelas_name, int jurusan_id, String jurusan_name, int room_id, String room_name) {
+    public ScheduleList(int schedule_id, String start_time, String finish_time, String day_name, int day_date, String monthNow, String note, int guru_id, String guru_name, int mapel_id, String mapel_name, int kelas_id, String kelas_name, int jurusan_id, String jurusan_name, int room_id, String room_name, String color_mapel) {
         this.schedule_id = schedule_id;
         this.start_time = start_time;
         this.finish_time = finish_time;
@@ -37,6 +38,7 @@ public class ScheduleList {
         this.jurusan_name = jurusan_name;
         this.room_id = room_id;
         this.room_name = room_name;
+        this.color_mapel = color_mapel;
     }
 
     public int getSchedule_id() {
@@ -173,5 +175,13 @@ public class ScheduleList {
 
     public void setRoom_name(String room_name) {
         this.room_name = room_name;
+    }
+
+    public String getColor_mapel() {
+        return color_mapel;
+    }
+
+    public void setColor_mapel(String color_mapel) {
+        this.color_mapel = color_mapel;
     }
 }

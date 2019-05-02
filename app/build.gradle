@@ -8,14 +8,14 @@ android {
         applicationId "com.starcode.schedule_uny"
         minSdkVersion 22
         targetSdkVersion 27
-        versionCode 2
-        versionName "2.0"
+        versionCode 3
+        versionName "3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
 //            dev
-//            buildConfigField "String", "SERVER_URL", '"http://192.168.100.2/kerja/freelancer/asli/homework-admin/Api/"'
+//            buildConfigField "String", "SERVER_URL", '"http://192.168.100.9/kerja/freelancer/asli/homework-admin/Api/"'
 //            buildConfigField "String", "SERVER_URL", '"http://192.168.1.13/kerja/freelancer/asli/homework-admin/Api/"'
 //            prod
             buildConfigField "String", "SERVER_URL", '"http://skedi.site/ad-M1-N/Api/"'
@@ -24,7 +24,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            dev
-//            buildConfigField "String", "SERVER_URL", '"http://192.168.100.2/kerja/freelancer/asli/homework-admin/Api/"'
+//            buildConfigField "String", "SERVER_URL", '"http://192.168.100.9/kerja/freelancer/asli/homework-admin/Api/"'
 //            buildConfigField "String", "SERVER_URL", '"http://192.168.1.13/kerja/freelancer/asli/homework-admin/Api/"'
 //            prod
                 buildConfigField "String", "SERVER_URL", '"http://skedi.site/ad-M1-N/Api/"'

@@ -395,6 +395,7 @@ public class HomeWork_Activity extends AppCompatActivity
 
                 String TimeStr = mHomeWorkLists.get(i).getStart_time();
                 String TimeFns = mHomeWorkLists.get(i).getFinish_time();
+                int homeWorkDetail= mHomeWorkLists.get(i).getHomework_detail();
                 String startHours = TimeStr.substring(0, 2);
                 String startMinute = TimeStr.substring(3, 5);
                 String FinisHours = TimeFns.substring(0, 2);
@@ -415,7 +416,11 @@ public class HomeWork_Activity extends AppCompatActivity
                     endTime.set(Calendar.MONTH, newMonth - 1);
                     endTime.set(Calendar.DATE, mHomeWorkLists.get(i).getDay());
                     event = new WeekViewEvent(mHomeWorkLists.get(i).getHomework_id(), getEventTitle(startTime), startTime, endTime);
-                    event.setColor(getResources().getColor(R.color.event_color_03));
+                    if(homeWorkDetail==1){
+                        event.setColor(getResources().getColor(R.color.event_color_02));
+                    }else {
+                        event.setColor(getResources().getColor(R.color.event_color_03));
+                    }
                     event.setName(mHomeWorkLists.get(i).getMapel_name() + "\n" +
                             mHomeWorkLists.get(i).getRoom_name());
                     events.add(event);

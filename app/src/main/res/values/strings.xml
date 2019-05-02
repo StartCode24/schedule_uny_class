@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Skedi</string>
     <string name="app_name_2">Skedi V.1.0</string>
-    <string name="title_activity_home_activity">Jadwal Pelajaran</string>
+    <string name="title_activity_home_activity">Jadwal Mapel</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -28,7 +28,7 @@
     <string name="action_today">Hari Ini</string>
     <string name="title_activity_reminders_">Pengaturan Reminders</string>
     <string name="title_activity_profile_"></string>
-    <string name="title_activity_home_work_">PR </string>
+    <string name="title_activity_home_work_">Tugas</string>
     <string name="async_error">Could not download events from the internet</string>
     <string name="title_activity_about_">Tentang</string>
 

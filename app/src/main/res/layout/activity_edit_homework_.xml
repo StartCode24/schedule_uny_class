@@ -134,7 +134,7 @@
                                 android:layout_weight="2"
                                 android:fontFamily="sans-serif-medium"
                                 android:gravity="end"
-                                android:text="(klik disini untuk mengisi tanggal)"
+                                android:text="(klik disini untuk mengisi deadline)"
                                 android:textSize="12sp" />
                         </LinearLayout>
 

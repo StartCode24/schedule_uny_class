@@ -349,7 +349,7 @@ public class EditHomework_Activity extends AppCompatActivity {
                         minute=response.body().getAuth_SearchHomeWork().getData().getMinute();
                         sessionManager.saveSPInt(SessionManager.SP_HOURS,hours);
                         sessionManager.saveSPInt(SessionManager.SP_MINUTE,minute);
-                        if(response.body().getAuth_SearchHomeWork().getData().getHomework_detail()==1) ChekTugas.isChecked();
+                        if(response.body().getAuth_SearchHomeWork().getData().getHomework_detail()==1) ChekTugas.setChecked(true);
 
                     }
                 }

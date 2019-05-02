@@ -141,7 +141,7 @@ public class DayBefore_Activity extends AppCompatActivity {
         mDialog.setContentView(R.layout.popup_day_before);
         final TimePicker timePickerAlrm = (TimePicker) mDialog.findViewById(R.id.timePickerAlrm);
         TextView TvPengingat = (TextView) mDialog.findViewById(R.id.TvPengingat);
-        TvPengingat.setText("Senin )");
+        TvPengingat.setText("Minggu )");
         timePickerAlrm.setIs24HourView(true);
 
         timePickerAlrm.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
@@ -235,7 +235,7 @@ public class DayBefore_Activity extends AppCompatActivity {
         mDialog.setContentView(R.layout.popup_day_before);
         final TimePicker timePickerAlrm = (TimePicker) mDialog.findViewById(R.id.timePickerAlrm);
         TextView TvPengingat = (TextView) mDialog.findViewById(R.id.TvPengingat);
-        TvPengingat.setText("Selasa )");
+        TvPengingat.setText("Senin )");
         timePickerAlrm.setIs24HourView(true);
 
         timePickerAlrm.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
@@ -327,7 +327,7 @@ public class DayBefore_Activity extends AppCompatActivity {
         mDialog.setContentView(R.layout.popup_day_before);
         final TimePicker timePickerAlrm = (TimePicker) mDialog.findViewById(R.id.timePickerAlrm);
         TextView TvPengingat = (TextView) mDialog.findViewById(R.id.TvPengingat);
-        TvPengingat.setText("Rabu )");
+        TvPengingat.setText("Selasa )");
         timePickerAlrm.setIs24HourView(true);
 
         timePickerAlrm.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
@@ -422,7 +422,7 @@ public class DayBefore_Activity extends AppCompatActivity {
         mDialog.setContentView(R.layout.popup_day_before);
         final TimePicker timePickerAlrm = (TimePicker) mDialog.findViewById(R.id.timePickerAlrm);
         TextView TvPengingat = (TextView) mDialog.findViewById(R.id.TvPengingat);
-        TvPengingat.setText("Kamis )");
+        TvPengingat.setText("Rabu )");
         timePickerAlrm.setIs24HourView(true);
 
         timePickerAlrm.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
@@ -516,7 +516,7 @@ public class DayBefore_Activity extends AppCompatActivity {
         mDialog.setContentView(R.layout.popup_day_before);
         final TimePicker timePickerAlrm = (TimePicker) mDialog.findViewById(R.id.timePickerAlrm);
         TextView TvPengingat = (TextView) mDialog.findViewById(R.id.TvPengingat);
-        TvPengingat.setText("Jumat )");
+        TvPengingat.setText("Kamis )");
         timePickerAlrm.setIs24HourView(true);
 
         timePickerAlrm.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
@@ -610,7 +610,7 @@ public class DayBefore_Activity extends AppCompatActivity {
         mDialog.setContentView(R.layout.popup_day_before);
         final TimePicker timePickerAlrm = (TimePicker) mDialog.findViewById(R.id.timePickerAlrm);
         TextView TvPengingat = (TextView) mDialog.findViewById(R.id.TvPengingat);
-        TvPengingat.setText("Sabtu )");
+        TvPengingat.setText("Jumat )");
         timePickerAlrm.setIs24HourView(true);
 
         timePickerAlrm.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {

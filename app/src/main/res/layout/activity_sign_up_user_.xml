@@ -53,7 +53,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:fontFamily="sans-serif-medium"
-                android:text="SignUp"
+                android:text="Daftar"
                 android:textColor="@color/white"
                 android:textSize="30sp" />
 
@@ -302,7 +302,7 @@
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/btn_action_tran"
                     android:fontFamily="sans-serif"
-                    android:text="@string/activity_login"
+                    android:text="Masuk"
                     android:textAllCaps="false"
                     android:textStyle="bold"
                     android:textSize="16sp"

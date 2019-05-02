@@ -85,7 +85,7 @@
                     android:textColorHint="@color/bluelight"
                     android:fontFamily="sans-serif-medium"
                     android:gravity="end"
-                    android:text="(Alarm sehari sebelum hari"
+                    android:text="(Alarm muncul hari"
                     android:textSize="12sp" />
                 <TextView
                     android:id="@+id/TvPengingat"

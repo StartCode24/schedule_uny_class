@@ -109,7 +109,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-light"
-                            android:text="Teacher"
+                            android:text="Guru"
                             android:textSize="15sp"
                             android:textStyle="bold" />
 
@@ -161,7 +161,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
-                        android:text="Today"
+                        android:text="Waktu"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -235,7 +235,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
-                        android:text="Room Note"
+                        android:text="Ruangan"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 

@@ -7,15 +7,15 @@
         <item
             android:id="@+id/nav_schedule"
             android:icon="@drawable/ic_date_range_black_24dp"
-            android:title="Lihat Jadwal" />
+            android:title="Jadwal Mapel" />
         <item
             android:id="@+id/nav_homework"
             android:icon="@drawable/ic_date_range_black_24dp"
-            android:title="Lihat PR" />
+            android:title="Tugas" />
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="Pengaturan" />
+            android:title="Notifikasi" />
         <item
             android:id="@+id/nav_Profile"
             android:icon="@drawable/ic_account_circle_black_24dp"
@@ -23,7 +23,7 @@
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_info_black_24dp"
-            android:title="About" />
+            android:title="Tentang" />
 
     </group>
 

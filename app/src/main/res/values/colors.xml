@@ -18,6 +18,7 @@
     <color name="event_color_02">#f57f68</color>
     <color name="event_color_03">#87d288</color>
     <color name="event_color_04">#f8b552</color>
+    <color name="grey">#8f7c7979</color>
 
     <color name="bluedark">#2f333f</color>
     <color name="bluelight">#6ed1fa</color>

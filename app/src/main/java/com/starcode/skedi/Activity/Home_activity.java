@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -98,6 +99,7 @@ public class Home_activity extends AppCompatActivity
     private ImageView imageViewProfil;
     private TextView tvName;
     private TextView tvJurusan;
+    int colorId;
     private int setRefresh;
     ArrayList<ScheduleList> mScheduleList;
     Context mcContext;
@@ -156,6 +158,7 @@ public class Home_activity extends AppCompatActivity
 
         mWeekView.goToHour(6);
         mWeekView.setNumberOfVisibleDays(7);
+
 
         // Set long press listener for empty view
         mWeekView.setEmptyViewLongPressListener(this);
@@ -332,9 +335,15 @@ public class Home_activity extends AppCompatActivity
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         sessionDetailSchedule.saveSPLong(SessionDetailSchedule.SP_IDSCHEDULE, event.getId());
-        Toast.makeText(this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
-        Intent intent=new Intent(Home_activity.this,DetailSchedule_Activity.class);
-        startActivity(intent);
+        String eventName=String.valueOf(event.getName());
+        if(eventName.equals("Libur\n")){
+            Toast.makeText(this,"Hari Libur",Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(this, "Click " + eventName, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Home_activity.this, DetailSchedule_Activity.class);
+            startActivity(intent);
+        }
+
     }
 
     @Override
@@ -360,6 +369,9 @@ public class Home_activity extends AppCompatActivity
                 Calendar startTime;
                 String TimeStr = mScheduleList.get(i).getStart_time();
                 String TimeFns = mScheduleList.get(i).getFinish_time();
+                String colorMapel= mScheduleList.get(i).getColor_mapel();
+
+
                 String startHours = TimeStr.substring(0, 2);
                 String startMinute = TimeStr.substring(3, 5);
                 String FinisHours = TimeFns.substring(0, 2);
@@ -383,7 +395,11 @@ public class Home_activity extends AppCompatActivity
                     endTime.set(Calendar.DATE, mScheduleList.get(i).getDay_date());
 
                     event = new WeekViewEvent(mScheduleList.get(i).getSchedule_id(), getEventTitle(startTime), startTime, endTime);
-                    event.setColor(getResources().getColor(R.color.event_color_03));
+                    if(colorMapel.equals("green")){
+                        event.setColor(getResources().getColor(R.color.green));
+                    }else {
+                        event.setColor(getResources().getColor(R.color.gray));
+                    }
                     event.setName(mScheduleList.get(i).getMapel_name() + "\n" +
                             mScheduleList.get(i).getRoom_name());
                     events.add(event);
@@ -448,7 +464,7 @@ public class Home_activity extends AppCompatActivity
                                         schedule.get(i).getMonth(),schedule.get(i).getNote(), schedule.get(i).getGuru_id(), schedule.get(i).getGuru_name(),
                                         schedule.get(i).getMapel_id(), schedule.get(i).getMapel_name(), schedule.get(i).getKelas_id(),
                                         schedule.get(i).getKelas_name(), schedule.get(i).getJurusan_id(), schedule.get(i).getJurusan_name(),
-                                        schedule.get(i).getRoom_id(), schedule.get(i).getRoom_name()));
+                                        schedule.get(i).getRoom_id(), schedule.get(i).getRoom_name(),schedule.get(i).getColor_mapel()));
 
                             }
 
